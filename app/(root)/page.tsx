@@ -40,7 +40,7 @@ export default function Home() {
           <Image 
             src="/map-image.svg"
             alt="map image"
-            className="max-w-screen-xl block mb-4 md:mb-6 lg:mb-10 xl:mb-12"
+            className="w-full max-w-screen-xl block mb-4 md:mb-6 lg:mb-10 xl:mb-12"
             width={1280}
             height={400}
           />
