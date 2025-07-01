@@ -17,7 +17,7 @@ export default function page() {
                 />
             </div>
             <p className='text-xl md:text-2xl font-semibold mb-2 md:mb-4'>Welcome Back!</p>
-            <p className='text-base md:text-xl mb-3 md:mb-5 lg:mb-7'>Let's continue from where we stopped</p>
+            <p className='text-base md:text-xl mb-3 md:mb-5 lg:mb-7'>Let&apos;s continue from where we stopped</p>
             <form action="">
                 <label htmlFor='phonenumber/email' className='block mb-2 font-semibold text-xl'>Phone Number / Email</label>
                 <input
