@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import React from 'react'
 
 export default function Navbar() {
@@ -37,7 +38,7 @@ export default function Navbar() {
             </ul>
         </div>
         <div className="navbar-end">
-            <a className="btn bg-[#17223b] text-white px-8 rounded-md outline-none shadow-none border-none">Login</a>
+            <Link href="/signup" className="btn bg-[#17223b] text-white px-8 rounded-md outline-none shadow-none border-none">Register</Link>
         </div>
     </header>
   )

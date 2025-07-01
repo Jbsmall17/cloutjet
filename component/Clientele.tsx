@@ -3,7 +3,7 @@ import React from 'react'
 
 export default function Clientele() {
   return (
-    <div className='max-w-screen-xl mx-auto flex flex-row items-center justify-between pb-4 md:pb-6 lg:pb-10 xl:pb-12 px-[5%] xl:px-0'>
+    <div className='flex flex-col md:flex-row items-center justify-center md:justify-between gap-3 md:gap-0 pb-4 md:pb-6 lg:pb-10 xl:pb-12 '>
         <Image 
             src="/instagram.svg"
             alt='instagra icon'
@@ -34,7 +34,7 @@ export default function Clientele() {
             width={40}
             height={40}
         />
-        <p className='text-xl font-bold w-[150px]'>over 1000+ accounts</p>
+        <p className='text-center md:text-start text-xl font-bold w-[150px]'>over 1000+ accounts</p>
     </div>
   )
 }
