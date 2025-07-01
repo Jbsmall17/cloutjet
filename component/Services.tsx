@@ -13,9 +13,9 @@ export default function Services({ image, service, describe, text }: ServicesPro
       <img 
         src={image}
         alt="services image"
-        className='block mb-3 md:mb-5 lg:mb-7'
+        className='block mb-3 md:mb-5 lg:mb-7 w-[64px]'
       />
-      <p className='tet-xl md:text-2xl lg:text-3xl font-semibold text-center mb-3 md:mb-5 lg:mb-7'>{service}</p>
+      <p className='tet-xl md:text-2xl font-semibold text-center mb-3 md:mb-5 lg:mb-7'>{service}</p>
       <p className='text-center text-base md:text-xl mb-7 md:mb-9 lg:mb-12'>{describe}</p>
       <button className='whitespace-nowrap py-2.5 text-base md:text-xl px-6 md:px-8 lg:px-12 text-white bg-[#17223b] rounded-md'>
         <span>{text}</span>

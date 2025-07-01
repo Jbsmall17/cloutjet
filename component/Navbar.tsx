@@ -29,7 +29,7 @@ export default function Navbar() {
             />
         </div>
         <div className="navbar-center hidden lg:flex">
-            <ul className="menu menu-horizontal px-1 text-xl">
+            <ul className="menu menu-horizontal px-1">
                 <li><a>Home</a></li>
                 <li><a>Features</a></li>
                 <li><a>About</a></li>
@@ -38,7 +38,7 @@ export default function Navbar() {
             </ul>
         </div>
         <div className="navbar-end">
-            <Link href="/signup" className="btn bg-[#17223b] text-xl text-white px-8 rounded-md outline-none shadow-none border-none">Register</Link>
+            <Link href="/signup" className="btn bg-[#17223b] text-white px-8 rounded-md outline-none shadow-none border-none">Register</Link>
         </div>
     </header>
   )
