@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function HowItWorks() {
   return (
-    <section className="max-w-screen-xl mx-auto px-[5%] text-white pt-3 md:pt-5 lg:pt-8 pb-5 md:pb-8 lg:pb-12">
+    <section className="max-w-screen-2xl mx-auto px-[5%] 2xl:px-0 text-white pt-3 md:pt-5 lg:pt-8 pb-5 md:pb-8 lg:pb-12">
         <p className='text-center mb-4 md:mb-6 lg:mb-8 text-2xl font-semibold'>How it Works</p>
         <div className='mb-8'>
             <p className='flex flex-row items-center gap-3 mb-2 md:mb-4 lg:mb-6'>

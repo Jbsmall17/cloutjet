@@ -3,14 +3,14 @@ import React from 'react'
 
 export default function Hero() {
   return (
-    <section className='py-8 md:py-12 lg:py-16 xl:py-28'>
+    <section className='py-8 md:py-12 lg:py-16 xl:py-24'>
       <div className='flex flex-col md:flex-row justify-between items-center gap-6 md:gap-10 lg:gap-12 xl:gap-14'>
       <div>
         {/* <p className='flex flex-row gap-4 md:gap-6 lg:gap-10 xl:gap-12 items-center mb-4 md:mb-8 lg:mb-10 xl:mb-12'>
             <span className='w-[75px] h-1 bg-[#17223b]'></span>
             <span className='text-2xl lg:text-2xl text-[#17223b] font-semibold'>Selling and Buying accounts made easy here</span>
         </p> */}
-        <p className='text-3xl md:text-4xl lg:text-6xl font-bold w-auto md:w-[400px] lg:w-[600px] mb-4 md:mb-8 lg:mb-10 lg:mb-12'>
+        <p className='text-3xl md:text-4xl lg:text-5xl font-bold w-auto md:w-[400px] lg:w-[600px] mb-4 md:mb-8 lg:mb-10 lg:mb-12'>
           Verified Accounts. Organic Growth. Real Inflenucers- All in One place 
         </p>
         <p className='text-xl lg:text-3xl text-[#666666] mb-4 md:mb-8 lg:mb-10 lg:mb-12 w-auto md-w-[450px] lg:w-[635px]'>

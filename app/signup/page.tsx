@@ -4,7 +4,7 @@ import React from 'react'
 
 export default function page() {
   return (
-    <section className='min-h-screen lg:h-screen flex flex-col md:flex-row gap-6 md:gap-8 lg:gap-10 xl:gap-12 max-w-screen-xl mx-auto px-[5%] xl:px-0 py-4 sm:py-6 lg:py-8 xl:py-10'>
+    <section className='min-h-screen lg:h-screen flex flex-col md:flex-row gap-6 md:gap-8 lg:gap-10 xl:gap-12 max-w-screen-2xl mx-auto px-[5%] 2xl:px-0 py-4 sm:py-6 lg:py-8 xl:py-10'>
       <AuthComp 
         image="/login-image.svg"
         textVisibility={true}

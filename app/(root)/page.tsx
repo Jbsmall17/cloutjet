@@ -12,7 +12,7 @@ import Image from "next/image";
 export default function Home() {
   return (
     <>
-      <section className="max-w-screen-xl mx-auto px-[5%] xl:px-0">
+      <section className="max-w-screen-2xl mx-auto px-[5%] 2xl:px-0">
       <Hero />
       <Clientele />
       <CtaComp />
@@ -65,14 +65,14 @@ export default function Home() {
         <section className="bg-[#17223b]">
           <HowItWorks />
         </section>
-        <section className="max-w-screen-xl mx-auto px-[5%] xl:px-0">
+        <section className="max-w-screen-2xl mx-auto px-[5%] 2xl:px-0">
         <section>
           <p className="my-4 md:my-6 lg:my-10 xl:my-12 text-center text-xl md:text-2xl lg:text-3xl w-auto md:w-[300px] lg:w-[425px] font-semibold mx-auto">Get Social Media Accounts from any country in the world</p>
           <p className="text-base md:text-xl mx-auto font-semibold mb-4 md:mb-6 lg:mb-10 xl:mb-14 w-auto md:w-[600px]">Social media accounts from across the globe and they all meet your specifications. You can also sell to others on our platform </p>
           <Image 
             src="/map-image.svg"
             alt="map image"
-            className="w-full max-w-screen-xl block mb-4 md:mb-6 lg:mb-10 xl:mb-12"
+            className="w-full max-w-screen-2xl block mb-4 md:mb-6 lg:mb-10 xl:mb-12"
             width={1280}
             height={400}
           />

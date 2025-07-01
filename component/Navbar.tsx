@@ -4,7 +4,7 @@ import React from 'react'
 
 export default function Navbar() {
   return (
-    <header className="navbar max-w-screen-xl mx-auto px-[5%] xl:px-0">
+    <header className="navbar max-w-screen-2xl mx-auto px-[5%] 2xl:px-0">
         <div className="navbar-start">
             <div className="dropdown">
                 <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -23,13 +23,13 @@ export default function Navbar() {
             <Image 
                 src="/cloudjet-logo.svg"
                 alt="Cloudjet Logo"
-                className='w-[36px] h-[36px] lg:w-[48px] lg:h-[48px]'
+                className='w-[44px] h-[44px] lg:w-[56px] lg:h-[56px]'
                 width={48}
                 height={48}
             />
         </div>
         <div className="navbar-center hidden lg:flex">
-            <ul className="menu menu-horizontal px-1">
+            <ul className="menu menu-horizontal px-1 text-xl">
                 <li><a>Home</a></li>
                 <li><a>Features</a></li>
                 <li><a>About</a></li>
@@ -38,7 +38,7 @@ export default function Navbar() {
             </ul>
         </div>
         <div className="navbar-end">
-            <Link href="/signup" className="btn bg-[#17223b] text-white px-8 rounded-md outline-none shadow-none border-none">Register</Link>
+            <Link href="/signup" className="btn bg-[#17223b] text-xl text-white px-8 rounded-md outline-none shadow-none border-none">Register</Link>
         </div>
     </header>
   )

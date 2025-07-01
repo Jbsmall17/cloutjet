@@ -4,7 +4,7 @@ import React from 'react'
 
 export default function page() {
   return (
-    <section className='min-h-screen lg:h-screen flex flex-col md:flex-row gap-6 md:gap-8 lg:gap-10 xl:gap-12 max-w-screen-xl mx-auto px-[5%] xl:px-0 py-4 sm:py-6 lg:py-8 xl:py-10'>
+    <section className='min-h-screen xl:h-screen flex flex-col md:flex-row gap-6 md:gap-8 lg:gap-10 xl:gap-12 max-w-screen-2xl mx-auto px-[5%] 2xl:px-0 py-4 sm:py-6 lg:py-8 xl:py-10'>
         <AuthComp
             image="/login-image.svg"
             textVisibility={true}
@@ -33,7 +33,7 @@ export default function page() {
                     placeholder='Password'
                     className='block border border-gray-300 rounded-md p-4 w-full mb-4'
                 />
-                <p className='text-base text-[#636363]'>Forget your Password? <a href="#" className='font-semibold text-black underline'>Reset Now!</a></p>
+                <p className='text-base text-[#636363]'>Forget your Password? <Link href="/verification" className='font-semibold text-black underline'>Reset Now!</Link></p>
                 <button 
                     type='submit'
                     className='w-full bg-[#17223b] rounded-xl p-3.5 mt-4 md:mt-6 lg:mt-8 xl:mt-10'

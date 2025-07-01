@@ -6,7 +6,7 @@ import Link from 'next/link';
 export default function Footer() {
   return (
     <>
-    <footer className='max-w-screen-xl mx-auto px-[5%] xl:px-0 flex flex-col md:flex-row justify-between gap-3 md:gap-5 lg:gap-7 py-3 md:py-5 lg:py-7'>
+    <footer className='max-w-screen-xl mx-auto px-[5%] 2xl:px-0 flex flex-col md:flex-row justify-between gap-3 md:gap-5 lg:gap-7 py-3 md:py-5 lg:py-7'>
         <div className='flex-1 max-w-[550px]'>
             <Image
                 src="/cloudjet-logo.svg"
