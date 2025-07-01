@@ -14,12 +14,12 @@ export default function page() {
             Enter the six digit code we sent to <span className='text-black font-semibold'>example@gmail.com</span> to verify your account. Kindly check your email
           </p>
           <div className='flex items-center justify-center gap-4 md:gap-6 lg:gap-8'>
-            <input className='rounded-md h-[64px] w-[64px] rounded-md bg-[#f5f5f5]'></input>
-            <input className='rounded-md h-[64px] w-[64px] rounded-md bg-[#f5f5f5]'></input>
-            <input className='rounded-md h-[64px] w-[64px] rounded-md bg-[#f5f5f5]'></input>
-            <input className='rounded-md h-[64px] w-[64px] rounded-md bg-[#f5f5f5]'></input>
-            <input className='rounded-md h-[64px] w-[64px] rounded-md bg-[#f5f5f5]'></input>
-            <input className='rounded-md h-[64px] w-[64px] rounded-md bg-[#f5f5f5]'></input>
+            <input className='rounded-md h-[32px] sm:h-[48px] lg:h-[64px] w-[32px] sm:w-[48px] lg:w-[64px] rounded-md bg-[#f5f5f5]'></input>
+            <input className='rounded-md h-[32px] sm:h-[48px] lg:h-[64px] w-[32px] sm:w-[48px] lg:w-[64px] rounded-md bg-[#f5f5f5]'></input>
+            <input className='rounded-md h-[32px] sm:h-[48px] lg:h-[64px] w-[32px] sm:w-[48px] lg:w-[64px] rounded-md bg-[#f5f5f5]'></input>
+            <input className='rounded-md h-[32px] sm:h-[48px] lg:h-[64px] w-[32px] sm:w-[48px] lg:w-[64px] rounded-md bg-[#f5f5f5]'></input>
+            <input className='rounded-md h-[32px] sm:h-[48px] lg:h-[64px] w-[32px] sm:w-[48px] lg:w-[64px] rounded-md bg-[#f5f5f5]'></input>
+            <input className='rounded-md h-[32px] sm:h-[48px] lg:h-[64px] w-[32px] sm:w-[48px] lg:w-[64px] rounded-md bg-[#f5f5f5]'></input>
           </div>
           <button 
             type='submit'
