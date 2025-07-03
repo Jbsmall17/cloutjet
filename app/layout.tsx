@@ -4,7 +4,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Cloudjet",
-  description: "Cloudjet website",
+  description: "Cloutjet website",
 };
 
 export default function RootLayout({

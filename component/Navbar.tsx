@@ -14,14 +14,15 @@ export default function Navbar() {
                     tabIndex={0}
                     className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
                     <li><a>Home</a></li>
-                    <li><a>Features</a></li>
-                    <li><a>About</a></li>
+                    <li><a>Become a Merchantt</a></li>
                     <li><a>Services</a></li>
-                    <li><a>Become a Merchant</a></li>
+                    <li><a>Features</a></li>
+                    <li><a>Accounts</a></li>
+                    <li><a>Testimonials</a></li>
                 </ul>
             </div>
             <Image 
-                src="/cloudjet-logo.svg"
+                src="/cloutjet-logo.svg"
                 alt="Cloudjet Logo"
                 className='w-[44px] h-[44px] lg:w-[56px] lg:h-[56px]'
                 width={48}
@@ -31,10 +32,11 @@ export default function Navbar() {
         <div className="navbar-center hidden lg:flex">
             <ul className="menu menu-horizontal px-1">
                 <li><a>Home</a></li>
-                <li><a>Features</a></li>
-                <li><a>About</a></li>
-                <li><a>Services</a></li>
                 <li><a>Become a Merchant</a></li>
+                <li><a>Services</a></li>
+                <li><a>Features</a></li>
+                <li><a>Accounts</a></li>
+                <li><a>Testimonials</a></li>
             </ul>
         </div>
         <div className="navbar-end">

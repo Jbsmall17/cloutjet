@@ -11,10 +11,10 @@ export default function Hero() {
             <span className='text-2xl lg:text-2xl text-[#17223b] font-semibold'>Selling and Buying accounts made easy here</span>
         </p> */}
         <p className='text-3xl md:text-4xl lg:text-5xl font-bold w-auto md:w-[400px] lg:w-[600px] mb-4 md:mb-8 lg:mb-10 lg:mb-12'>
-          Verified Accounts. Organic Growth. Real Inflenucers- All in One place 
+          Verified Accounts. Organic Growth. Real Inflenucers - All in One place 
         </p>
         <p className='text-xl lg:text-2xl text-[#666666] mb-4 md:mb-8 lg:mb-10 lg:mb-12 w-auto md-w-[450px] lg:w-[635px]'>
-          Buy & sell social media accounts, hire influencers to grow your page, or purchase verified growth srvices- all verified and secure. 
+          Buy & sell social media accounts, hire influencers to grow your page, or purchase verified growth services - all verified and secure. 
         </p>
         {/* <button className='bg-[#17223b] text-white w-[200px] md:w-[250px] lg:w-[300px] py-2 rounded-md'>
             Register

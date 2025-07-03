@@ -5,6 +5,7 @@ import Feature from "@/component/Feature";;
 import Hero from "@/component/Hero";
 import HowItWorks from "@/component/HowItWorks";
 import Services from "@/component/Services";
+import Testimonials from "@/component/Testimonials";
 import Image from "next/image";
 
 
@@ -285,6 +286,8 @@ export default function Home() {
             <button className="py-2 px-8 rounded-md text-white bg-[#1d1c1c]">View all</button>
           </div>
         </section>
+        <Testimonials
+        />
       </section>
     </>
   );

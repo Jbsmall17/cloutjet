@@ -6,11 +6,11 @@ import Link from 'next/link';
 export default function Footer() {
   return (
     <>
-    <footer className='max-w-screen-xl mx-auto px-[5%] 2xl:px-0 flex flex-col md:flex-row justify-between gap-3 md:gap-5 lg:gap-7 py-3 md:py-5 lg:py-7'>
+    <footer className='max-w-screen-2xl mx-auto px-[5%] 2xl:px-0 flex flex-col md:flex-row justify-between gap-3 md:gap-5 lg:gap-7 py-3 md:py-5 lg:py-7'>
         <div className='flex-1 max-w-[550px]'>
             <Image
-                src="/cloudjet-logo.svg"
-                alt="cloudjet logo"
+                src="/cloutjet-logo.svg"
+                alt="cloutjet logo"
                 className='w-[48px] lg:w-[70px] h-[48px] lg:h-[70px]'
                 width={32}
                 height={32}
@@ -36,7 +36,7 @@ export default function Footer() {
                 </li>
                 <li className='flex flex-row gap-2 items-center'>
                     <Mail className='inline mr-2' />
-                    <a href="mailto:cloudjet@gmail.com">cloudjet@gmail.com</a>
+                    <a href="mailto:cloutjet@gmail.com">cloudjet@gmail.com</a>
                 </li>
                 <li className='flex flex-row gap-3 items-center justify-center'>
                     <a href='#'><img src="/instagram-footer.svg" /></a>
