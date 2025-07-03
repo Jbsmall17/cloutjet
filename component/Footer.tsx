@@ -36,7 +36,7 @@ export default function Footer() {
                 </li>
                 <li className='flex flex-row gap-2 items-center'>
                     <Mail className='inline mr-2' />
-                    <a href="mailto:cloutjet@gmail.com">cloudjet@gmail.com</a>
+                    <a href="mailto:cloutjet@gmail.com">cloutjet@gmail.com</a>
                 </li>
                 <li className='flex flex-row gap-3 items-center justify-center'>
                     <a href='#'><img src="/instagram-footer.svg" /></a>

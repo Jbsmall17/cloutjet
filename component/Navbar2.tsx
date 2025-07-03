@@ -20,7 +20,7 @@ export default function Navbar2() {
     </div>
     <Image 
         src="/cloutjet-logo.svg"
-        alt="Cloudjet Logo"
+        alt="Cloutjet Logo"
         className='w-[44px] h-[44px] lg:w-[56px] lg:h-[56px]'
         width={48}
         height={48}

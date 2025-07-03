@@ -4,7 +4,7 @@ import React from 'react'
 
 export default function page() {
   return (
-    <section className='min-h-screen lg:h-screen flex flex-col md:flex-row gap-6 md:gap-8 lg:gap-10 xl:gap-12 max-w-screen-2xl mx-auto px-[5%] 2xl:px-0 py-4 sm:py-6 lg:py-8 xl:py-10'>
+    <section className='flex flex-col md:flex-row gap-6 md:gap-8 lg:gap-10 xl:gap-12 max-w-screen-2xl mx-auto px-[5%] 2xl:px-0 py-4 sm:py-6 lg:py-8 xl:py-10'>
       <AuthComp 
         image="/login-image.svg"
         textVisibility={true}
@@ -12,11 +12,11 @@ export default function page() {
       <div className='flex-1 lg:flex-[1.25]'>
         <div className='flex flex-row items-center justify-between'>
           <div className='mb-4 md:mb-4 lg:mb-6'>
-            <p className='text-xl md:text-2xl font-semibold mb-2 md:mb-3 lg:mb-4'>Welcome to Cloud jet</p>
+            <p className='text-xl md:text-2xl font-semibold mb-2 md:mb-3 lg:mb-4'>Welcome to Clout jet</p>
             <p className='text-base'>Create an account with us</p>
           </div>
           <img 
-            src="/cloudjet-logo.svg"
+            src="/cloutjet-logo.svg"
             alt='Cloudjet Logo' 
           />
         </div>
