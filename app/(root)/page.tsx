@@ -1,11 +1,11 @@
-import Account from "@/component/Account";
-import Clientele from "@/component/Clientele";
-import CtaComp from "@/component/CtaComp";
-import Feature from "@/component/Feature";;
-import Hero from "@/component/Hero";
-import HowItWorks from "@/component/HowItWorks";
-import Services from "@/component/Services";
-import Testimonials from "@/component/Testimonials";
+import Account from "@/components/Account";
+import Clientele from "@/components/Clientele";
+import CtaComp from "@/components/CtaComp";
+import Feature from "@/components/Feature";;
+import Hero from "@/components/Hero";
+import HowItWorks from "@/components/HowItWorks";
+import Services from "@/components/Services";
+import Testimonials from "@/components/Testimonials";
 import Image from "next/image";
 
 

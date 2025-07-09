@@ -1,5 +1,5 @@
-import Footer from '@/component/Footer'
-import Navbar from '@/component/Navbar'
+import Footer from '@/components/Footer'
+import Navbar from '@/components/Navbar'
 import React from 'react'
 
 export default function layout({children}:{children: React.ReactNode}) {

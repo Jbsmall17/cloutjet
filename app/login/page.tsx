@@ -1,4 +1,4 @@
-import AuthComp from '@/component/AuthComp'
+import AuthComp from '@/components/AuthComp'
 import Link from 'next/link'
 import React from 'react'
 

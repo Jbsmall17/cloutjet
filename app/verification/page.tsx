@@ -1,4 +1,4 @@
-import AuthComp from '@/component/AuthComp'
+import AuthComp from '@/components/AuthComp'
 import React from 'react'
 
 export default function page() {

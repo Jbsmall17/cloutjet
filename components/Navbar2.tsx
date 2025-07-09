@@ -16,6 +16,8 @@ export default function Navbar2() {
         <li><a>Grow media</a></li>
         <li><a>Messages</a></li>
         <li><a>Wallet</a></li>
+        <li><a>Sell Products</a></li>
+        <li><a>Dashboard</a></li>
       </ul>
     </div>
     <Image 
@@ -35,8 +37,8 @@ export default function Navbar2() {
     </ul>
   </div>
   <div className="navbar-end gap-4">
-    <a className="btn bg-white text-black border border-black rounded-md">Sell Product</a>
-    <a className='btn bg-[#17223b] text-white border-none'>Dashboard</a>
+    <a className="hidden lg:flex btn bg-white text-black border border-black rounded-md">Sell Product</a>
+    <a href='/buyer/dashboard' className='hidden lg:flex btn bg-[#17223b] text-white border-none'>Dashboard</a>
     <div className='relative'>
         <p className='absolute top-0 right-0 -translate-y-[50%] translate-x-[50%] size-4 text-black bg-[#f6a21b] text-xs font-semibold rounded-full flex justify-center itmes-center'>2</p>
         <img 
