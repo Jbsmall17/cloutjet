@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import React from 'react'
 
 export default function Navbar2() {
@@ -12,12 +13,12 @@ export default function Navbar2() {
       <ul
         tabIndex={0}
         className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
-        <li><a  href='/marketplace'>Market Place</a></li>
+        <li><Link href='/marketplace'>Market Place</Link></li>
         <li><a>Grow media</a></li>
         <li><a>Messages</a></li>
         <li><a>Wallet</a></li>
         <li><a>Sell Products</a></li>
-        <li><a href='/buyer/dashboard'>Dashboard</a></li>
+        <li><Link href='/buyer/dashboard'>Dashboard</Link></li>
       </ul>
     </div>
     <Image 
@@ -30,7 +31,7 @@ export default function Navbar2() {
   </div>
   <div className="navbar-center hidden lg:flex">
     <ul className="menu menu-horizontal px-1">
-        <li><a href='/marketplace'>Market Place</a></li>
+        <li><Link href='/marketplace'>Market Place</Link></li>
         <li><a>Grow media</a></li>
         <li><a>Messages</a></li>
         <li><a>Wallet</a></li>
@@ -38,7 +39,7 @@ export default function Navbar2() {
   </div>
   <div className="navbar-end gap-4">
     <a className="hidden lg:flex btn bg-white text-black border border-black rounded-md">Sell Product</a>
-    <a href='/buyer/dashboard' className='hidden lg:flex btn bg-[#17223b] text-white border-none'>Dashboard</a>
+    <Link href='/buyer/dashboard' className='hidden lg:flex btn bg-[#17223b] text-white border-none'>Dashboard</Link>
     <div className='relative'>
         <p className='absolute top-0 right-0 -translate-y-[50%] translate-x-[50%] size-4 text-black bg-[#f6a21b] text-xs font-semibold rounded-full flex justify-center itmes-center'>2</p>
         <img 

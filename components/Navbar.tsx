@@ -13,8 +13,8 @@ export default function Navbar() {
                 <ul
                     tabIndex={0}
                     className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow bg-white dark:bg-white">
-                    <li><a href='/'>Home</a></li>
-                    <li><a href='/signup'>Become a Merchant</a></li>
+                    <li><Link href='/'>Home</Link></li>
+                    <li><Link href='/signup'>Become a Merchant</Link></li>
                     <li><a>Services</a></li>
                     <li><a>Features</a></li>
                     <li><a>Accounts</a></li>
@@ -31,8 +31,8 @@ export default function Navbar() {
         </div>
         <div className="navbar-center hidden lg:flex">
             <ul className="menu menu-horizontal px-1">
-                <li><a href="/">Home</a></li>
-                <li><a href='/signup'>Become a Merchant</a></li>
+                <li><Link href="/">Home</Link></li>
+                <li><Link href='/signup'>Become a Merchant</Link></li>
                 <li><a>Services</a></li>
                 <li><a>Features</a></li>
                 <li><a>Accounts</a></li>
