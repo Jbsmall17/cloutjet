@@ -3,7 +3,7 @@ import React from 'react'
 
 export default function page() {
   return (
-    <section className='pr-4 md:pr-6 mb-4 md:mb-6 overflow-auto h-full'>
+    <section className='md:pr-4 lg:pr-6 mb-4 md:mb-6 overflow-auto h-full'>
       <h1 className='text-center font-semibold mb-3 text-2xl'>My Purchase</h1>
       <p className='text-[#626262] text-center mb-5 md:mb-5 lg:mb-7 text-xl'>All your purchase are displayed here</p>
       <div className='py-6 px-4 md:px-6 bg-white'>

@@ -7,7 +7,7 @@ import React from 'react'
 
 export default function page() {
   return (
-    <section className='flex flex-col pr-4 md:pr-6 mb-4 md:mb-6 overflow-auto h-full'>
+    <section className='flex flex-col md:pr-4 lg:pr-6 mb-4 md:mb-6 overflow-auto h-full'>
         <h1 className='text-center font-semibold mb-3 text-2xl'>Account Setting</h1>
         <div className='bg-white'>
             <p className='bg-[#17233b] leading-none text-white py-4 pl-4 md:pl-6 font-semibold'>Basic Information</p>
