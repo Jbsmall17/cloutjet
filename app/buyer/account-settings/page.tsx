@@ -96,7 +96,7 @@ export default function page() {
                 <div className='flex-1 pl-4 md:pl-6 pt-3 md:pt-0 space-y-3'>
                     <div className='space-y-2'>
                         <p className='text-xl font-semibold'>Push Notifications</p>
-                        <p className='text-base text-[#808080]'>Get push notifications in app to find out what's going on when you are not online. You can turn these off</p>
+                        <p className='text-base text-[#808080]'>Get push notifications in app to find out what&apos;s going on when you are not online. You can turn these off</p>
                     </div>
                     <div className='flex flex-row gap-4'>
                         <Switch />
