@@ -12,12 +12,12 @@ export default function Navbar2() {
       <ul
         tabIndex={0}
         className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
-        <li><a>Market Place</a></li>
+        <li><a  href='/marketplace'>Market Place</a></li>
         <li><a>Grow media</a></li>
         <li><a>Messages</a></li>
         <li><a>Wallet</a></li>
         <li><a>Sell Products</a></li>
-        <li><a>Dashboard</a></li>
+        <li><a href='/buyer/dashboard'>Dashboard</a></li>
       </ul>
     </div>
     <Image 
@@ -30,7 +30,7 @@ export default function Navbar2() {
   </div>
   <div className="navbar-center hidden lg:flex">
     <ul className="menu menu-horizontal px-1">
-        <li><a>Market Place</a></li>
+        <li><a href='/marketplace'>Market Place</a></li>
         <li><a>Grow media</a></li>
         <li><a>Messages</a></li>
         <li><a>Wallet</a></li>
