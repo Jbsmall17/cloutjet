@@ -166,3 +166,20 @@
     @apply bg-background text-foreground;
   }
 }
+
+.maincontent {
+  height: calc(100vh - 80px);
+}
+@media acreen and (max-width: 768px) {
+  .maincontent {
+    height: calc(100vh - 75px);
+  }
+  
+}
+
+@media screen and (max-width: 640px) {
+  .maincontent {
+    height: calc(100vh - 64px);
+  }
+  
+}
