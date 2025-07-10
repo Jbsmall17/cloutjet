@@ -11,7 +11,7 @@ export default function Layout({children }: { children: React.ReactNode }) {
           isOpen={isOpen} 
           setIsOpen={setIsOpen}
         />
-        <main className='relative flex flex-col lg:flex-row gap-4 md:gap-6 min-h-screen md:h-[85vh]'>
+        <main className='relative flex flex-col lg:flex-row gap-4 md:gap-6 h-auto md:h-[85vh]'>
           <BuyerSidebar 
             isOpen={isOpen}
           />
