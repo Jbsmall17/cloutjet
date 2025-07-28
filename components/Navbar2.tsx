@@ -14,7 +14,7 @@ export default function Navbar2() {
         tabIndex={0}
         className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
         <li><Link href='/marketplace'>Market Place</Link></li>
-        <li><a>Grow media</a></li>
+        <li><Link href="/grow-media">Grow media</Link></li>
         <li><a>Messages</a></li>
         <li><a>Wallet</a></li>
         <li><a>Sell Products</a></li>
@@ -32,7 +32,7 @@ export default function Navbar2() {
   <div className="navbar-center hidden lg:flex">
     <ul className="menu menu-horizontal px-1">
         <li><Link href='/marketplace'>Market Place</Link></li>
-        <li><a>Grow media</a></li>
+        <li><Link href="/grow-media">Grow media</Link></li>
         <li><a>Messages</a></li>
         <li><a>Wallet</a></li>
     </ul>
