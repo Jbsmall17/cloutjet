@@ -7,6 +7,7 @@ import HowItWorks from "@/components/HowItWorks";
 import Services from "@/components/Services";
 import Testimonials from "@/components/Testimonials";
 import Image from "next/image";
+import Link from "next/link";
 
 
 
@@ -21,18 +22,21 @@ export default function Home() {
           <p className="my-4 md:my-8 lg:my-10 xl:my-12 text-center text-xl md:text-2xl lg:text-3xl font-semibold">Explore our Services</p>
           <div className="flex flex-col lg:flex-row gap-4 md:gap-6 lg:gap-8">
             <Services
+              type="account"
               image="/account.svg"
               service={<>Buy / Sell<br/> Verified Accounts</>}
               describe="Buy verified account and services reviewed by our team"
               text="Explore Accounts"
             />
             <Services
+              type="organic"
               image="/growth.svg"
               service={<>Get Organic<br /> Page Growth</>}
               describe="Buy verified account and services reviewed by our team"
               text="Explore Accounts"
             />
             <Services
+              type="influencer"
               image="/influencer.svg"
               service={<>Hire influencers to<br/> Grow Your Page</>}
               describe="Follow packages, engagement packages"
@@ -77,7 +81,11 @@ export default function Home() {
             width={1280}
             height={400}
           />
-          <button className="mb-4 md:mb-6 lg:mb-10 xl:mb-12 py-2 rounded-md max-w-[400px] w-[70%] block mx-auto bg-[#17223b] text-white">Purchase an account</button>
+          <Link href="/marketplace">
+          <button className="cursor-pointer hover:opacity-80 active:opacity-80 transition transition-opacity ease-linear mb-4 md:mb-6 lg:mb-10 xl:mb-12 py-2 rounded-md max-w-[400px] w-[70%] block mx-auto bg-[#17223b] text-white">
+            Purchase an account
+          </button>
+          </Link>
         </section>
         <section className="py-6 md:py-8 lg:py-10">
           <p className="my-3 md:my-4 lg:my-5 xl:my-6 text-center text-xl md:text-2xl lg:text-3xl font-semibold">Available Facebook Account</p>
