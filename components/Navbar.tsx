@@ -1,8 +1,15 @@
+"use client"
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
+import { usePathname } from 'next/navigation'
 
 export default function Navbar() {
+    const pathname = usePathname()
+
+    const isActive = (path: string) =>{
+        return `${path === pathname ? "border-b-2 border-b-[#f7a21b] rounded-none" : ""}`
+    }
   return (
     <header className="navbar max-w-screen-2xl mx-auto px-[5%] 2xl:px-0">
         <div className="navbar-start">
@@ -31,16 +38,16 @@ export default function Navbar() {
         </div>
         <div className="navbar-center hidden lg:flex">
             <ul className="menu menu-horizontal px-1">
-                <li><Link href="/">Home</Link></li>
-                <li><Link href='/signup'>Become a Merchant</Link></li>
-                <li><a>Services</a></li>
-                <li><a>Features</a></li>
-                <li><a>Accounts</a></li>
-                <li><a>Testimonials</a></li>
+                <li><Link className={`bg-transparent hover:bg-transparent active:bg-red hover:border-b-2 hover:border-b-[#f7a21b] ${isActive("/")}`} href="/">Home</Link></li>
+                <li><Link className={`bg-transparent hover:bg-transparent hover:border-b-2 hover:border-b-[#f7a21b] rounded-none`} href='/signup'>Become a Merchant</Link></li>
+                <li><Link className={`bg-transparent hover:bg-transparent hover:border-b-2 hover:border-b-[#f7a21b] rounded-none`} href="/">Services</Link></li>
+                <li><Link className={`bg-transparent hover:bg-transparent hover:border-b-2 hover:border-b-[#f7a21b] rounded-none`} href="/">Features</Link></li>
+                <li><Link className={`bg-transparent hover:bg-transparent hover:border-b-2 hover:border-b-[#f7a21b] rounded-none`} href="/">Accounts</Link></li>
+                <li><Link className={`bg-transparent hover:bg-transparent hover:border-b-2 hover:border-b-[#f7a21b] rounded-none`} href="/">Testimonials</Link></li>
             </ul>
         </div>
         <div className="navbar-end">
-            <Link href="/signup" className="btn bg-[#17223b] text-white px-8 rounded-md outline-none shadow-none border-none">Register</Link>
+            <Link href="/signup" className="btn bg-[#17223b] text-white px-8 rounded-md outline-none shadow-none border-none hover:opacity-80">Register</Link>
         </div>
     </header>
   )

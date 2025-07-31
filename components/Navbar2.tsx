@@ -1,8 +1,16 @@
+"use client"
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
+import { usePathname } from 'next/navigation'
 
 export default function Navbar2() {
+  const pathname = usePathname()
+
+  const isActive = (path: string) =>{
+    return `${path === pathname ? "border-b-2 border-b-[#f7a21b] rounded-none" : ""}`
+  }
+
   return (
     <div className="navbar max-w-screen-2xl mx-auto px-[5%] 2xl:px-0 shadow-sm">
   <div className="navbar-start">
@@ -31,10 +39,10 @@ export default function Navbar2() {
   </div>
   <div className="navbar-center hidden lg:flex">
     <ul className="menu menu-horizontal px-1">
-        <li><Link href='/marketplace'>Market Place</Link></li>
-        <li><Link href="/grow-media">Grow media</Link></li>
-        <li><a>Messages</a></li>
-        <li><a>Wallet</a></li>
+        <li><Link className={`bg-transparent hover:bg-transparent hover:border-b-2 hover:border-b-[#f7a21b] ${isActive('/marketplace')}`} href='/marketplace'>Market Place</Link></li>
+        <li><Link className={`bg-transparent hover:bg-transparent hover:border-b-2 hover:border-b-[#f7a21b] ${isActive('/grow-media')}`} href="/grow-media">Grow media</Link></li>
+        <li><Link className={`bg-transparent hover:bg-transparent hover:border-b-2 hover:border-b-[#f7a21b] ${isActive("/messages")}`} href="/">Messages</Link></li>
+        <li><Link className={`bg-transparent hover:bg-transparent hover:border-b-2 hover:border-b-[#f7a21b] ${isActive("/wallet")}`} href="/">Wallet</Link></li>
     </ul>
   </div>
   <div className="navbar-end gap-4">
