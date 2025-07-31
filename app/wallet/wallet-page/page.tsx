@@ -10,13 +10,6 @@ import poundsImg from "@/components/imgs/pounds.png";
 import visaImg from "@/components/imgs/visa.png";
 import walletImg from "@/components/imgs/wallet icon.png";
 
-// Dollar note SVG icon with dollar sign
-function DollarNoteIcon({ size = 24 }) {
-  return (
-    <Image src={paymentImg} alt="Payment" width={size} height={size} />
-  );
-}
-
 export default function WalletPageContent() {
   return (
     <div className="w-full flex flex-col items-center px-2 sm:px-4">
