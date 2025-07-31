@@ -4,7 +4,7 @@ import Navbar2 from "@/components/Navbar2";
 export default function WalletLayout({ children }: { children: React.ReactNode }) {
   return (
     <main className="min-h-screen w-full bg-[#f9f9f9] relative">
-      <Navbar2 activePage="wallet" />
+      <Navbar2 />
       <div className="flex flex-col md:flex-row w-full mx-auto mt-5 min-h-[700px]">
         {/* Sidebar */}
         <aside

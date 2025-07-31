@@ -2,7 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
-export default function Navbar2({ activePage }: { activePage?: string }) {
+export default function Navbar2() {
   return (
     <div className="navbar max-w-screen-2xl mx-auto px-[5%] 2xl:px-0 shadow-sm">
       <div className="navbar-start">
@@ -17,10 +17,7 @@ export default function Navbar2({ activePage }: { activePage?: string }) {
             <li><Link href="/grow-media">Grow media</Link></li>
             <li><Link href="#">Messages</Link></li>
             <li>
-              <Link
-                href="/wallet"
-                className={activePage === "wallet" ? "font-bold text-[#F5A21B] underline underline-offset-4 decoration-4 decoration-[#F5A21B]" : ""}
-              >
+              <Link href="/wallet" >
                 Wallet
               </Link>
             </li>
@@ -43,9 +40,7 @@ export default function Navbar2({ activePage }: { activePage?: string }) {
           <li><Link href="#">Messages</Link></li>
           <li>
             <Link
-              href="/wallet"
-              className={activePage === "wallet" ? " underline underline-offset-7 decoration-2 decoration-[#F5A21B]" : ""}
-            >
+              href="/wallet" >
               Wallet
             </Link>
           </li>
