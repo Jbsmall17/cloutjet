@@ -19,11 +19,11 @@ function DollarNoteIcon({ size = 24 }) {
 
 export default function WalletPageContent() {
   return (
-    <div className="w-full flex flex-col items-center">
+    <div className="w-full flex flex-col items-center px-2 sm:px-4">
       {/* Profile Cards Row */}
-      <div className="w-full flex flex-row gap-7 justify-center mt-7 ">
+      <div className="w-full flex flex-col md:flex-row gap-5 md:gap-7 justify-center mt-7">
         {/* Wallet Profile Card */}
-        <div className="w-96 h-46 flex flex-col justify-between bg-[#FFDD55] rounded-xl shadow p-4">
+        <div className="w-full md:w-96 flex flex-col justify-between bg-[#FFDD55] rounded-xl shadow p-4 mb-4 md:mb-0">
           <div className="flex flex-row items-start justify-between">
             <h2 className="text-lg font-bold text-[#000000]">Wallet</h2>
             <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center ml-2 border border-gray-200">
@@ -41,7 +41,7 @@ export default function WalletPageContent() {
         </div>
 
         {/* Payment Profile Card */}
-        <div className="w-96 h-46 flex flex-col justify-between bg-[#15233E] rounded-xl shadow p-4 text-white">
+        <div className="w-full md:w-96 flex flex-col justify-between bg-[#15233E] rounded-xl shadow p-4 text-white">
           <div className="flex flex-row items-start justify-between">
             <h2 className="text-lg font-bold text-[#ffffff]">Payment</h2>
             <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center ml-2 border border-gray-200">
@@ -60,20 +60,20 @@ export default function WalletPageContent() {
       </div>
 
       {/* Cards Section */}
-      <div className="w-full max-w-2xl mt-12">
+      <div className="w-full max-w-2xl mt-12 px-1">
         <h3 className="text-xl font-bold mb-6 text-[#17233b]">Cards</h3>
         {/* MasterCard */}
-        <div className="w-full flex items-center py-3 border-b border-gray-200">
+        <div className="w-full flex flex-col xs:flex-row xs:items-center py-3 border-b border-gray-200 gap-2 xs:gap-0">
           <Image src={mastercardImg} alt="Mastercard" width={40} height={28} />
-          <div className="flex flex-col ml-8">
+          <div className="flex flex-col xs:ml-8">
             <span className="text-base font-semibold text-[#000000]">Mastercard</span>
             <span className="text-black font-mono tracking-widest mt-1">2456 7854 ****</span>
           </div>
         </div>
         {/* Visa Card */}
-        <div className="w-full flex items-center py-3 border-b border-gray-200">
+        <div className="w-full flex flex-col xs:flex-row xs:items-center py-3 border-b border-gray-200 gap-2 xs:gap-0">
           <Image src={visaImg} alt="Visa" width={40} height={28} />
-          <div className="flex flex-col ml-8">
+          <div className="flex flex-col xs:ml-8">
             <span className="text-base font-semibold text-[#000000]">Visa</span>
             <span className="text-black font-mono tracking-widest mt-1">2456 7854 ****</span>
           </div>
@@ -85,72 +85,72 @@ export default function WalletPageContent() {
         </button>
       </div>
       {/* Wallets Assets Section */}
-      <div className="w-full max-w-2xl mt-12">
+      <div className="w-full max-w-2xl mt-12 px-1">
         <h3 className="text-xl font-bold mb-6 text-[#17233b]">Wallets assets</h3>
         <div className="flex flex-col gap-4">
           {/* Bitcoin */}
-          <div className="flex  items-center bg-[#F4F4F4] px-5 py-4">
+          <div className="flex flex-col xs:flex-row xs:items-center bg-[#F4F4F4] px-5 py-4 gap-2 xs:gap-0">
             <Image src={bitcoinImg} alt="Bitcoin" width={28} height={28} className="mr-4" />
-            <span className="font-semibold text-base text-[#17233b] mr-51">Bitcoin</span>
+            <span className="font-semibold text-base text-[#17233b] xs:mr-10">Bitcoin</span>
             <span className="font-semibold text-base text-[#17233b] flex items-center">
               <span className="mr-1">£</span>4500
             </span>
           </div>
           {/* Pounds */}
-          <div className="flex items-center bg-[#F4F4F4]  px-5 py-4">
+          <div className="flex flex-col xs:flex-row xs:items-center bg-[#F4F4F4] px-5 py-4 gap-2 xs:gap-0">
             <Image src={poundsImg} alt="Pounds" width={28} height={28} className="mr-4" />
-            <span className="font-semibold text-base text-[#17233b] mr-50">Pounds</span>
+            <span className="font-semibold text-base text-[#17233b] xs:mr-10">Pounds</span>
             <span className="font-semibold text-base text-[#17233b] flex items-center">
               <span className="mr-1">£</span>4500
             </span>
           </div>
           {/* Ethereum */}
-          <div className="flex  items-center bg-[#F4F4F4] px-5 py-4">
+          <div className="flex flex-col xs:flex-row xs:items-center bg-[#F4F4F4] px-5 py-4 gap-2 xs:gap-0">
             <Image src={ethereumImg} alt="Ethereum" width={28} height={28} className="mr-4" />
-            <span className="font-semibold text-base text-[#17233b] mr-46">Ethereum</span>
+            <span className="font-semibold text-base text-[#17233b] xs:mr-10">Ethereum</span>
             <span className="font-semibold text-base text-[#17233b] flex items-center">
               <span className="mr-1">£</span>4500
             </span>
           </div>
         </div>
       </div>
-            {/* Latest Payment History Section */}
-      <div className="w-full max-w-3xl mt-12">
+      {/* Latest Payment History Section */}
+      <div className="w-full max-w-3xl mt-12 px-1">
         <h3 className="text-xl font-bold mb-6 text-[#17233b] ">Latest Payment History</h3>
         <div className="overflow-x-auto rounded-xl ">
-          <table className="min-w-full bg-[#F7F6F4] min-h-[300px]">
+          <table className="min-w-full bg-[#F7F6F4] min-h-[300px] text-xs sm:text-sm">
             <thead>
               <tr>
-                <th className="bg-[#EED9B8] text-[#000000] font-bold py-3 px-4 text-left">Account</th>
-                <th className="bg-[#EED9B8] text-[#000000] font-bold py-3 px-4 text-left">Amount</th>
-                <th className="bg-[#EED9B8] text-[#000000] font-bold py-3 px-4 text-left">Date</th>
-                <th className="bg-[#EED9B8] text-[#000000] font-bold py-3 px-4 text-left">Status</th>
+                <th className="bg-[#EED9B8] text-[#000000] font-bold py-3 px-2 sm:px-4 text-left">Account</th>
+                <th className="bg-[#EED9B8] text-[#000000] font-bold py-3 px-2 sm:px-4 text-left">Amount</th>
+                <th className="bg-[#EED9B8] text-[#000000] font-bold py-3 px-2 sm:px-4 text-left">Date</th>
+                <th className="bg-[#EED9B8] text-[#000000] font-bold py-3 px-2 sm:px-4 text-left">Status</th>
               </tr>
             </thead>
             <tbody>
               {/* Example row */}
               <tr>
-                <td className="py-3 px-4 border-b border-[#EED9B8]">John Doe</td>
-                <td className="py-3 px-4 border-b border-[#EED9B8]">£120.00</td>
-                <td className="py-3 px-4 border-b border-[#EED9B8]">2024-07-28</td>
-                <td className="py-3 px-4 border-b border-[#EED9B8]">
+                <td className="py-3 px-2 sm:px-4 border-b border-[#EED9B8]">John Doe</td>
+                <td className="py-3 px-2 sm:px-4 border-b border-[#EED9B8]">£120.00</td>
+                <td className="py-3 px-2 sm:px-4 border-b border-[#EED9B8]">2024-07-28</td>
+                <td className="py-3 px-2 sm:px-4 border-b border-[#EED9B8]">
                   <span className="px-3 py-1 rounded-full bg-green-200 text-green-800 font-semibold text-xs">Completed</span>
                 </td>
               </tr>
               {/* Add more rows as needed */}
               <tr>
-                <td className="py-3 px-4 border-b border-[#EED9B8]">Jane Smith</td>
-                <td className="py-3 px-4 border-b border-[#EED9B8]">£75.50</td>
-                <td className="py-3 px-4 border-b border-[#EED9B8]">2024-07-27</td>
-                <td className="py-3 px-4 border-b border-[#EED9B8]">
+                <td className="py-3 px-2 sm:px-4 border-b border-[#EED9B8]">Jane Smith</td>
+                <td className="py-3 px-2 sm:px-4 border-b border-[#EED9B8]">£75.50</td>
+                <td className="py-3 px-2 sm:px-4 border-b border-[#EED9B8]">2024-07-27</td>
+                <td className="py-3 px-2 sm:px-4 border-b border-[#EED9B8]">
                   <span className="px-3 py-1 rounded-full bg-yellow-200 text-yellow-800 font-semibold text-xs">Pending</span>
                 </td>
               </tr>
               <tr>
-                <td className="py-3 px-4">Alice Lee</td>
-                <td className="py-3 px-4">£200.00</td>
-                <td className="py-3 px-4">2024-07-25</td>
-                <td className="py-3 px-4">
+                <td className="py-3 px-2 sm:px-4">Alice Lee</td>
+                <td className="py-3 px-2 sm:px-4">£200.00</td>
+                <td className="py-3 px-2 sm:px-4">2024-07-25</td>
+                <td className="py-3 px-2 sm:px-4">
                   <span className="px-3 py-1 rounded-full bg-red-200 text-red-800 font-semibold text-xs">Failed</span>
                 </td>
               </tr>
