@@ -1,7 +1,8 @@
 import AdminDashboard from "./dashboard/page";
-import MerchantManagement from "./merchant-management/page";
 
-export default function AdminDashboardPage({ showMerchantManagement = false }) {
-  if (showMerchantManagement) return <MerchantManagement />;
+
+// Remove props from the entry function to fix the type error
+export default function AdminDashboardPage() {
+  // You can use client-side state or routing to switch views if needed
   return <AdminDashboard />;
 }

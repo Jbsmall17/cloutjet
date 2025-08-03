@@ -10,13 +10,6 @@ import poundsImg from "@/components/imgs/pounds.png";
 import visaImg from "@/components/imgs/visa.png";
 import walletImg from "@/components/imgs/wallet icon.png";
 
-// Dollar note SVG icon with dollar sign
-function DollarNoteIcon({ size = 24 }) {
-  return (
-    <Image src={paymentImg} alt="Payment" width={size} height={size} />
-  );
-}
-
 export default function WalletPageContent() {
   return (
     <div className="w-full flex flex-col items-center px-2 sm:px-4">
@@ -63,17 +56,17 @@ export default function WalletPageContent() {
       <div className="w-full max-w-2xl mt-12 px-1">
         <h3 className="text-xl font-bold mb-6 text-[#17233b]">Cards</h3>
         {/* MasterCard */}
-        <div className="w-full flex flex-col xs:flex-row xs:items-center py-3 border-b border-gray-200 gap-2 xs:gap-0">
+        <div className="w-full flex flex-col sm:flex-row sm:items-center py-3 border-b border-gray-200 gap-2 sm:gap-0">
           <Image src={mastercardImg} alt="Mastercard" width={40} height={28} />
-          <div className="flex flex-col xs:ml-8">
+          <div className="flex flex-col sm:ml-8">
             <span className="text-base font-semibold text-[#000000]">Mastercard</span>
             <span className="text-black font-mono tracking-widest mt-1">2456 7854 ****</span>
           </div>
         </div>
         {/* Visa Card */}
-        <div className="w-full flex flex-col xs:flex-row xs:items-center py-3 border-b border-gray-200 gap-2 xs:gap-0">
+        <div className="w-full flex flex-col sm:flex-row sm:items-center py-3 border-b border-gray-200 gap-2 sm:gap-0">
           <Image src={visaImg} alt="Visa" width={40} height={28} />
-          <div className="flex flex-col xs:ml-8">
+          <div className="flex flex-col sm:ml-8">
             <span className="text-base font-semibold text-[#000000]">Visa</span>
             <span className="text-black font-mono tracking-widest mt-1">2456 7854 ****</span>
           </div>
@@ -89,25 +82,25 @@ export default function WalletPageContent() {
         <h3 className="text-xl font-bold mb-6 text-[#17233b]">Wallets assets</h3>
         <div className="flex flex-col gap-4">
           {/* Bitcoin */}
-          <div className="flex flex-col xs:flex-row xs:items-center bg-[#F4F4F4] px-5 py-4 gap-2 xs:gap-0">
+          <div className="flex flex-col sm:flex-row sm:items-center bg-[#F4F4F4] px-5 py-4 gap-2 sm:gap-0">
             <Image src={bitcoinImg} alt="Bitcoin" width={28} height={28} className="mr-4" />
-            <span className="font-semibold text-base text-[#17233b] xs:mr-10">Bitcoin</span>
+            <span className="font-semibold text-base text-[#17233b] sm:mr-10">Bitcoin</span>
             <span className="font-semibold text-base text-[#17233b] flex items-center">
               <span className="mr-1">£</span>4500
             </span>
           </div>
           {/* Pounds */}
-          <div className="flex flex-col xs:flex-row xs:items-center bg-[#F4F4F4] px-5 py-4 gap-2 xs:gap-0">
+          <div className="flex flex-col sm:flex-row sm:items-center bg-[#F4F4F4] px-5 py-4 gap-2 sm:gap-0">
             <Image src={poundsImg} alt="Pounds" width={28} height={28} className="mr-4" />
-            <span className="font-semibold text-base text-[#17233b] xs:mr-10">Pounds</span>
+            <span className="font-semibold text-base text-[#17233b] sm:mr-10">Pounds</span>
             <span className="font-semibold text-base text-[#17233b] flex items-center">
               <span className="mr-1">£</span>4500
             </span>
           </div>
           {/* Ethereum */}
-          <div className="flex flex-col xs:flex-row xs:items-center bg-[#F4F4F4] px-5 py-4 gap-2 xs:gap-0">
+          <div className="flex flex-col sm:flex-row sm:items-center bg-[#F4F4F4] px-5 py-4 gap-2 sm:gap-0">
             <Image src={ethereumImg} alt="Ethereum" width={28} height={28} className="mr-4" />
-            <span className="font-semibold text-base text-[#17233b] xs:mr-10">Ethereum</span>
+            <span className="font-semibold text-base text-[#17233b] sm:mr-10">Ethereum</span>
             <span className="font-semibold text-base text-[#17233b] flex items-center">
               <span className="mr-1">£</span>4500
             </span>
