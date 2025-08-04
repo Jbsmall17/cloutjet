@@ -24,7 +24,7 @@ export default function Footer() {
             <ul className='flex flex-col gap-2 md:gap-5 text-base md:text-xl font-semibold font-normal dark:text-black'>
                 <li><Link href='/signup'>Create an account</Link></li>
                 <li><Link href='/login'>Sign in</Link></li>
-                <li><Link href='#'>Market place</Link></li>
+                <li><Link href='/marketplace'>Market place</Link></li>
             </ul>
         </div>
         <div>

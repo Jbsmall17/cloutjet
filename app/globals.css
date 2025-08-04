@@ -167,7 +167,13 @@
   }
   .pagelayout{
     @apply flex-1 rounded-xl border border-[#f8a11e] px-4 md:px-6 lg:px-8 py-3 md:py-5 lg:py-7
-}}
+  }
+}
+
+.menu a:active{
+  background-color: transparent !important;
+  color: black !important;
+}
 
 .maincontent {
   height: calc(100vh - 80px);

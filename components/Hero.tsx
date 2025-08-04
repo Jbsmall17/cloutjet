@@ -28,16 +28,20 @@ export default function Hero() {
       </div>
       <div className='mt-4 md:mt-6 lg:mt-8 flex flex-col md:flex-row items-center gap-4 md:gap-6 lg:gap-14'>
         <Link href="/marketplace">
-        <button className='whitespace-nowrap py-2.5 text-base lg:text-xl bg-[#f7a21b] text-white px-8 md:px-10 lg:px-16 rounded-xl'>
+        <button className='whitespace-nowrap py-2.5 text-base lg:text-xl bg-[#f7a21b] cursor-pointer hover:opacity-80 transition transition-opacity ease-linear text-white px-8 md:px-10 lg:px-16 rounded-xl'>
           <span className='cursor-pointer'>Buy an Account</span>
         </button>
         </Link>
-        <button className='whitespace-nowrap py-2.5 text-base lg:text-xl bg-white text-black px-8 md:px-10 lg:px-16 rounded-xl border border-[#919191]'>
-          <span>Sell an Account</span>
-        </button>
-        <button className='whitespace-nowrap py-2.5 text-base lg:text-xl bg-white text-black px-6 md:px-8 lg:px-10 rounded-xl border border-[#919191]'>
-          <span>Hire Influencer for Growth</span>
-        </button>
+        <Link href="/signup">
+          <button className='whitespace-nowrap py-2.5 text-base lg:text-xl bg-white hover:bg-gray-100 cursor-pointer text-black transition transition-color ease-linear px-8 md:px-10 lg:px-16 rounded-xl border border-[#919191]'>
+            <span className='cursor-pointer'>Sell an Account</span>
+          </button>
+        </Link>
+        <Link href="/grow-media">
+          <button className='whitespace-nowrap py-2.5 text-base lg:text-xl bg-white hover:bg-gray-100 cursor-pointer text-black transition transition-color ease-linear text-black px-6 md:px-8 lg:px-10 rounded-xl border border-[#919191]'>
+            <span className='cursor-pointer'>Hire Influencer for Growth</span>
+          </button>
+        </Link>
       </div>
     </section>
   )
