@@ -48,16 +48,17 @@ export default function Navbar2() {
               <a>Messages</a>
             </li>
             <li>
-              <a>Wallet</a>
+              <Link href="/wallet">Wallet</Link>
             </li>
             <li>
-              <a>Sell Products</a>
+              <Link href="/seller/dashboard">Sell Products</Link>
             </li>
             <li>
               <Link href="/buyer/dashboard">Dashboard</Link>
             </li>
           </ul>
         </div>
+        <Link href="/">
         <Image
           src="/cloutjet-logo.svg"
           alt="Cloutjet Logo"
@@ -65,6 +66,7 @@ export default function Navbar2() {
           width={48}
           height={48}
         />
+        </Link>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
@@ -103,7 +105,7 @@ export default function Navbar2() {
               className={`bg-transparent hover:bg-transparent hover:border-b-2 hover:border-b-[#f7a21b] ${isActive(
                 "/wallet"
               )}`}
-              href="/"
+              href="/wallet"
             >
               Wallet
             </Link>
@@ -111,9 +113,11 @@ export default function Navbar2() {
         </ul>
       </div>
       <div className="navbar-end gap-4">
-        <a className="hidden lg:flex btn bg-white text-black border border-black rounded-md">
+        <Link 
+           href="/seller/dashboard"
+           className="hidden lg:flex btn bg-white text-black border border-black rounded-md">
           Sell Product
-        </a>
+        </Link>
         <Link
           href="/buyer/dashboard"
           className="hidden lg:flex btn bg-[#17223b] text-white border-none"
