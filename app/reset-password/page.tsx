@@ -12,16 +12,16 @@ type ResetInput = {
 
 export default function Page() {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading,] = useState(false);
   const {
     register,
     handleSubmit,
     formState: { errors }
   } = useForm<ResetInput>();
 
-    const onSubmit: SubmitHandler<ResetInput> = (data) => {
-      console.log(data)
-    }
+  const onSubmit: SubmitHandler<ResetInput> = (data) => {
+    console.log(data)
+  }
 
   return (
     <section className="flex flex-col md:flex-row gap-6 md:gap-8 lg:gap-10 xl:gap-12 max-w-screen-2xl mx-auto px-[5%] 2xl:px-0 py-4 sm:py-6 lg:py-8 xl:py-10">
@@ -37,7 +37,7 @@ export default function Page() {
         <p className="text-base md:text-xl mb-3 md:mb-5 lg:mb-7">
           change password to a new word
         </p>
-        <form>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <label
             htmlFor="password"
             className="block mb-2 font-semibold text-xl"
