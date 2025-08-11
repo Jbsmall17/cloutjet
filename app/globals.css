@@ -11,7 +11,7 @@
     color: var(--foreground);
   }
 
-  /* Force light mode styles for all elements */
+
   * {
     color-scheme: light;
   }
