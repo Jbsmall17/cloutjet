@@ -6,9 +6,7 @@ import {
   InputOTPGroup,
   InputOTPSlot
 } from "@/components/ui/input-otp"
-import axios from 'axios'
-import {toast, Toaster} from 'react-hot-toast'
-import { useRouter } from 'next/navigation'
+import {Toaster} from 'react-hot-toast'
 import  OtpTimer  from '@/components/OtpTimer'
 import dynamic from 'next/dynamic'
 
