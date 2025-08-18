@@ -1,14 +1,20 @@
 import { LogOut,ArrowUpDown,LayoutDashboard,Bell,Settings } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 
 interface BuyerSidebarProps{
     isOpen: boolean
 }
 
 export default function BuyerSidebar({isOpen}: BuyerSidebarProps) {
+    const router = useRouter()
     const pathname = usePathname()
+
+    const handleLogout = () =>{
+        sessionStorage.clear()
+        router.push("/login")
+    }
 
     return (
     <nav className={`${!isOpen ? 'hidden lg:flex': 'flex'} h-full absolute left-0 top-0 lg:relative pt-6 pb-12 px-6 bg-white flex flex-col justify-between`}>
@@ -38,7 +44,7 @@ export default function BuyerSidebar({isOpen}: BuyerSidebarProps) {
             </li>
             </Link>
         </ul>
-        <button className='p-2 flex flex-row items-center gap-4'>
+        <button onClick={handleLogout} className='p-2 flex flex-row items-center gap-4'>
             <LogOut />
             <span>Log Out</span>
         </button>

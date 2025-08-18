@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-
+import { ContextComp } from "@/context";
 
 export const metadata: Metadata = {
   title: "Cloutjet",
@@ -15,7 +15,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        {children}
+        <ContextComp>
+          {children}
+        </ContextComp>
       </body>
     </html>
   );

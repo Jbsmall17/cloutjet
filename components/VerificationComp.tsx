@@ -6,8 +6,10 @@ import AuthComp from "./AuthComp"
 import axios from "axios"
 import { useRouter } from "next/navigation"
 import React from "react"
+import { useContextValue } from "@/context"
 
 export default function VerificationComp() {
+  const {setUser} = useContextValue()
   const router = useRouter()
   const user = sessionStorage.getItem("user")
   const [value, setValue] = React.useState("")
@@ -26,6 +28,9 @@ export default function VerificationComp() {
       ).then((response)=>{
         sessionStorage.setItem("token", response.data.data.token)
         sessionStorage.setItem("userObj",JSON.stringify(response.data.data.user))
+        setUser({
+          ...response.data.data.user
+        })
         router.push("/buyer/dashboard")
       }).catch((err)=>{
         toast.error(err.response.data.message || "Invalid or expired OTP.")
@@ -34,6 +39,17 @@ export default function VerificationComp() {
       })
     }
   }
+  const resendOTP = () => {
+    if(user){
+      const userObj = JSON.parse(user)
+      if(userObj.userId){
+        axios.post(`https://cloud-jet-production.up.railway.app/v1/auth/resend-otp/${userObj.userId}`, {})
+        .then(()=>{})
+        .catch(()=>{})
+      }
+    }
+  }
+
 
   return (
     <section className='h-screen flex flex-col md:flex-row gap-6 md:gap-8 lg:gap-10 xl:gap-12 max-w-screen-2xl mx-auto px-[5%] 2xl:px-0 py-4 md:py-6 lg:py-8 xl:py-10'>
@@ -77,8 +93,12 @@ export default function VerificationComp() {
               }
               </span> 
           </button>
-          <p className='text-center text-xl text-[#636363] mt-2 md:mt-4'>Didn’t receive the code? 
-            <OtpTimer initialTime={60} />
+          <p className='text-center text-xl text-[#636363] mt-2 md:mt-4'>
+            Didn&apos;t receive the code? 
+            <OtpTimer 
+              initialTime={60} 
+              resendOtp={resendOTP}
+              />
             </p>
         </div>
     </section>

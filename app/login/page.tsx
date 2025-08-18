@@ -7,6 +7,7 @@ import axios from "axios";
 import { toast, Toaster } from "react-hot-toast";
 import { Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useContextValue } from "@/context";
 
 type LoginInput = {
   password: string;
@@ -14,6 +15,7 @@ type LoginInput = {
 };
 
 export default function Page() {
+  const {setUser} = useContextValue()
   const router = useRouter();
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -32,6 +34,9 @@ export default function Page() {
     }).then((response)=>{
         sessionStorage.setItem("token", response.data.data.token)
         sessionStorage.setItem("userObj",JSON.stringify(response.data.data.user))
+        setUser({
+          ...response.data.data.user
+        })
         router.push("/buyer/dashboard")
     }).catch((err)=>{
         toast.error(err.response ? err.response.data.message: "Network Fail")
@@ -116,7 +121,7 @@ export default function Page() {
           <p className="text-base text-[#636363]">
             Forget your Password?{" "}
             <Link
-              href="/verification"
+              href="/reset-password"
               className="font-semibold text-black underline"
             >
               Reset Now!
