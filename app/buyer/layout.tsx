@@ -1,10 +1,27 @@
 "use client"
 import BuyerHeader from '@/components/BuyerHeader'
 import BuyerSidebar from '@/components/BuyerSidebar'
-import React from 'react'
+import { useRouter } from 'next/navigation'
+import React, { useEffect, useState } from 'react'
 
 export default function Layout({children }: { children: React.ReactNode }) {
+  const router = useRouter()
   const [isOpen, setIsOpen] = React.useState(false)
+  const [token, setToken] = useState("")
+
+  useEffect(()=>{
+    const token = sessionStorage.getItem("token")
+    if(token){
+      setToken(token)
+    }else{
+      router.push("/login")
+    }
+  },[])  
+
+  if(!token){
+    return null
+  }
+
   return (
     <div className='h-auto overflow-hidden bg-[#f4f4f4] flex flex-col'>
         <BuyerHeader 

@@ -1,10 +1,8 @@
 "use client"
-import axios from "axios"
 import React from "react"
 import { useEffect } from "react"
 
-const OtpTimer = ({initialTime = 60}:{initialTime:number}) => {
-    const user = sessionStorage.getItem("user")
+const OtpTimer = ({initialTime = 60, resendOtp}:{initialTime:number, resendOtp: () => void}) => {
     const [seconds, setSeconds] = React.useState(initialTime)
     const [isActive, setIsActive] = React.useState(true)
     
@@ -18,14 +16,7 @@ const OtpTimer = ({initialTime = 60}:{initialTime:number}) => {
     const resendOTP = () => {
         setIsActive(true)
         setSeconds(60)
-        if(user){
-            const userObj = JSON.parse(user)
-            if(userObj.userId){
-                axios.post(`https://cloud-jet-production.up.railway.app/v1/auth/resend-otp/${userObj.userId}`, {})
-                .then(()=>{})
-                .catch(()=>{})
-            }
-        }
+        resendOtp()
     }
 
 

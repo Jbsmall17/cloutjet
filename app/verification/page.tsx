@@ -49,7 +49,10 @@ function VerificationFallback(){
             <span className='text-white text-xl'>confirm</span> 
           </button>
           <p className='text-center text-xl text-[#636363] mt-2 md:mt-4'>Didn’t receive the code? 
-            <OtpTimer initialTime={60} />
+            <OtpTimer 
+              initialTime={60} 
+              resendOtp={()=>{}}
+            />
             </p>
         </div>
     </section>
