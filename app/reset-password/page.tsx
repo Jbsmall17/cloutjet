@@ -1,7 +1,7 @@
 "use client"
 import AuthComp from '@/components/AuthComp'
 import { Eye, EyeOff } from 'lucide-react'
-import React, { MouseEvent, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Toaster, toast } from 'react-hot-toast'
 import { useForm, SubmitHandler } from "react-hook-form";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp'
