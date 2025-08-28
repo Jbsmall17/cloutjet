@@ -1,7 +1,8 @@
 import Image from 'next/image'
 import React from 'react'
 import { Input } from './ui/input'
-import { ArrowRight, ChevronDown, Menu, Wallet, X } from 'lucide-react'
+import { ArrowRight, ChevronDown, Menu, User, Wallet, X } from 'lucide-react'
+import { useContextValue } from '@/context'
 
 interface sellerHeaderProps {
     isOpen : boolean,
@@ -9,7 +10,8 @@ interface sellerHeaderProps {
 }
 
 export default function SellerHeader({isOpen, setIsOpen}:sellerHeaderProps) {
-  return (
+    const {user} = useContextValue()
+    return (
     <header className='bg-white mb py-3 lg:py-4 max-screen-w-2xl flex flex-row px-[5%] justify-between'>
         <div className='flex flex-row items-center gap-4'>
             {
@@ -35,15 +37,17 @@ export default function SellerHeader({isOpen, setIsOpen}:sellerHeaderProps) {
                 <ChevronDown className='hidden lg:block size-4' />
             </div>
             <div className='flex flex-col lg:flex-row gap-2 items-end lg:items-center'>
-                <Image
-                    src={"/seller-profile-img.svg"}
-                    className='h-[32px] md:h-[40px] w-[32px] md:w-[40px]'
-                    alt="profile-image"
-                    width={40}
-                    height={40}
-                />
+                {
+                    user.profileImage
+                    ?<Image
+                        src={user.profileImage}
+                        className='h-[32px] md:h-[40px] w-[32px] md:w-[40px]'
+                        alt="profile-image"
+                    />
+                    : <User className='size-6'/>
+                }
                 <div className='hidden lg:block space-y-1'>
-                    <p className='text-base'>Clark Kent</p>
+                    <p className='text-base capitalize'>{user?.fullName}</p>
                     <p className='text-sm text-[#f8a11e]'>Your Profile <ArrowRight className='ml-2 inline size-4' /> </p>
                 </div>
             </div>

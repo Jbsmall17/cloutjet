@@ -1,11 +1,38 @@
+"use client"
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
 import { Checkbox } from "@/components/ui/checkbox"
 import React from 'react'
+import { useForm, Controller, SubmitHandler } from "react-hook-form"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
-export default function page() {
+
+
+type FormInput = {
+    fullname: string,
+    email: string,
+    gender: "female" | "male",
+    dob: string,
+    pnumber: string,
+    country: string,
+    state: string,
+    city: string
+} 
+
+export default function Page() {
+    const {control, handleSubmit} = useForm<FormInput>()
+    const onSubmit: SubmitHandler<FormInput> = (data) => {
+        // const endpoint = "https://cloud-jet-production.up.railway.app/v1/auth/profile/update"
+        console.log(data)
+    }
   return (
     <section className='flex flex-col md:pr-4 lg:pr-6 mb-4 md:mb-6 overflow-auto h-full'>
         <h1 className='text-center font-semibold mb-3 text-2xl'>Account Setting</h1>
@@ -26,43 +53,92 @@ export default function page() {
 
                     </div>
                 </div>
-                <form className='mb-6 grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6'>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <div className='mb-6 grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6'>
                     <div className='space-y-2'>
                         <Label htmlFor="fullName">Full Name</Label>
-                        <Input type='text' id="fullName" placeholder="Email" />
+                        <Controller
+                            name='fullname'
+                            control={control}
+                            render = {({field})=> <Input type='text' id="fullName" placeholder="Email" {...field}  /> }
+                        />
                     </div>
                     <div className='space-y-2'>
                         <Label htmlFor="email">Email Address</Label>
-                        <Input type='email' id="email" placeholder="yourmail@example.com" />
+                        <Controller 
+                            name='email'
+                            control={control}
+                            render= {({field}) => <Input type='email' id="email" placeholder="yourmail@example.com" {...field} />}
+                        />
                     </div>
                     <div className='space-y-2'>
                         <Label htmlFor="gender">Gender</Label>
-                        <Input type='text' id="email" placeholder="gender" />
+                        <Controller
+                            name='gender'
+                            control={control}
+                            render= {({field})=>(
+                                <Select
+                                    {...field}
+                                    defaultValue={field.value}
+                                    onValueChange={field.onChange}
+                                >
+                                    <SelectTrigger className="w-full">
+                                        <SelectValue placeholder="gender" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value='male'>Male</SelectItem>
+                                        <SelectItem value='female'>Female</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            )}
+                        />
                     </div>
                     <div className='space-y-2'>
                         <Label htmlFor="dob">Date of Birth</Label>
-                        <Input type='text' id="dob" placeholder="Date of Birth" />
+                        <Controller
+                            name='dob'
+                            control={control}
+                            render={({field})=> <Input {...field} type='date' id="dob" placeholder="Date of Birth" />}
+                        />
                     </div>
                     <div className='space-y-2'>
-                        <Label htmlFor="phoneNumber">Phone Number</Label>
-                        <Input type='text' id="phoneNumber" placeholder="+2348061403147" />
+                        <Label htmlFor="pnumber">Phone Number</Label>
+                        <Controller
+                            name='pnumber'
+                            control={control}
+                            render={({field})=> <Input {...field} type='text' id="pnumber" placeholder="+2348061403147" /> }
+                        />
                     </div>
                     <div className='space-y-2'>
                         <Label htmlFor="country">Country of Residence</Label>
-                        <Input type='text' id="country" placeholder="country" />
+                        <Controller 
+                            name='country'
+                            control={control}
+                            render={({field})=> <Input {...field} type='text' id="country" placeholder="country" />}
+                        />
+                        
                     </div>
                     <div className='space-y-2'>
                         <Label htmlFor="state">State</Label>
-                        <Input type='text' id="state" placeholder="state" />
+                        <Controller
+                            name="state"
+                            control={control}
+                            render={({field})=> <Input {...field} type='text' id="state" placeholder="state" />}
+                        />
                     </div>
                     <div className='space-y-2'>
                         <Label htmlFor="city">City</Label>
-                        <Input type='text' id="city" placeholder="city" />
+                        <Controller
+                            name="city"
+                            control={control}
+                            render={({field})=> <Input {...field} type='text' id="city" placeholder="city" />}
+                        />
+                    </div>
+                    </div>
+                    <div className="flex justify-end">
+                        <Button type='submit' className='cursor-pointer rounded-xs px-6 bg-[#f6a21b] hover:bg-[#17233b] text-white'>Update</Button>
                     </div>
                 </form>
-                <div className="flex justify-end">
-                    <Button className='cursor-pointer rounded-xs px-6 bg-[#f6a21b] hover:bg-[#17233b] text-white'>Update</Button>
-                </div>
             </div>
             <p className='bg-[#17233b] leading-none text-white py-4 pl-4 md:pl-6 font-semibold'>Notifications</p>
             <div className='px-4 md:px-6 py-6 md:py-8 flex flex-col md:flex-row divide-y-2 md:divide-x-2 '>
