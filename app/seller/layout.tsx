@@ -44,7 +44,7 @@ export default function Layout({ children }: { children: ReactNode }) {
             height={40}
           />
         </section>
-        <section className="mx-[2%] flex flex-row gap-4">
+        <section className="mx-[2%] flex flex-col  lg:flex-row gap-4">
           <SellerNavbar 
             isOpen={isOpen}
           />

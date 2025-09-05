@@ -312,7 +312,11 @@ export default function Page() {
       <div className="flex-1 lg:flex-[1.25]">
         <div className="flex flex-row items-center justify-end mb-4 md:mb-6 lg:mb-8">
           <Link href="/login">
-            <img src="/cloutjet-logo.svg" alt="Cloutjet Logo" />
+            <img 
+              src="/cloutjet-removebg.png" 
+              alt="Cloutjet Logo" 
+              className="w-[80px] h-[80px] object-contain"
+            />
           </Link>
         </div>
         <p className="text-xl md:text-2xl font-semibold mb-2 md:mb-4">

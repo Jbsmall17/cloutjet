@@ -3,6 +3,7 @@ import React from 'react'
 import { Input } from './ui/input'
 import { ArrowRight, ChevronDown, Menu, User, Wallet, X } from 'lucide-react'
 import { useContextValue } from '@/context'
+import Link from 'next/link'
 
 interface sellerHeaderProps {
     isOpen : boolean,
@@ -21,7 +22,7 @@ export default function SellerHeader({isOpen, setIsOpen}:sellerHeaderProps) {
             }
             <Image
                 alt='clout jet logo'
-                src="/cloutjet-logo.svg"
+                src="/cloutjet-removebg.png"
                 width={40}
                 height={40}
             />
@@ -38,17 +39,23 @@ export default function SellerHeader({isOpen, setIsOpen}:sellerHeaderProps) {
             </div>
             <div className='flex flex-col lg:flex-row gap-2 items-end lg:items-center'>
                 {
-                    user.profileImage
+                    user.profileImage !== ""
                     ?<Image
                         src={user.profileImage}
-                        className='h-[32px] md:h-[40px] w-[32px] md:w-[40px]'
+                        className='h-[32px] md:h-[40px] w-[32px] md:w-[40px] rounded-full object-cover'
                         alt="profile-image"
+                        width={32}
+                        height={32}
                     />
                     : <User className='size-6'/>
                 }
                 <div className='hidden lg:block space-y-1'>
                     <p className='text-base capitalize'>{user?.fullName}</p>
-                    <p className='text-sm text-[#f8a11e]'>Your Profile <ArrowRight className='ml-2 inline size-4' /> </p>
+                    <Link href="/buyer/account-settings">
+                        <p className='text-sm text-[#f8a11e]'>
+                            Your Profile <ArrowRight className='ml-2 inline size-4' /> 
+                        </p>
+                    </Link>
                 </div>
             </div>
         </div>

@@ -29,9 +29,9 @@ export default function Navbar() {
                 </ul>
             </div>
             <Image 
-                src="/cloutjet-logo.svg"
+                src="/cloutjet-removebg.png"
                 alt="Cloudjet Logo"
-                className='w-[44px] h-[44px] lg:w-[56px] lg:h-[56px]'
+                className='w-[48px] h-[48px] lg:w-[56px] lg:h-[56px] object-contain'
                 width={48}
                 height={48}
             />

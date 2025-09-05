@@ -63,7 +63,11 @@ export default function Page() {
             </p>
             <p className="text-base">Create an account with us</p>
           </div>
-          <img src="/cloutjet-logo.svg" alt="Cloudjet Logo" />
+          <img 
+            src="/cloutjet-removebg.png" 
+            alt="Cloudjet Logo"
+            className="w-[80px] h-[80px] object-contain"
+          />
         </div>
         <form onSubmit={handleSubmit(onSubmit)}>
           <label

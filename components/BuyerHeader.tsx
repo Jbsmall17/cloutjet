@@ -19,9 +19,10 @@ export default function BuyerHeader({ isOpen, setIsOpen }: BuyerHeaderProps) {
                 : <X onClick={()=>{setIsOpen(!isOpen)}} className='size-6 lg:hidden' />
             }
             <img
-                src="/cloutjet-logo.svg"
+                src="/cloutjet-removebg.png"
                 alt='cloutjet logo'
-                className='size-12 md:size-14 lg:size-16'
+                width={40}
+                height={40}
             />
             <div className='relative hidden md:inline w-[275px] lg:w-[400px]'>
                 <Search className='absolute top-[50%] left-4 -translate-y-[50%]' />
@@ -48,9 +49,9 @@ export default function BuyerHeader({ isOpen, setIsOpen }: BuyerHeaderProps) {
                     <img 
                         src={user.profileImage}
                         alt='Profile Picture'
-                        className='size-6' 
+                        className='size-8 rounded-full object-cover' 
                     />
-                    : <User className='size-6'/>
+                    : <User className='size-8'/>
                 }
                 <div className='text-xs hidden md:block'>
                     <p>{user.fullName}</p>

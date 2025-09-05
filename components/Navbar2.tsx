@@ -60,7 +60,7 @@ export default function Navbar2() {
         </div>
         <Link href="/">
         <Image
-          src="/cloutjet-logo.svg"
+          src="/cloutjet-removebg.png"
           alt="Cloutjet Logo"
           className="w-[44px] h-[44px] lg:w-[56px] lg:h-[56px]"
           width={48}
