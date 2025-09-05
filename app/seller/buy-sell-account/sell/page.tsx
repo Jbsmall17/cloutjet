@@ -11,9 +11,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import axios from "axios";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, MoveLeft } from "lucide-react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import {toast, Toaster} from "react-hot-toast"
@@ -35,7 +34,7 @@ type sellAccountInput = {
   proofScreenshot: File;
   niche: string;
   preferredPrice: string;
-  listingFee: string;
+  listingFee: number;
   estimatedPay: string;
   confirmOwnership: boolean;
   confirmOwnership1: boolean;
@@ -45,9 +44,10 @@ type sellAccountInput = {
 };
 
 export default function Page() {
+  const [listingFeeValue, setListingFeeValue] = useState(0)
   const [isLoading, setIsLoading] = useState(false);
   const [token, setToken] = useState<string | null>(null)
-  const { control, handleSubmit, setValue, watch } = useForm<sellAccountInput>({
+  const { control, handleSubmit, setValue, watch, formState: { errors } } = useForm<sellAccountInput>({
     defaultValues: {
       username: "",
       noOfFollowers: "",
@@ -65,7 +65,7 @@ export default function Page() {
       proofScreenshot: undefined,
       niche: "",
       preferredPrice: "",
-      listingFee: "",
+      listingFee: 0,
       estimatedPay: "",
       likesCount: "",
       confirmOwnership: false,
@@ -74,7 +74,6 @@ export default function Page() {
       confirmOwnership3: false,
     }
   });
-  const router = useRouter()
   const [stage, setStage] = useState(0);
   const socials = ["instagram", "facebook", "twitter", "snapchat", "linkedIn"];
   const countries = [
@@ -103,8 +102,8 @@ export default function Page() {
     formData.append("recoveryPhoneNumber", data.phoneNumber);
     formData.append("twoFAMethod", data.twoFactor);
     formData.append("twoFAEnabled", data.isTwoFactorEnabled);
-    formData.append("estimatedPrice", data.estimatedPay);
-    formData.append("listingFee", data.listingFee);
+    formData.append("estimatedPrice", price);
+    formData.append("listingFee", listingFeeValue.toString());
     formData.append("preferredPrice", data.preferredPrice)
     formData.append("proofScreenshot", data.proofScreenshot);
     setIsLoading(true)
@@ -126,6 +125,22 @@ export default function Page() {
     })
   }
 
+  const getListingFee = () => {
+    const endpoint = 'https://cloud-jet-production.up.railway.app/v1/seller/verification/listing-fee'
+
+    axios.get(endpoint,{
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    .then((res)=>{
+      setListingFeeValue(res.data.data.listingFee)
+    })
+    .catch(()=>{
+      setListingFeeValue(0)
+    })
+  }
+
   const handleClick = () => {
     inputRef.current?.click();
   };
@@ -137,66 +152,56 @@ export default function Page() {
     }
   };
 
+  const estimateAccount = () =>{
+    const baseValue = 5;
+    const followerWeight = 0.05;
+    const engagementWeight = 2;
+    const ageWeight = 1.5;
+    const likesWeight = 0.02;
+
+    const noOfFollowers = watch("noOfFollowers");
+    const engagementRate = watch("engagementRate");
+    const accountAge = watch("accountAge");
+    const likesCount = watch("likesCount");
+    const listingFee = watch("listingFee");
+    
+    const estimatedPrice = Math.round(
+      baseValue +
+      Number(noOfFollowers) * followerWeight +
+      Number(engagementRate) * engagementWeight +
+      Number(accountAge) * ageWeight +
+      Number(likesCount) * likesWeight
+    );
+
+    const preferredPrice = estimatedPrice + Number(listingFee);
+    return preferredPrice.toString()
+  }
+
   const proofScreenshot = watch("proofScreenshot");
 
+  const price = estimateAccount();
   useEffect(()=>{
     const token = sessionStorage.getItem("token")
     setToken(token)
   },[token])
 
+  useEffect(()=>{
+    if(token){
+      getListingFee()
+    }
+  },[token])
 
   return (
-    <main className="pagelayout">
+    <>
       <Toaster />
-      <div className="flex flex-row justify-center gap-4 mb-6 md:mb-8 lg:mb-10">
-        <Button onClick={() => router.push("/buyer/dashboard")} className="border border-[#f7a01e] px-8" variant={"outline"}>
-          Buy Account
+      {
+        stage > 0
+        &&
+        <Button onClick={()=> setStage(stage - 1)} variant={'outline'} className="cursor-pointer">
+          <MoveLeft className="size-4" />
+          back
         </Button>
-        <Button className="bg-[#f7a01e] text-black px-8">Sell Account</Button>
-      </div>
-      {stage <= 2 && (
-        <>
-          <div className="flex flex-col items-center">
-            <p className="text-xl text-center font-semibold mb-4 md:mb-6 lg:mb-8">
-              Turn Your Social Media
-              <br /> Accounts into Cash
-            </p>
-            {/* <div className="max-w-screen-sm flex flex-row items-center rounded-lg p-3 border border-[#f7a01e]">
-              <div>
-                <Image
-                  src="/caution.svg"
-                  alt="caution icon"
-                  width={32}
-                  height={32}
-                />
-              </div>
-              <div className="text-center font-semibold space-y-3">
-                <p className="text-base">Identity not yet verified</p>
-                <p className="text-sm">
-                  Your identity must be verified before you sell
-                </p>
-                <Button className="bg-[#f7a01e] text-black px-6">
-                  Get verified now
-                </Button>
-              </div>
-            </div> */}
-          </div>
-          <div className="relative h-1 w-full bg-[#f7a01e] my-8">
-            <span onClick={() => setStage(0)} className={`cursor-pointer absolute size-6 flex justify-center items-center leading-none rounded-full ${stage >= 0 ? "bg-[#f7a01e]" : "bg-[#8a8a8a]"} top-1/2 -translate-1/2 left-1/4 text-sm`}>
-              1
-            </span>
-            <span onClick={() => setStage(1)} className={`absolute size-6 flex justify-center items-center leading-none rounded-full ${stage >= 1 ? "bg-[#f7a01e]" : "bg-[#8a8a8a]"} top-1/2 -translate-1/2 left-1/2 text-sm`}>
-              2
-            </span>
-            <span onClick={() => setStage(2)} className={`absolute size-6 flex justify-center items-center leading-none rounded-full ${stage >= 2 ? "bg-[#f7a01e]" : "bg-[#8a8a8a]"} top-1/2 -translate-1/2 left-3/4 text-sm`}>
-              3
-            </span>
-          </div>
-          <p className="text-xl mb-2 font-semibold">
-            Sumbit Account Credentials for secure Transfer
-          </p>
-        </>
-      )}
+      }
       {stage == 0 ? (
         <p className="text-base font-semibold mb-2">
           Step 1: Basic account info
@@ -246,6 +251,7 @@ export default function Page() {
               <Controller
                 name="niche"
                 control={control}
+                rules={{required: true}}
                 render={({ field }) => (
                   <Input {...field} placeholder="Personal, Fashion, Tech" />
                 )}
@@ -259,6 +265,7 @@ export default function Page() {
             <Controller
               name="username"
               control={control}
+              rules={{ required: true }}
               render={({ field }) => (
                 <Input {...field} placeholder="your username or handle" />
               )}
@@ -272,6 +279,7 @@ export default function Page() {
               <Controller
                 name="likesCount"
                 control={control}
+                rules={{required: true}}
                 render={({ field }) => (
                   <Input {...field} placeholder="average likes or comments" />
                 )}
@@ -284,6 +292,7 @@ export default function Page() {
               <Controller
                 name="noOfFollowers"
                 control={control}
+                rules={{required: true}}
                 render={({ field }) => (
                   <Input {...field} placeholder="number of followers" />
                 )}
@@ -322,6 +331,7 @@ export default function Page() {
               </label>
               <Controller
                 name="linkToProfile"
+                rules={{ required: true }}
                 control={control}
                 render={({ field }) => (
                   <Input {...field} placeholder="https://yourprofilelink.com" />
@@ -337,6 +347,7 @@ export default function Page() {
               <Controller
                 name="engagementRate"
                 control={control}
+                rules={{required: true}}
                 render={({ field }) => (
                   <Input {...field} placeholder="engagement rate" />
                 )}
@@ -347,6 +358,7 @@ export default function Page() {
               <Controller
                 name="accountAge"
                 control={control}
+                rules={{ required: true }}
                 render={({ field }) => (
                   <Input {...field} placeholder="account age" />
                 )}
@@ -355,7 +367,7 @@ export default function Page() {
           </div>
           <Button
             onClick={()=> setStage(1)} 
-            className="text-black mt-6 mx-auto block w-[150px] bg-[#f7a01e]">
+            className="cursor-pointer text-black mt-6 mx-auto block w-[150px] bg-[#f7a01e]">
             Next Step
             <ArrowRight className="inline ml-3" />
           </Button>
@@ -369,6 +381,7 @@ export default function Page() {
             <Controller
               name="email"
               control={control}
+              rules={{ required: true }}
               render={({ field }) => (
                 <Input {...field} placeholder="youremail@example.com" />
               )}
@@ -382,6 +395,7 @@ export default function Page() {
               <Controller
                 name="phoneNumber"
                 control={control}
+                rules={{required: true}}
                 render={({ field }) => (
                   <Input {...field} placeholder="your phone number" />
                 )}
@@ -461,12 +475,19 @@ export default function Page() {
               Screens of profile
             </label>
             <div onClick={handleClick} className="flex flex-col gap-1 items-center bg-white p-3 rounded-lg border border-[#f7a01e]">
-              <Input 
-                type="file" 
-                accept="image/jpeg, image/png" 
-                className="hidden"
-                ref={inputRef}
-                onChange={handleChange}
+              <Controller
+                name="proofScreenshot"
+                control={control}
+                rules={{ required: true }}
+                render={() => (
+                  <Input 
+                    type="file" 
+                    accept="image/jpeg, image/png" 
+                    className="hidden"
+                    ref={inputRef}
+                    onChange={handleChange}
+                  />
+                )}
               />
               <Image
                 src="/add-image-icon.svg"
@@ -481,7 +502,7 @@ export default function Page() {
           </div>
           <Button
             onClick={()=> setStage(2)} 
-            className="text-black mt-6 mx-auto block w-[150px] bg-[#f7a01e]">
+            className="cursor-pointer text-black mt-6 mx-auto block w-[150px] bg-[#f7a01e]">
             Finish
             <ArrowRight className="inline ml-3" />
           </Button>
@@ -523,11 +544,22 @@ export default function Page() {
                 <Controller
                   control={control}
                   name="preferredPrice"
+                  rules={{required: true}}
                   render={({ field }) => (
                     <Input
                       {...field}
+                      value={
+                        field.value ?
+                        Number(field.value.replace(/,/g,'')).toLocaleString()
+                        : ''
+                      }
+                      onChange={e =>{
+                        const raw = e.target.value.replace(/[^0-9]/g,'')
+                        field.onChange(raw)
+                      }}
+                      inputMode="numeric"
                       type="text"
-                      className="focus-visible:outline-none border-none text-black focus-visible:flex-1"
+                      className="focus-visible:outline-none border-none text-black focus-visible:flex-1 focus-visible:ring-0"
                     />
                   )}
                 />
@@ -545,8 +577,11 @@ export default function Page() {
                   render={({ field }) => (
                     <Input
                       {...field}
+                      value={listingFeeValue.toLocaleString()}
+                      readOnly
+                      inputMode="numeric"
                       type="text"
-                      className="focus-visible:outline-none border-none text-black focus-visible:flex-1"
+                      className="focus-visible:outline-none border-none text-black focus-visible:flex-1 focus-visible:ring-0"
                     />
                   )}
                 />
@@ -564,8 +599,11 @@ export default function Page() {
                   render={({ field }) => (
                     <Input
                       {...field}
+                      value={Number(price.replace(/,/g,'')).toLocaleString()}
+                      readOnly
+                      inputMode="numeric"
                       type="text"
-                      className="focus-visible:outline-none border-none text-black focus-visible:flex-1"
+                      className="focus-visible:outline-none border-none text-black focus-visible:flex-1 focus-visible:ring-0"
                     />
                   )}
                 />
@@ -578,7 +616,7 @@ export default function Page() {
             <Controller
               name="confirmOwnership"
               control={control}
-              rules={{ required: true }}
+              rules={{ required: true}}
               render={({ field }) => (
                 <Checkbox
                   checked={field.value}
@@ -657,11 +695,16 @@ export default function Page() {
           </div>
           <Button
             type="submit"
-            className="text-black mt-6 mx-auto block w-[150px] bg-[#f7a01e]">
+            className="cursor-pointer text-black mt-6 mx-auto block w-[150px] bg-[#f7a01e]">
             {
               isLoading ? "Loading..." : "Preview & Submit"
             }
           </Button>
+          {
+            errors && (
+              <p className="text-red-500"> Ensure all boxes and input are ticked and filled</p>
+            )
+          }
         </form>
       ) : stage == 3 ? (
         <div>
@@ -670,6 +713,6 @@ export default function Page() {
       )
       : <></>
     }
-    </main>
+    </>
   );
 }

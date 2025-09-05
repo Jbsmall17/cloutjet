@@ -1,7 +1,7 @@
-import { LayoutDashboard, ListOrdered, Settings, Wallet } from "lucide-react";
+import { Folder, LayoutDashboard, ListOrdered, LogOut, Settings, Wallet } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname} from "next/navigation";
+import { usePathname, useRouter} from "next/navigation";
 import React from "react";
 
 interface SellerNavbarType {
@@ -9,18 +9,19 @@ interface SellerNavbarType {
 }
 
 export default function SellerNavbar({ isOpen }: SellerNavbarType) {
+  const router = useRouter()
   const pathname = usePathname();
 
-  // const handleLogout = () => {
-  //   sessionStorage.clear();
-  //   router.push("/login");
-  // };
+  const handleLogout = () => {
+    sessionStorage.clear();
+    router.push("/login");
+  };
 
   return (
     <section
       className={`${
-        isOpen ? "block" : "hidden lg:block"
-      } absolute top-0 left-0 z-index lg:static bg-white py-10 px-2 w-[210px]`}
+        isOpen ? "flex flex-col justify-between gap-8" : "hidden lg:flex flex-col justify-between"
+      } absolute top-0 left-0 z-20 lg:static bg-white py-10 px-2 w-[210px]`}
     >
       <ul className="flex flex-col gap-3 rounded-lg">
         <Link href="/seller/dashboard">
@@ -35,10 +36,10 @@ export default function SellerNavbar({ isOpen }: SellerNavbarType) {
             <span className="font-semibold">Dashboard</span>
           </li>
         </Link>
-        <Link href="/seller/buy-sell-account">
+        <Link href="/seller/buy-sell-account/buy">
           <li
             className={`cursor-pointer pl-4 py-2 flex flex-row items-center gap-4 rounded-lg hover:bg-[#f8a11e] hover:text-white ${
-              pathname === "/seller/buy-sell-account"
+              pathname.includes("/seller/buy-sell-account")
                 ? "bg-[#f8a11e] text-white"
                 : "text-black"
             }`}
@@ -69,6 +70,18 @@ export default function SellerNavbar({ isOpen }: SellerNavbarType) {
               height={40}
             />
             <span className="font-semibold">Grow my account</span>
+          </li>
+        </Link>
+        <Link href='/buyer/dashboard'>
+            <li
+            className={`cursor-pointer pl-4 py-2 flex flex-row items-center gap-4 rounded-lg hover:bg-[#f8a11e] hover:text-white ${
+              pathname === "/buyer/dashboard"
+                ? "bg-[#f8a11e] text-white"
+                : "text-black"
+            }`}
+          >
+            <Folder />
+            <span className="font-semibold">My Accounts</span>
           </li>
         </Link>
         <li className="cursor-pointer pl-4 py-2 flex flex-row items-center gap-4 rounded-lg hover:bg-[#f8a11e] hover:text-white">
@@ -106,6 +119,10 @@ export default function SellerNavbar({ isOpen }: SellerNavbarType) {
           <span className="font-semibold">Help/Support</span>
         </li>
       </ul>
+      <button onClick={handleLogout} className='cursor-pointer rounded-lg p-2 flex flex-row items-center gap-4 hover:bg-[#f8a11e] hover:text-white'>
+            <LogOut />
+            <span>Log Out</span>
+        </button>
     </section>
   );
 }

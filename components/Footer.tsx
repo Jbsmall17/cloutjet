@@ -9,7 +9,7 @@ export default function Footer() {
     <footer className='max-w-screen-2xl mx-auto px-[5%] 2xl:px-0 flex flex-col md:flex-row justify-between gap-3 md:gap-5 lg:gap-7 py-3 md:py-5 lg:py-7'>
         <div className='flex-1 max-w-[550px]'>
             <Image
-                src="/cloutjet-logo.svg"
+                src="/cloutjet-removebg.png"
                 alt="cloutjet logo"
                 className='w-[48px] lg:w-[70px] h-[48px] lg:h-[70px]'
                 width={32}
