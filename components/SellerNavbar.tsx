@@ -1,15 +1,23 @@
-import { Folder, LayoutDashboard, ListOrdered, LogOut, Settings, Wallet } from "lucide-react";
+import {
+  Folder,
+  LayoutDashboard,
+  ListOrdered,
+  LogOut,
+  Settings,
+  Wallet,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname, useRouter} from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 
 interface SellerNavbarType {
   isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
 }
 
-export default function SellerNavbar({ isOpen }: SellerNavbarType) {
-  const router = useRouter()
+export default function SellerNavbar({ isOpen, setIsOpen }: SellerNavbarType) {
+  const router = useRouter();
   const pathname = usePathname();
 
   const handleLogout = () => {
@@ -17,14 +25,24 @@ export default function SellerNavbar({ isOpen }: SellerNavbarType) {
     router.push("/login");
   };
 
+  const handleClick = () => {
+    if (window.innerWidth < 1024) {
+      setIsOpen(false);
+    }
+  };
+
   return (
     <section
       className={`${
-        isOpen ? "flex flex-col justify-between gap-8" : "hidden lg:flex flex-col justify-between"
+        isOpen
+          ? "flex flex-col justify-between gap-8"
+          : "hidden lg:flex flex-col justify-between"
       } absolute top-0 left-0 z-20 lg:static bg-white py-10 px-2 w-[210px]`}
     >
       <ul className="flex flex-col gap-3 rounded-lg">
-        <Link href="/seller/dashboard">
+        <Link 
+          onClick={handleClick}
+          href="/seller/dashboard">
           <li
             className={`cursor-pointer pl-4 py-2 flex flex-row items-center gap-4 rounded-lg hover:bg-[#f8a11e] hover:text-white ${
               pathname === "/seller/dashboard"
@@ -36,7 +54,9 @@ export default function SellerNavbar({ isOpen }: SellerNavbarType) {
             <span className="font-semibold">Dashboard</span>
           </li>
         </Link>
-        <Link href="/seller/buy-sell-account/buy">
+        <Link
+          onClick={handleClick} 
+          href="/seller/buy-sell-account/buy">
           <li
             className={`cursor-pointer pl-4 py-2 flex flex-row items-center gap-4 rounded-lg hover:bg-[#f8a11e] hover:text-white ${
               pathname.includes("/seller/buy-sell-account")
@@ -54,7 +74,9 @@ export default function SellerNavbar({ isOpen }: SellerNavbarType) {
             <span className="font-semibold">Buy/sell accounts</span>
           </li>
         </Link>
-        <Link href="/grow-media">
+        <Link
+          onClick={handleClick} 
+          href="/grow-media">
           <li
             className={`cursor-pointer pl-4 py-2 flex flex-row items-center gap-4 rounded-lg hover:bg-[#f8a11e] hover:text-white ${
               pathname === "/grow-media"
@@ -72,8 +94,8 @@ export default function SellerNavbar({ isOpen }: SellerNavbarType) {
             <span className="font-semibold">Grow my account</span>
           </li>
         </Link>
-        <Link href='/buyer/dashboard'>
-            <li
+        <Link onClick={handleClick} href="/buyer/dashboard">
+          <li
             className={`cursor-pointer pl-4 py-2 flex flex-row items-center gap-4 rounded-lg hover:bg-[#f8a11e] hover:text-white ${
               pathname === "/buyer/dashboard"
                 ? "bg-[#f8a11e] text-white"
@@ -84,7 +106,7 @@ export default function SellerNavbar({ isOpen }: SellerNavbarType) {
             <span className="font-semibold">My Accounts</span>
           </li>
         </Link>
-        <li className="cursor-pointer pl-4 py-2 flex flex-row items-center gap-4 rounded-lg hover:bg-[#f8a11e] hover:text-white">
+        <li onClick={handleClick} className="cursor-pointer pl-4 py-2 flex flex-row items-center gap-4 rounded-lg hover:bg-[#f8a11e] hover:text-white">
           <ListOrdered className="size-6" />
           <span className="font-semibold">My orders</span>
         </li>
@@ -98,7 +120,7 @@ export default function SellerNavbar({ isOpen }: SellerNavbarType) {
           />
           <span className="font-semibold">Messages</span>
         </li>
-        <Link href="/wallet">
+        <Link onClick={handleClick} href="/wallet">
           <li className="cursor-pointer pl-4 py-2 flex flex-row items-center gap-4 rounded-lg hover:bg-[#f8a11e] hover:text-white">
             <Wallet className="size-6" />
             <span className="font-semibold">Wallet</span>
@@ -119,10 +141,13 @@ export default function SellerNavbar({ isOpen }: SellerNavbarType) {
           <span className="font-semibold">Help/Support</span>
         </li>
       </ul>
-      <button onClick={handleLogout} className='cursor-pointer rounded-lg p-2 flex flex-row items-center gap-4 hover:bg-[#f8a11e] hover:text-white'>
-            <LogOut />
-            <span>Log Out</span>
-        </button>
+      <button
+        onClick={handleLogout}
+        className="cursor-pointer rounded-lg p-2 flex flex-row items-center gap-4 hover:bg-[#f8a11e] hover:text-white"
+      >
+        <LogOut />
+        <span>Log Out</span>
+      </button>
     </section>
   );
 }

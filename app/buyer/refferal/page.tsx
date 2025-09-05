@@ -87,7 +87,10 @@ export default function Page() {
         <p className='text-xl font-semibold mb-4 text-center'>Get 50 Cloutjet coins with each referral!</p>
         <p className='text-black text-center text-sm text-[#6666663 mb-2'>Get 50 coins whenever your referral code is used</p>
         <div className='mb-4 mx-4 md:mx-6 border border-black rounded-lg px-4 md:px-6 py-2.5 flex flex-row justify-between items-center'>
-            <p><span className='text-[#666666]'>Referral code:</span><span className='ml-4 font-semibold'>{refferalObj.referralCode}</span></p>
+            <p className='flex flex-col sm:flex-row'>
+                <span className='text-[#666666]'>Referral code:</span>
+                <span className='ml-0 sm:ml-4 font-semibold text-sm sm:text-base'>{refferalObj.referralCode}</span>
+            </p>
             <div 
                 onClick={() => copyText(refferalObj.referralCode)} 
                 title='copy' 
