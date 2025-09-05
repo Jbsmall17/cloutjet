@@ -47,6 +47,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         <section className="mx-[2%] flex flex-col  lg:flex-row gap-4">
           <SellerNavbar 
             isOpen={isOpen}
+            setIsOpen={setIsOpen}
           />
           {children}
         </section>

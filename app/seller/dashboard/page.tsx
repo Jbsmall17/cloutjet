@@ -80,7 +80,7 @@ export default function Page() {
   }, [token]);
 
   return (
-    <section className="pagelayout flex flex-col">
+    <section className="pagelayout flex flex-col min-h-[400px]">
       {!isLoading ? (
         <>
           <p className="text-xl font-semibold mb-4 md:mb-6 lg:mb-8">
