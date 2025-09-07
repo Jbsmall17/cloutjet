@@ -23,17 +23,17 @@ export default function Layout({children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className='overflow-hidden bg-[#f4f4f4] flex flex-col'>
+    <div className='overflow-hidden h-screen bg-[#f4f4f4] flex flex-col'>
         <BuyerHeader 
           isOpen={isOpen} 
           setIsOpen={setIsOpen}
         />
-        <main className='relative flex flex-col lg:flex-row gap-4 md:gap-6 maincontent'>
+        <main className='relative flex flex-col lg:flex-row gap-4 md:gap-6 flex-1'>
           <BuyerSidebar 
             isOpen={isOpen}
             setIsOpen={setIsOpen}
           />
-          <section className='flex-1 pl-4 md:pl-6 lg:pl-0 pr-4 md:pr-6 py-4 md:py-6 overflow-y-auto h-full'>
+          <section className='flex-1 h-full'>
             {children}
           </section>
         </main>

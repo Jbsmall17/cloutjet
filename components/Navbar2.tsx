@@ -3,8 +3,10 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { usePathname } from "next/navigation";
+import { useContextValue } from "@/context";
 
 export default function Navbar2() {
+  const {selectedAccount, setIsCartOpen} = useContextValue()
   const pathname = usePathname();
 
   const isActive = (path: string) => {
@@ -124,9 +126,14 @@ export default function Navbar2() {
         >
           Dashboard
         </Link>
-        <div className="relative">
+        <div
+          onClick={()=>{
+           setIsCartOpen(true) 
+          }} 
+          className="relative cursor-pointer"
+        >
           <p className="absolute top-0 right-0 -translate-y-[50%] translate-x-[50%] size-4 text-black bg-[#f6a21b] text-xs font-semibold rounded-full flex justify-center itmes-center">
-            2
+            {selectedAccount.length}
           </p>
           <img
             src="/cart.svg"

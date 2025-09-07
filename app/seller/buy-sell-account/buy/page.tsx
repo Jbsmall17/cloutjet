@@ -12,16 +12,14 @@ import React, { useEffect, useState } from 'react'
 
 
 export default function Page() {
-  const [noOfPage, setNoOfPages] = useState<number>(0)
-  const [currentPage, setCurrentPage] = useState<number>(0)
   const [token, setToken] = useState<string | null>(null)
-  const {listedAccounts, setListedAccounts} = useContextValue()
+  const {listedAccounts, setListedAccounts, noOfPage, setNoOfPages, currentPage, setCurrentPage} = useContextValue()
   const [isLoading, setIsLoading] = useState(false)
   
 
   const getListedAccount = (page: number) =>{
     const limit = 10
-    const endpoint = `https://cloud-jet-production.up.railway.app/v1/buyer/listings?page=${page}&limit=${10}`
+    const endpoint = `https://cloud-jet-production.up.railway.app/v1/buyer/listings?page=${page}&limit=${limit}`
     setIsLoading(true)
     axios.get(endpoint, {
       headers: {
@@ -30,7 +28,7 @@ export default function Page() {
     })
     .then((res)=>{
       setListedAccounts([...res.data.data.accounts])
-      setNoOfPages(Math.ceil(res.data.data.total/limit))
+      setNoOfPages(res.data.data.totalPages)
     })
     .catch(()=>{
       setListedAccounts([])
@@ -135,7 +133,7 @@ export default function Page() {
                         className='cursor-pointer'
                         asChild
                       >
-                        <Link href={`/seller/buy-sell-account/buy/${account._id}`}>
+                        <Link href={`/seller/buy-sell-account/buy/${listingId}`}>
                           View
                         </Link>
                       </Button>
