@@ -205,7 +205,7 @@ export default function Page() {
   }, [token]);
 
   return (
-    <section className="flex flex-col">
+    <section className="flex flex-col h-[calc(100vh-80px)] overflow-y-auto pl-4 md:pl-6 lg:pl-0 pr-4 md:pr-6 py-4 md:py-6">
       <Toaster />
       <h1 className="text-center font-semibold mb-3 text-2xl">
         Account Setting
@@ -407,7 +407,7 @@ export default function Page() {
             <div className="space-y-2">
               <p className="text-xl font-semibold">Email Notifications</p>
               <p className="text-base text-[#808080]">
-                Get emails to find out what&apos;s going onm when you are not
+                Get emails to find out what&apos;s going on when you are not
                 onlin. You can turn these off
               </p>
             </div>

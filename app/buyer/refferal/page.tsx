@@ -68,7 +68,7 @@ export default function Page() {
     },[token])
 
   return (
-    <div className={`h-full`}>
+    <div className='h-[calc(100vh-80px)]  overflow-y-auto pl-4 md:pl-6 lg:pl-0 pr-4 md:pr-6 py-4 md:py-6'>
         {
             isLoading
             ?

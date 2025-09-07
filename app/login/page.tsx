@@ -66,7 +66,7 @@ export default function Page() {
         </p>
         <form onSubmit={handleSubmit(onSubmit)}>
           <label htmlFor="email" className="block mb-2 font-semibold text-xl">
-            Phone Number / Email
+            Email
           </label>
           <input
             id="email"

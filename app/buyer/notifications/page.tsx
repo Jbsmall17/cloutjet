@@ -7,47 +7,20 @@ import MainLoader from "@/components/ui/MainLoader";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
+
+type notification = {
+  createdAt :  string,
+  message : string,
+  status : string,
+  title : string,
+  type : string,
+  _id : string
+}
+
 export default function Page() {
   const [token, setToken] = useState<string | null>("");
   const [loading, setLoading] = useState(true);
-  const [, setNotifications] = useState<any[]>([]);
-  const mockNotifications = [
-    {
-      id: 1,
-      title: "Account Verified",
-      message: "Your account has been successfully verified.",
-      time: "2025-09-04T09:00:00.000Z",
-      read: false,
-    },
-    {
-      id: 2,
-      title: "Payment Received",
-      message: "You have received a payment of ₦10,000.",
-      time: "2025-09-03T15:30:00.000Z",
-      read: true,
-    },
-    {
-      id: 3,
-      title: "New Message",
-      message: "You have a new message from support.",
-      time: "2025-09-02T12:45:00.000Z",
-      read: false,
-    },
-    {
-      id: 4,
-      title: "Listing Approved",
-      message: "Your account listing has been approved.",
-      time: "2025-09-01T18:20:00.000Z",
-      read: true,
-    },
-    {
-      id: 5,
-      title: "Password Changed",
-      message: "Your password was changed successfully.",
-      time: "2025-08-31T22:41:37.908Z",
-      read: true,
-    },
-  ];
+  const [notifications, setNotifications] = useState<notification[]>([]);
 
   const getNotifications = () => {
     const endpoint = `https://cloud-jet-production.up.railway.app/v1/user/notifications`;
@@ -82,7 +55,7 @@ export default function Page() {
     }
   }, [token]);
   return (
-    <section className="flex flex-col">
+    <section className="flex flex-col h-[calc(100vh-80px)] overflow-y-auto pl-4 md:pl-6 lg:pl-0 pr-4 md:pr-6 py-4 md:py-6">
       <h1 className="text-center font-semibold mb-3 text-2xl">Notifications</h1>
       <p className="text-[#626262] text-center mb-5 md:mb-5 lg:mb-7 text-xl">
         All notifications will be displayed here
@@ -91,17 +64,17 @@ export default function Page() {
         <div className="min-h-[400px]  bg-white flex-1 flex justify-center items-center rounded-xl">
           <MainLoader />
         </div>
-      ) : mockNotifications.length > 1 ? (
+      ) : notifications.length > 1 ? (
         <div className="grid gap-4 flex-1 min-h-[400px]">
-          {mockNotifications.map((notif) => (
-            <Card key={notif.id}>
+          {notifications.map((notif) => (
+            <Card key={notif._id} className="gap-4 py-4">
               <CardHeader>
                 <CardTitle>{notif.title}</CardTitle>
               </CardHeader>
               <CardContent>
                 <p>{notif.message}</p>
                 <p className="text-xs text-gray-500">
-                  {new Date(notif.time).toLocaleString()}
+                  {new Date(notif.createdAt).toLocaleString()}
                 </p>
                 <Dialog>
                   <DialogTrigger asChild>
@@ -114,7 +87,7 @@ export default function Page() {
                     <div>
                       <p>{notif.message}</p>
                       <p className="text-xs text-gray-500">
-                        {new Date(notif.time).toLocaleString()}
+                        {new Date(notif.createdAt).toLocaleString()}
                       </p>
                     </div>
                   </DialogContent>

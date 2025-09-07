@@ -20,12 +20,14 @@ export default function SellerHeader({isOpen, setIsOpen}:sellerHeaderProps) {
                 ? <Menu className='block lg:hidden' onClick={()=>setIsOpen(!isOpen)}/>
                 : <X className='block lg:hidden' onClick={()=>setIsOpen(!isOpen)} />
             }
+            <Link href='/marketplace'>
             <Image
                 alt='clout jet logo'
                 src="/cloutjet-removebg.png"
                 width={40}
                 height={40}
             />
+            </Link>
             <Input 
                 placeholder='Search action'
                 className='hidden sm:block  w-[300px] border-[#f8a11e] focus:border-[#f8a11e] outline-none rounded-lg'
