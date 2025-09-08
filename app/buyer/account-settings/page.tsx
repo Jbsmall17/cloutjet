@@ -80,7 +80,7 @@ export default function Page() {
   const newPassword = passwordWatch("newPassword");
 
   const onDeleteSubmit: SubmitHandler<deleteType> = () => {
-    const endpoint = "https://cloud-jet-production.up.railway.app/v1/user/delete-account"
+    const endpoint = "https://cloud-jet.onrender.com/v1/user/delete-account"
     setDeleteLoading(true)
     axios.post(endpoint, {}, {
       headers: {
@@ -100,7 +100,7 @@ export default function Page() {
 
   const onSubmit: SubmitHandler<FormInput> = (data) => {
     const endpoint =
-      "https://cloud-jet-production.up.railway.app/v1/auth/profile/update";
+      "https://cloud-jet.onrender.com/v1/auth/profile/update";
     const formData = new FormData();
     formData.append("fullName", data.fullname);
     formData.append("email", data.email);
@@ -133,7 +133,7 @@ export default function Page() {
   };
 
   const onPasswordSubmit: SubmitHandler<passwordType> = (data) => {
-    const endpoint = "https://cloud-jet-production.up.railway.app/v1/user/change-password"
+    const endpoint = "https://cloud-jet.onrender.com/v1/user/change-password"
     // console.log(data)
     const payLoad = {
         currentPassword: data.currentPassword,
@@ -168,7 +168,7 @@ export default function Page() {
 
   const getUserInfo = () => {
     const endpoint =
-      "https://cloud-jet-production.up.railway.app/v1/auth/profile/retrieve";
+      "https://cloud-jet.onrender.com/v1/auth/profile/retrieve";
     axios
       .get(endpoint, {
         headers: {

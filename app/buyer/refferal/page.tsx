@@ -27,7 +27,7 @@ export default function Page() {
     }
 
     const getRefferalCode = () => {
-        const endpoint = "https://cloud-jet-production.up.railway.app/v1/auth/referralCode"
+        const endpoint = "https://cloud-jet.onrender.com/v1/auth/referralCode"
         axios.get(endpoint,{
             headers: {
                 Authorization: `Bearer ${token}`

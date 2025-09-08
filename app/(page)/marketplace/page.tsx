@@ -42,7 +42,7 @@ export default function Page() {
 
   const getMarketplace = () => {
     const limit = 10;
-    const endpoint = `https://cloud-jet-production.up.railway.app/v1/marketPlace?search=${keyword}&page=${page}&limit=${limit}`;
+    const endpoint = `https://cloud-jet.onrender.com/v1/marketPlace?search=${keyword}&page=${page}&limit=${limit}`;
     axios
       .get(endpoint)
       .then((res) => {

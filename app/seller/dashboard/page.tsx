@@ -20,7 +20,7 @@ export default function Page() {
   const [token, setToken] = useState<string | null>(null);
   const getDashboardStats = () => {
     const endpoint =
-      "https://cloud-jet-production.up.railway.app/v1/user/dashboard-statistics";
+      "https://cloud-jet.onrender.com/v1/user/dashboard-statistics";
     setIsLoading(true);
     axios
       .get(endpoint, {

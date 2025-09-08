@@ -21,7 +21,7 @@ export default function VerificationComp() {
     const userObj = JSON.parse(user)
     if(userObj.userId && value.length === 6){
       setIsLoading(true)
-      axios.post(`https://cloud-jet-production.up.railway.app/v1/auth/verify-email/${userObj.userId}`,
+      axios.post(`https://cloud-jet.onrender.com/v1/auth/verify-email/${userObj.userId}`,
         {
           otp: value
         }
@@ -43,7 +43,7 @@ export default function VerificationComp() {
     if(user){
       const userObj = JSON.parse(user)
       if(userObj.userId){
-        axios.post(`https://cloud-jet-production.up.railway.app/v1/auth/resend-otp/${userObj.userId}`, {})
+        axios.post(`https://cloud-jet.onrender.com/v1/auth/resend-otp/${userObj.userId}`, {})
         .then(()=>{})
         .catch(()=>{})
       }

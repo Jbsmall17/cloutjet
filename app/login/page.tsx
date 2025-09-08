@@ -26,7 +26,7 @@ export default function Page() {
   } = useForm<LoginInput>();
 
   const onSubmit: SubmitHandler<LoginInput> = (data) => {
-    const endpoint = "https://cloud-jet-production.up.railway.app/v1/auth/login/user"
+    const endpoint = "https://cloud-jet.onrender.com/v1/auth/login/user"
     setIsLoading(true)
     axios.post(endpoint,{
         email: data.email,

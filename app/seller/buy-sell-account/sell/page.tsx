@@ -88,7 +88,7 @@ export default function Page() {
 
   const inputRef = useRef<HTMLInputElement>(null);
   const onSubmit: SubmitHandler<sellAccountInput> = (data) => {
-    const endpoint = 'https://cloud-jet-production.up.railway.app/v1/seller/verification/submit-account'
+    const endpoint = 'https://cloud-jet.onrender.com/v1/seller/verification/submit-account'
     const formData = new FormData();
     formData.append("platform", data.socialMediaPlatform);
     formData.append("niche", data.niche);
@@ -126,7 +126,7 @@ export default function Page() {
   }
 
   const getListingFee = () => {
-    const endpoint = 'https://cloud-jet-production.up.railway.app/v1/seller/verification/listing-fee'
+    const endpoint = 'https://cloud-jet.onrender.com/v1/seller/verification/listing-fee'
 
     axios.get(endpoint,{
       headers: {
