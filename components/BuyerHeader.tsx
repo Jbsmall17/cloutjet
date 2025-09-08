@@ -72,7 +72,7 @@ export default function BuyerHeader({ isOpen, setIsOpen }: BuyerHeaderProps) {
           )}
           <div className="text-xs hidden md:block">
             <p>{user.fullName}</p>
-            <p>adetunjiidan@gmail.com</p>
+            <p>{user.email}</p>
           </div>
         </div>
       </div>

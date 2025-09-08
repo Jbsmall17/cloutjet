@@ -14,6 +14,7 @@ type userType = {
   phoneNumber: string;
   profileImage: string;
   userType: string;
+  email: string
 };
 
 type activities = {
@@ -63,11 +64,6 @@ type refferalObj = {
   totalCoinEarnings: string;
 };
 
-type User = {
-  _id: string;
-  fullName: string;
-  email: string;
-};
 
 export type account = {
   accountAge: string;
@@ -121,6 +117,7 @@ export function ContextComp({ children }: { children: ReactNode }) {
     fullName: "",
     phoneNumber: "",
     profileImage: "",
+    email: "",
     userType: "",
   });
   const [refferalObj, setRefferalObj] = useState<refferalObj>({
