@@ -23,7 +23,7 @@ export default function Page() {
   const [notifications, setNotifications] = useState<notification[]>([]);
 
   const getNotifications = () => {
-    const endpoint = `https://cloud-jet-production.up.railway.app/v1/user/notifications`;
+    const endpoint = `https://cloud-jet.onrender.com/v1/user/notifications`;
     axios
       .get(endpoint, {
         headers: {

@@ -33,7 +33,7 @@ export default function Page() {
   const onSubmit: SubmitHandler<SignUpInput> = (data) => {
     // console.log(data);
     setIsLoading(true)
-    const endpoint = "https://cloud-jet-production.up.railway.app/v1/auth/signup/user"
+    const endpoint = "https://cloud-jet.onrender.com/v1/auth/signup/user"
     axios.post(endpoint,{
       fullName: data.fullName,
       email: data.email,

@@ -12,7 +12,7 @@ export default function Page() {
   const [isLoading, setIsLoading] = useState(true)
 
   const getListedAccount = () => {
-    const endpoint = 'https://cloud-jet-production.up.railway.app/v1/buyer/escrow-transactions?status=completed'
+    const endpoint = 'https://cloud-jet.onrender.com/v1/buyer/escrow-transactions?status=completed'
     axios.get(endpoint, {
       headers: {
         Authorization: `Bearer ${token}`

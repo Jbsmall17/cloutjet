@@ -32,7 +32,7 @@ export default function Page() {
   const [loading, setLoading] = useState(false)
 
   const getAListedAccount = () => {
-    const endpoint = `https://cloud-jet-production.up.railway.app/v1/buyer/listingById/${id}`;
+    const endpoint = `https://cloud-jet.onrender.com/v1/buyer/listingById/${id}`;
     setIsLoading(true);
     axios
       .get(endpoint, {
@@ -95,7 +95,7 @@ export default function Page() {
   };
 
   const initiatePurchase = (id: string) =>{
-    const endpoint = `https://cloud-jet-production.up.railway.app/v1/buyer/initiate-purchase/${id}`
+    const endpoint = `https://cloud-jet.onrender.com/v1/buyer/initiate-purchase/${id}`
     setLoading(true)
     axios.post(endpoint,{},{
       headers : {
