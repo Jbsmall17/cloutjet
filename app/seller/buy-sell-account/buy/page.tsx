@@ -89,13 +89,19 @@ export default function Page() {
         <CardDescription>list of Account that are available for purchase</CardDescription>
       </CardHeader>
       <CardContent>
-        <div className={` border p-2 rounded-2xl overflow-x-auto min-h-[300px] ${isLoading ? "flex justify-center items-center" : ""}`}>
+        <div className={` border p-2 rounded-2xl overflow-x-auto min-h-[300px] ${isLoading || listedAccounts.length === 0 ? "flex justify-center items-center" : ""}`}>
           {
             isLoading
             ?
             <div className="animate-spin h-8 w-8 border-2 border-t-transparent border-[#f7a01e] rounded-full overflow-x-auto"></div>
           :
-        <Table>
+              listedAccounts.length === 0 ? (
+                  <p className="text-center">
+                    No accounts available for sale
+                  </p>
+              ) : (
+                <div className='min-h-[300px]'>
+                <Table>
           <TableHeader>
             <TableRow>
               <TableHead>Account</TableHead>
@@ -109,13 +115,6 @@ export default function Page() {
           </TableHeader>
           <TableBody>
             {
-              listedAccounts.length === 0 ? (
-                <TableRow>
-                  <TableCell colSpan={7} className="text-center">
-                    No accounts available for sale
-                  </TableCell>
-                </TableRow>
-              ) : (
                 listedAccounts.map(({account,listingId}) => (
                   <TableRow key={listingId}>
                     <TableCell>{account.accountUsername.replace('@', '')}</TableCell>
@@ -139,14 +138,13 @@ export default function Page() {
                       </Button>
                     </TableCell>
                   </TableRow>
-                ))
-              )
-            }
+                ))}
           </TableBody>
         </Table>
-        }
+        </div>
+        )}
         {
-          listedAccounts.length > 0
+          listedAccounts.length > 1
           &&
           <div className='my-3 flex flex-row justify-center items-center'>
           <div className='flex flex-row gap-6 items-center'>
@@ -162,7 +160,8 @@ export default function Page() {
                     return newValue
                   }
                 })
-              }}
+              } 
+            }
             />
             <ul className='flex flex-row items-center gap-2'>
               {

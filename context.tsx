@@ -31,7 +31,7 @@ type sellerStatsType = {
   engagementGrowth: string;
   purchasesCount: number;
   recentActivities: activities[];
-  recentTransactions: listedAccount[];
+  recentTransactions: transaction[];
   totalOrders: number;
 };
 
@@ -102,6 +102,18 @@ type payment = {
   serviceFee: string;
   totalCost: string;
 };
+
+type transaction = {
+  _id: string,
+  user: string,
+  type: string,
+  amount: 0,
+  method: string,
+  status: string,
+  description: string,
+  createdAt: string,
+  updatedAt: string
+}
 
 export type listedAccount = {
   listingId: string;

@@ -37,7 +37,7 @@ export default function Page() {
         setUser({
           ...response.data.data.user
         })
-        router.push("/buyer/dashboard")
+        router.push("/marketplace")
     }).catch((err)=>{
         toast.error(err.response ? err.response.data.message: "Network Fail")
     }).finally(()=>{

@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { Checkbox } from "@/components/ui/checkbox";
 import React, { useEffect, useRef, useState } from "react";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import {
@@ -18,6 +17,7 @@ import Image from "next/image";
 import axios from "axios";
 import { toast, Toaster } from "react-hot-toast";
 import Loader from "@/components/ui/Loader";
+import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 
 type FormInput = {
   fullname: string;
@@ -37,9 +37,6 @@ type passwordType = {
     confirmPassword: string;
 }
 
-type deleteType = {
-    isChecked: boolean;
-}
 
 export default function Page() {
   const [isCPassword, setIsCPassword] = useState(false);
@@ -51,6 +48,9 @@ export default function Page() {
   const [token, setToken] = useState<string | null>(null);
   const [picture, setPicture] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
+  const [isChecked, setIsChecked] = useState(false)
+  const [btnClicked, setBtnClicked] = useState(false)
+  const [open, setOpen] = useState(false)
   const { control, handleSubmit, setValue, watch } = useForm<FormInput>({
     defaultValues: {
       fullname: "",
@@ -71,15 +71,13 @@ export default function Page() {
       confirmPassword: "",
     },
   });
-  const { control: deleteControl, handleSubmit: deleteHandleSubmit, formState: { errors: deleteErrors } } = useForm<deleteType>({
-    defaultValues: {
-      isChecked: false,
-    }
-  });
+
   const profile = watch("profile");
   const newPassword = passwordWatch("newPassword");
 
-  const onDeleteSubmit: SubmitHandler<deleteType> = () => {
+  const deleTeAccount = () =>{
+    setBtnClicked(true)
+    if(!isChecked) return
     const endpoint = "https://cloud-jet.onrender.com/v1/user/delete-account"
     setDeleteLoading(true)
     axios.post(endpoint, {}, {
@@ -95,8 +93,29 @@ export default function Page() {
     })
     .finally(() => {
       setDeleteLoading(false);
+      setOpen(false)
     })
   }
+
+  // const onDeleteSubmit: SubmitHandler<deleteType> = (data) => {
+  //   console.log(data)
+  //   const endpoint = "https://cloud-jet.onrender.com/v1/user/delete-account"
+  //   setDeleteLoading(true)
+  //   axios.post(endpoint, {}, {
+  //     headers: {
+  //       Authorization: `Bearer ${token}`
+  //     }
+  //   })
+  //   .then((res) => {
+  //     toast.success(res.data.message || "Account deleted successfully");
+  //   })
+  //   .catch((error) => {
+  //     toast.error(error.response.data.message || "Failed to delete account");
+  //   })
+  //   .finally(() => {
+  //     setDeleteLoading(false);
+  //   })
+  // }
 
   const onSubmit: SubmitHandler<FormInput> = (data) => {
     const endpoint =
@@ -615,33 +634,56 @@ export default function Page() {
             services, and we permanently delete your personal data. You can
             cancel the deletion for 14 days
           </p>
-          <form onSubmit={deleteHandleSubmit(onDeleteSubmit)}>
-          <div className="mb-6 md:mb-8 flex items-center">
-            <Controller
-                name="isChecked"
-                control={deleteControl}
-                rules={{ required: "You must confirm account deletion" }}
-                render={({ field }) => (
-                    <Checkbox 
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                        name={field.name}
-                        onBlur={field.onBlur}
-                        ref={field.ref}
-                        className={`mr-3 size-5 ${deleteErrors.isChecked ? "border-red-500" : "border-gray-300"}`}
-                    />
-                )}
+          <div className="mb-6 md:mb-8 space-y-2">
+          <div className="flex items-center">
+            <input
+              type="checkbox"
+              checked={isChecked}
+              onChange={(e)=>setIsChecked(e.target.checked)}
+              className="size-5 accent-black inline mr-4"
             />
             <span>Confirm that i want to delete my account</span>
           </div>
-          <div className="flex justify-end">
-            <Button type="submit" className="min-w-[96px] cursor-pointer rounded-xs px-6 bg-red-600 hover:bg-[#17233b] text-white">
-              {
-                deleteLoading ? <Loader /> : "Delete"
-              }
-            </Button>
+          {
+            !isChecked && btnClicked
+            &&
+            <p className="text-red-500">Tick the box to delete account</p>
+          }
           </div>
-          </form>
+          <div className="flex justify-end">
+            <AlertDialog open={open} onOpenChange={setOpen}>
+              <AlertDialogTrigger asChild>
+                <Button 
+                  type="submit" className="min-w-[96px] cursor-pointer rounded-xs px-6 bg-red-600 hover:bg-[#17233b] text-white">
+                  Delete
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>
+                    are you sure you want to delete acount?
+                  </AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This action can be undone within 14 days
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <Button 
+                      onClick={deleTeAccount} 
+                      variant={'default'}
+                      className="w-[75px]"
+                    >
+                      {
+                        deleteLoading
+                        ? <Loader />
+                        : "Delete"
+                      }
+                    </Button>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </div>
         </div>
       </div>
     </section>
