@@ -21,19 +21,34 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import {toast, Toaster} from "react-hot-toast"
+import {useForm, Controller, SubmitHandler} from "react-hook-form"
 
+type FormInput = {
+  payment: boolean,
+  loginCred: boolean,
+  verify: boolean,
+  funds: boolean
+}
 
 export default function Page() {
   const { id } = useParams();
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(1);
   const [token, setToken] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const { listedAccount, setListedAccount } = useContextValue();
+  const [isLoading, setIsLoading] = useState(true);
+  const { listedAccount, setListedAccount, setSelectedAccount } = useContextValue();
   const [loading, setLoading] = useState(false)
+  const {control, handleSubmit} = useForm<FormInput>({
+    defaultValues: {
+      payment: false,
+      loginCred: false,
+      verify: false,
+      funds: false
+    }
+  })
 
   const getAListedAccount = () => {
     const endpoint = `https://cloud-jet.onrender.com/v1/buyer/listingById/${id}`;
-    setIsLoading(true);
+    // setIsLoading(true);
     axios
       .get(endpoint, {
         headers: {
@@ -111,6 +126,23 @@ export default function Page() {
     .finally(()=>{
       setLoading(false)
     })
+  }
+
+  const addToCart = () => {
+    const {account} = listedAccount
+    if (account) {
+      setSelectedAccount((prev) => {
+        const findAccountIdx = prev.findIndex((acc) => acc._id === account._id);
+        if (findAccountIdx < 0) {
+          return [...prev,account]; 
+        }
+        return prev;
+      });
+    }
+  };
+
+  const onSubmit : SubmitHandler<FormInput> = () =>{
+    initiatePurchase(listedAccount.listingId)
   }
 
   useEffect(() => {
@@ -273,7 +305,8 @@ export default function Page() {
               </Button>
               <Button
                 variant={"outline"}
-                className="py-3 w-full border border-[#f7a01e] cursor-pointer text-black"
+                className="py-3 w-full border border-[#f7a01e] cursor-pointer text-black hover:bg-[#f7a01e]"
+                onClick={addToCart}
               >
                 Add to Cart
               </Button>
@@ -376,31 +409,75 @@ export default function Page() {
             </p>
           </div>
         </CardContent>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <CardFooter className="flex flex-col gap-4 items-start">
           <p className="pl-6 md:pl-8 text-xl font-medium">
             Escrow Agreemant terms
           </p>
           <div className="flex flex-col gap-4">
             <div className="flex items-center gap-3">
-              <Checkbox id="payment" />
+              <Controller
+                name="payment"
+                control={control}
+                rules={{
+                  required: true
+                }}
+                render={({field}) =>(
+                  <Checkbox
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                    id="payment" 
+                    />
+                )}
+              />
               <Label htmlFor="payment">
                 Cloutjet will hold the payment in escrow
               </Label>
             </div>
             <div className="flex items-center gap-3">
-              <Checkbox id="credentials" />
-              <Label htmlFor="credentials">
+              <Controller
+                control={control}
+                name="loginCred"
+                render={({field})=>(
+                  <Checkbox
+                    checked={field.value}
+                    onCheckedChange={field.onChange} 
+                    id="loginCred" 
+                  />
+                )}
+              />
+              <Label htmlFor="loginCred">
                 Seller must delivery login credentials
               </Label>
             </div>
             <div className="flex items-center gap-3">
-              <Checkbox id="verify" />
+              <Controller
+                control={control}
+                name="verify"
+                render={({field})=>(
+                  <Checkbox 
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                    id="verify" 
+                  />
+                )}  
+              />
               <Label htmlFor="verify">
                 Buyer must have 24 - 48 to verify and approve
               </Label>
             </div>
             <div className="flex items-center gap-3">
-              <Checkbox id="confirmation" />
+              <Controller
+                control={control}
+                name="funds"
+                render={({field})=>(
+                  <Checkbox 
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                    id="funds" 
+                  />
+                )}
+              />
               <Label htmlFor="confirmation">
                 Funds released to seller only after confirmation
               </Label>
@@ -410,7 +487,6 @@ export default function Page() {
         <div className="flex items-center justify-center">
           <Button
             disabled={loading}
-            onClick={()=> initiatePurchase(listedAccount.listingId)}
             className="w-[125px] bg-[#f5a11b] disabled:cursor-not-allowed disabled:opacity-50 hover:opacity-85 cursor-pointer">
             {
               loading ?
@@ -419,6 +495,7 @@ export default function Page() {
             }
           </Button>
         </div>
+        </form>
       </Card>
     </div>
   );

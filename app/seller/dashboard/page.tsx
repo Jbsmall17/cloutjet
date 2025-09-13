@@ -21,7 +21,7 @@ export default function Page() {
   const getDashboardStats = () => {
     const endpoint =
       "https://cloud-jet.onrender.com/v1/user/dashboard-statistics";
-    setIsLoading(true);
+      setIsLoading(true)
     axios
       .get(endpoint, {
         headers: {
@@ -55,10 +55,29 @@ export default function Page() {
       minute: "2-digit",
       hour12: true,
     });
-    return timeString;
+    return timeString.replace(" AM", "am").replace(" PM", "pm");
   };
 
-  console.log(formatTime("2025-08-31T22:41:37.908Z"));
+  const formatDate = (time: string) => {
+    const date = new Date(time)
+    const options : Intl.DateTimeFormatOptions = {
+      month: 'long', 
+    }
+    const month = date.toLocaleDateString('en-US',options)
+    const day= date.getDate()
+    const year = date.getFullYear()
+    const getOrdinal = (n:number) =>{
+      const s = ["th", "st", "nd", "rd"]
+      const v = n % 100
+      return s[(v - 20) % 10] || s[v] || s[0];
+    }
+
+    return `${month} ${day}${getOrdinal(day)}, ${year}`;
+  }
+
+  const formatId = (id: number) => {
+    return `TRANS-0${id}`
+  }
 
   const handleNavigation = (path: string) => {
     router.push(path);
@@ -287,30 +306,16 @@ export default function Page() {
             </div>
             {sellerStats.recentTransactions.length > 0 ? (
               <div className="py-2 md:py-4 space-y-2 px-3 md:px-6">
-                <div className="text-sm font-medium flex flex-row justify-between items-center">
-                  <p>CJTX-2340</p>
-                  <p>June 1st, 2025</p>
-                  <p>09:48pm</p>
-                  <p>Completed</p>
-                </div>
-                <div className="text-sm font-medium flex flex-row justify-between items-center">
-                  <p>CJTX-2340</p>
-                  <p>June 1st, 2025</p>
-                  <p>09:48pm</p>
-                  <p>Completed</p>
-                </div>
-                <div className="text-sm font-medium flex flex-row justify-between items-center">
-                  <p>CJTX-2340</p>
-                  <p>June 1st, 2025</p>
-                  <p>09:48pm</p>
-                  <p>Ongoing</p>
-                </div>
-                <div className="text-sm font-medium flex flex-row justify-between items-center">
-                  <p>CJTX-2340</p>
-                  <p>June 1st, 2025</p>
-                  <p>09:48pm</p>
-                  <p>Completed</p>
-                </div>
+                {
+                  sellerStats.recentTransactions.map((transaction,index)=>(
+                    <div key={transaction._id} className="text-sm font-medium flex flex-row justify-between items-center">
+                      <p>{formatId(index+1)}</p>
+                      <p>{formatDate(transaction.createdAt)}</p>
+                      <p>{formatTime(transaction.createdAt)}</p>
+                      <p>{transaction.status}</p>
+                    </div>
+                  ))
+                }
               </div>
             ) : (
               <div className="flex justify-center items-center h-[100px]">

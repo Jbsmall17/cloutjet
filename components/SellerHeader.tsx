@@ -11,7 +11,7 @@ interface sellerHeaderProps {
 }
 
 export default function SellerHeader({isOpen, setIsOpen}:sellerHeaderProps) {
-    const {user} = useContextValue()
+    const {user, selectedAccount, setIsCartOpen} = useContextValue()
     return (
     <header className='bg-white mb py-3 lg:py-4 max-screen-w-2xl flex flex-row px-[5%] justify-between'>
         <div className='flex flex-row items-center gap-4'>
@@ -58,6 +58,23 @@ export default function SellerHeader({isOpen, setIsOpen}:sellerHeaderProps) {
                             Your Profile <ArrowRight className='ml-2 inline size-4' /> 
                         </p>
                     </Link>
+                </div>
+                <div 
+                    onClick={()=>{
+                        setIsCartOpen(true)
+                    }}
+                    className='relative cursor-pointer'    
+                >
+                    <p className="absolute top-0 right-0 -translate-y-[50%] translate-x-[50%] size-4 text-black bg-[#f6a21b] text-xs font-semibold rounded-full flex justify-center itmes-center">
+                        {selectedAccount.length}
+                    </p>
+                    <img
+                        src="/cart.svg"
+                        alt="Cart Icon"
+                        className="size-6"
+                        width={16}
+                        height={16}
+                    />
                 </div>
             </div>
         </div>

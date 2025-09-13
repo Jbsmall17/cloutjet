@@ -1,3 +1,4 @@
+import { useContextValue } from "@/context";
 import {
   Folder,
   LayoutDashboard,
@@ -19,9 +20,75 @@ interface SellerNavbarType {
 export default function SellerNavbar({ isOpen, setIsOpen }: SellerNavbarType) {
   const router = useRouter();
   const pathname = usePathname();
+  const {setUser, setRefferalObj,setSellerStats,setListedAccount, setListedAccounts,setPurchasedAccount, setSelectedAccount, setIsCartOpen,setNoOfPages, setCurrentPage } = useContextValue()
 
   const handleLogout = () => {
     sessionStorage.clear();
+    setUser({
+      id: "",
+      fullName: "",
+      phoneNumber: "",
+      profileImage: "",
+      email: "",
+      userType: "",
+    })
+    setRefferalObj({
+      referralCode: "",
+      numberOfReferrals: 0,
+      totalCoinEarnings: "",  
+    })
+    setSellerStats({
+      engagementGrowth: "",
+      purchasesCount: 0,
+      recentActivities: [],
+      recentTransactions: [],
+      totalOrders: 0,
+    })
+    setListedAccounts([])
+    setListedAccount({
+      listingId: "",
+      account: {
+      accountAge: "",
+      accountPassword: "",
+      accountUsername: "",
+      countryOfCreation: "",
+      createdAt: "",
+      description: "",
+      engagementRate: 0,
+      estimatedPrice: 0,
+      followersCount: 0,
+      isInEscrow: false,
+      isSold: false,
+      likesCount: 0,
+      listingFee: 0,
+      logo: "",
+      niche: "",
+      platform: "",
+      preferredPrice: 0,
+      profileLink: "",
+      proofScreenshotUrl: "",
+      recoveryPhoneNumber: "",
+      status: "",
+      twoFAEnabled: false,
+      twoFAMethod: "",
+      updatedAt: "",
+      user: "",
+      _id: "",
+      seller: {
+        fullName: ""
+      }
+    },
+    paymentSummary: {
+      accountPrice: "",
+      serviceFee: "",
+      totalCost: "",
+    } 
+    })
+    setPurchasedAccount([])
+    setSelectedAccount([])
+    setIsCartOpen(false)
+    setNoOfPages(0)
+    setCurrentPage(0)
     router.push("/login");
   };
 

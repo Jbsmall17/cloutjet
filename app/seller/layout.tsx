@@ -1,4 +1,5 @@
 "use client"
+import Cart from "@/components/Cart";
 import SellerHeader from "@/components/SellerHeader";
 import SellerNavbar from "@/components/SellerNavbar";
 import { useContextValue } from "@/context";
@@ -8,9 +9,10 @@ import React, { ReactNode, useEffect, useState } from "react";
 
 export default function Layout({ children }: { children: ReactNode }) {
   const [isOpen, setIsOpen] = useState(false)
+
   const router = useRouter()
   const [token, setToken] = useState("")
-  const {user} = useContextValue()
+  const {user, isCartOpen} = useContextValue()
 
   useEffect(()=>{
     const token = sessionStorage.getItem("token")
@@ -28,6 +30,11 @@ export default function Layout({ children }: { children: ReactNode }) {
 
   return (
     <main>
+      {
+        isCartOpen
+        &&
+        <Cart />
+      }
       <SellerHeader 
         isOpen={isOpen}
         setIsOpen={setIsOpen}

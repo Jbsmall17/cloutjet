@@ -4,13 +4,12 @@ import { Search, ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
 import BuyerAccount from "@/components/BuyerAccount";
 import axios from "axios";
 import MainLoader from "@/components/ui/MainLoader";
-import { account,  } from "@/context";
-
+import { account } from "@/context";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
-  const [availableAccount, setAvailableAccount] = useState<account[]>(
-    []
-  );
+  const router = useRouter()
+  const [availableAccount, setAvailableAccount] = useState<account[]>([]);
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(0);
   const [keyword, setKeyword] = useState("");
@@ -22,18 +21,41 @@ export default function Page() {
     title: string;
     items: string[];
   }) => {
+    const [isOpen, setIsOpen] = useState(true);
+    const handleClick = () => {
+      setIsOpen(!isOpen);
+    };
+    const Item = ({item}: {item : string}) => {
+      const handleChange = (keyword : string) =>{
+        setKeyword(keyword)
+      }
+      return (
+        <li className="cursor-pointer">
+          <input
+            type="checkbox"
+            className="mr-2"
+            checked={item.toLowerCase() === keyword.toLowerCase()}
+            onChange={()=>handleChange(item.toLowerCase())}
+          />
+          <span>{item}</span>
+        </li>
+      );
+    };
+
     return (
       <div className="relative px-6 pb-4">
         <div className="flex flex-row items-center gap-6 justify-between mb-3">
           <p className="text-black text-base font-semibold">{title}</p>
-          <ChevronDown className="size-5" />
+          <ChevronDown
+            onClick={handleClick}
+            className={`size-5 ${
+              !isOpen ? "-rotate-90" : "rotate-0"
+            } cursor-pointer`}
+          />
         </div>
-        <ul className="text-black rounded-lg">
+        <ul className={`text-black rounded-lg ${!isOpen ? "hidden" : "block"}`}>
           {items.map((item, index) => (
-            <li key={index} className="cursor-pointer">
-              <input type="checkbox" className="mr-2" />
-              <span>{item}</span>
-            </li>
+            <Item item={item} key={index} />
           ))}
         </ul>
       </div>
@@ -46,12 +68,11 @@ export default function Page() {
     axios
       .get(endpoint)
       .then((res) => {
-        console.log(res.data.data.results)
         setAvailableAccount([...res.data.data.results]);
         setTotalPage(res.data.data.totalPages);
       })
       .catch(() => {
-        setAvailableAccount([])
+        setAvailableAccount([]);
       })
       .finally(() => {
         setIsLoading(false);
@@ -61,6 +82,12 @@ export default function Page() {
   useEffect(() => {
     getMarketplace();
   }, [page, keyword]);
+
+  useEffect(()=>{
+    const token = sessionStorage.getItem("token")
+    if(token) return
+    router.push("/login") 
+  },[])
 
   const pagesArray = Array.from({ length: totalPage }, (_, i) => i + 1);
 
@@ -127,7 +154,7 @@ export default function Page() {
                 <MainLoader />
               </div>
             ) : availableAccount.length > 0 ? (
-              <div className="bg-[#ededed] pt-4 pt-4 md:pb-10 px-4 md:px-6">
+              <div className="bg-[#ededed] pt-4 pt-4 md:pb-10 px-4 md:px-6 min-h-[475px]">
                 {availableAccount.map((account) => (
                   <BuyerAccount
                     key={account._id}
@@ -152,29 +179,29 @@ export default function Page() {
                 ))}
               </div>
             ) : (
-              <div className="h-screen bg-[#ededed] pt-4 pt-4 md:pb-10 px-6 md:px-6">
-                <p>No Account Listed</p>
+              <div className="h-screen bg-[#ededed] pt-4 pt-4 md:pb-10 px-6 md:px-6 flex justify-center items-center">
+                <p className="text-xl font-medium">No Account Listed</p>
               </div>
             )}
             {totalPage !== 0 && (
               <>
-                <div className="flex flex-row gap-6 items-center justify-center my-6">
+                <div className="flex flex-row gap-6 items-center justify-center my-4">
                   <ChevronLeft
-                    onClick={()=>{
-                      setPage((prev)=>{
-                        if(prev <= 1){
-                          return 1
+                    onClick={() => {
+                      setPage((prev) => {
+                        if (prev <= 1) {
+                          return 1;
                         }
-                        return prev - 1
-                      })  
+                        return prev - 1;
+                      });
                     }}
-                    className="cursor-pointer" 
+                    className="cursor-pointer"
                   />
                   <ul className="flex flex-row items-center gap-2">
                     {pagesArray.map((page, index) => (
                       <li
                         onClick={() => {
-                          setPage(page)
+                          setPage(page);
                         }}
                         key={index}
                         className="cursor-pointer size-6 rounded-full hover:bg-[#f7a01e] hover:text-white flex justify-center items-center"
@@ -183,16 +210,16 @@ export default function Page() {
                       </li>
                     ))}
                   </ul>
-                  <ChevronRight 
-                    onClick={()=>{
-                      setPage((prev)=>{
-                        if(prev >= totalPage){
-                          return prev
+                  <ChevronRight
+                    onClick={() => {
+                      setPage((prev) => {
+                        if (prev >= totalPage) {
+                          return prev;
                         }
-                        return prev + 1
-                      })
+                        return prev + 1;
+                      });
                     }}
-                    className="cursor-pointer" 
+                    className="cursor-pointer"
                   />
                 </div>
               </>

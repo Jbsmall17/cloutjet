@@ -1,6 +1,6 @@
 "use client";
 import { ShieldCheck, ShoppingCart, Star, ThumbsUp } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -21,6 +21,10 @@ import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import { formatFollower, formatPriceToNaira } from "@/lib/utils";
 import { account, useContextValue } from "@/context";
+import { AlertDialog, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTrigger, AlertDialogCancel, AlertDialogContent, AlertDialogTitle } from "./ui/alert-dialog";
+import {toast, Toaster} from "react-hot-toast"
+import axios from "axios";
+import Loader from "./ui/Loader";
 
 export default function BuyerAccount({
   social,
@@ -63,7 +67,9 @@ export default function BuyerAccount({
 }) {
   const { setSelectedAccount } = useContextValue();
   const [isShowLess, setIsShowLess] = useState(true);
-
+  const [loading, setLoading] = useState(false)
+  const [token, setToken] = useState("")
+  const [open, setOpen] = useState(false)
   const addToCart = () => {
     if (account) {
       setSelectedAccount((prev) => {
@@ -75,6 +81,26 @@ export default function BuyerAccount({
       });
     }
   };
+
+  const initiateEscrow = () => {
+    const endpoint = `https://cloud-jet.onrender.com/v1/buyer/initiate-purchase/${account?._id}`
+    setLoading(true)
+    axios.post(endpoint,{},{
+      headers : {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    .then((res)=>{
+      toast.success(res.data.message)
+    })
+    .catch((err)=>{
+      toast.error(err.response ? err.response.data.message : "unable to initiate escrow transaction")
+    })
+    .finally(()=>{
+      setLoading(false)
+      setOpen(false)
+    }) 
+  }
 
   const AccountPreview = () => {
     return (
@@ -194,21 +220,45 @@ export default function BuyerAccount({
               </p>
             </div>
           </div>
-          <div className="flex flex-col gap-4 mb-4 md:mb-6 lg:mb-8">
-            <Button
-              variant={"default"}
-              className="py-3 w-full bg-[#f7a01e] text-black cursor-pointer"
-            >
-              Buy Now
-            </Button>
+            <AlertDialog open={open} onOpenChange={setOpen}>
+              <AlertDialogTrigger asChild>
+                <Button
+                  variant={"default"}
+                  className="py-3 w-full bg-[#f7a01e] text-black cursor-pointer"
+                >
+                  Buy Now
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Do you want to purchase account?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This action cannot be undone. Escrow Transaction will be initiated
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <Button 
+                    onClick={initiateEscrow} 
+                    variant={'default'}
+                    className="w-[75px]"
+                  >
+                    {
+                      loading
+                      ? <Loader />
+                      : "Purchase"
+                    }
+                  </Button>
+                </AlertDialogFooter> 
+              </AlertDialogContent>
+            </AlertDialog>
             <Button
               variant={"outline"}
-              className="py-3 w-full border border-[#f7a01e] cursor-pointer text-black hover:bg-[#f7a01e] hover:text-white"
+              className="py-3 w-full border border-[#f7a01e] cursor-pointer text-black hover:bg-[#f7a01e] hover:text-white mt-4 mb-4 md:mb-6 lg:mb-8"
               onClick={addToCart}
             >
               Add to Cart
             </Button>
-          </div>
           <div className="font-semibold rounded-lg bg-[#b5f2cb] rounded-lg p-2 text-xs md:text-sm">
             <div className="flex flex-row gap-2 items-center mb-2">
               <ShieldCheck className="size-4 shrink-0" />
@@ -224,8 +274,16 @@ export default function BuyerAccount({
     );
   };
 
+  useEffect(()=>{
+    const storedToken = sessionStorage.getItem('token')
+    if(storedToken){
+      setToken(storedToken)
+    }
+  },[])
+
   return (
     <div className="mb-4 rounded-lg border border-[#17223b] py-1.5 md:py-2.5 px-2 md:px-4 flex flex-row md:items-center gap-4 md:gap-6 lg:gap-8">
+      <Toaster />
       <div>
         <img src={social} className="size-10 md:size-12" />
       </div>
