@@ -4,17 +4,14 @@ import { Search, ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
 import BuyerAccount from "@/components/BuyerAccount";
 import axios from "axios";
 import MainLoader from "@/components/ui/MainLoader";
-import { account, useContextValue } from "@/context";
-import { useRouter } from "next/navigation";
+import { account } from "@/context";
 
 export default function Page() {
-  const router = useRouter()
   const [availableAccount, setAvailableAccount] = useState<account[]>([]);
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(0);
   const [keyword, setKeyword] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const {setTotalWallet} = useContextValue()
   const DropDownComp = ({
     title,
     items,

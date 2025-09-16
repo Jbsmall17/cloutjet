@@ -2,12 +2,7 @@
 import Image from "next/image";
 
 // Import images from your components/imgs folder
-import bitcoinImg from "@/components/imgs/bitcoin.png";
-import ethereumImg from "@/components/imgs/ethereum.png";
-import mastercardImg from "@/components/imgs/mastercard.png";
 import paymentImg from "@/components/imgs/payment icon.png";
-import poundsImg from "@/components/imgs/pounds.png";
-import visaImg from "@/components/imgs/visa.png";
 import walletImg from "@/components/imgs/wallet icon.png";
 import { useContextValue } from "@/context";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
