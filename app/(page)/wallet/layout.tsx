@@ -1,6 +1,6 @@
 "use client";
 
-export default function WalletLayout({ children }: { children: React.ReactNode }) {
+export default function layout({ children }: { children: React.ReactNode }) {
   return (
     <main className="min-h-screen w-full bg-[#f9f9f9] relative">
       <div className="flex flex-col md:flex-row w-full mx-auto mt-5 min-h-[700px]">

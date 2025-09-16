@@ -5,10 +5,8 @@ import BuyerAccount from "@/components/BuyerAccount";
 import axios from "axios";
 import MainLoader from "@/components/ui/MainLoader";
 import { account } from "@/context";
-import { useRouter } from "next/navigation";
 
 export default function Page() {
-  const router = useRouter()
   const [availableAccount, setAvailableAccount] = useState<account[]>([]);
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(0);
@@ -79,15 +77,10 @@ export default function Page() {
       });
   };
 
+
   useEffect(() => {
     getMarketplace();
   }, [page, keyword]);
-
-  useEffect(()=>{
-    const token = sessionStorage.getItem("token")
-    if(token) return
-    router.push("/login") 
-  },[])
 
   const pagesArray = Array.from({ length: totalPage }, (_, i) => i + 1);
 

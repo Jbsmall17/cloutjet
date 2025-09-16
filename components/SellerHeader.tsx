@@ -11,7 +11,13 @@ interface sellerHeaderProps {
 }
 
 export default function SellerHeader({isOpen, setIsOpen}:sellerHeaderProps) {
-    const {user, selectedAccount, setIsCartOpen} = useContextValue()
+    const {user, selectedAccount, setIsCartOpen,totalWallet} = useContextValue()
+
+    const formatWalletBalance = (wallet: number) =>{
+        return `(NGN) ${wallet.toLocaleString()}`
+    }
+
+    const balance = formatWalletBalance(totalWallet)
     return (
     <header className='bg-white mb py-3 lg:py-4 max-screen-w-2xl flex flex-row px-[5%] justify-between'>
         <div className='flex flex-row items-center gap-4'>
@@ -36,7 +42,7 @@ export default function SellerHeader({isOpen, setIsOpen}:sellerHeaderProps) {
         <div className='flex flex-row gap-4 items-center md:gap-6'>
             <div className='p-2 flex flex-row items-center gap-2 bg-[#f8a11e] rounded-md text-black'>
                 <Wallet />
-                <p className='hidden lg:block'>(NGN) 25,000</p>
+                <p className='hidden lg:block'>{balance}</p>
                 <ChevronDown className='hidden lg:block size-4' />
             </div>
             <div className='flex flex-col lg:flex-row gap-2 items-end lg:items-center'>
