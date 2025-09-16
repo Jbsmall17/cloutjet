@@ -16,7 +16,7 @@ import React, { useEffect, useState } from "react";
 export default function Page() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const { sellerStats, setSellerStats } = useContextValue();
+  const { sellerStats, setSellerStats} = useContextValue();
   const [token, setToken] = useState<string | null>(null);
   const getDashboardStats = () => {
     const endpoint =
@@ -82,6 +82,7 @@ export default function Page() {
   const handleNavigation = (path: string) => {
     router.push(path);
   };
+
 
   useEffect(() => {
     const storedToken = sessionStorage.getItem("token");

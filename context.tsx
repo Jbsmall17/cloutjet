@@ -55,7 +55,9 @@ type contextType = {
   noOfPage : number, 
   setNoOfPages : React.Dispatch<React.SetStateAction<number>>, 
   currentPage : number, 
-  setCurrentPage: React.Dispatch<React.SetStateAction<number>>
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>,
+  totalWallet: number,
+  setTotalWallet: React.Dispatch<React.SetStateAction<number>>
 };
 
 type refferalObj = {
@@ -189,6 +191,7 @@ export function ContextComp({ children }: { children: ReactNode }) {
   const [isCartOpen, setIsCartOpen] = useState<boolean>(false)
   const [noOfPage, setNoOfPages] = useState<number>(0)
   const [currentPage, setCurrentPage] = useState<number>(0)
+  const [totalWallet, setTotalWallet] = useState<number>(0)
 
   useEffect(() => {
     const user = sessionStorage.getItem("userObj");
@@ -220,7 +223,9 @@ export function ContextComp({ children }: { children: ReactNode }) {
         noOfPage, 
         setNoOfPages, 
         currentPage, 
-        setCurrentPage
+        setCurrentPage,
+        totalWallet,
+        setTotalWallet
       }}
     >
       {children}

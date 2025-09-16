@@ -4,7 +4,7 @@ import { Search, ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
 import BuyerAccount from "@/components/BuyerAccount";
 import axios from "axios";
 import MainLoader from "@/components/ui/MainLoader";
-import { account } from "@/context";
+import { account, useContextValue } from "@/context";
 import { useRouter } from "next/navigation";
 
 export default function Page() {
@@ -14,6 +14,7 @@ export default function Page() {
   const [totalPage, setTotalPage] = useState(0);
   const [keyword, setKeyword] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const {setTotalWallet} = useContextValue()
   const DropDownComp = ({
     title,
     items,
@@ -79,15 +80,10 @@ export default function Page() {
       });
   };
 
+
   useEffect(() => {
     getMarketplace();
   }, [page, keyword]);
-
-  useEffect(()=>{
-    const token = sessionStorage.getItem("token")
-    if(token) return
-    router.push("/login") 
-  },[])
 
   const pagesArray = Array.from({ length: totalPage }, (_, i) => i + 1);
 
