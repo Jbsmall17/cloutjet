@@ -34,7 +34,7 @@ export default function Page() {
   }
 
   const intiatePayment = (token : string) =>{
-    const endpoint = 'https://cloud-jet-production.up.railway.app/v1/wallet/initiate-wallet-funding'
+    const endpoint = 'https://cloud-jet.onrender.com/v1/wallet/initiate-wallet-funding'
     const payload = {
       amount : rawValue
     }
