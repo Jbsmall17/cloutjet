@@ -71,6 +71,30 @@ export default function Page() {
       confirmPassword: "",
     },
   });
+  const [emailOptions, setEmailOptions] = useState({
+    news: false,
+    updates: false,
+    reminders: false
+  })
+
+  const [pushOptions, setPushOptions] = useState({
+    reminders: false,
+    updates: false
+  })
+
+  const handleEmailChange = (name: 'news' | 'updates' | 'reminders') =>{
+    setEmailOptions({
+      ...emailOptions,
+      [name]: !emailOptions[name]
+    })
+  }
+
+  const handlePushChange = (name: 'updates' | 'reminders') =>{
+    setPushOptions({
+      ...pushOptions,
+      [name]: !pushOptions[name]
+    })
+  }
 
   const profile = watch("profile");
   const newPassword = passwordWatch("newPassword");
@@ -97,25 +121,6 @@ export default function Page() {
     })
   }
 
-  // const onDeleteSubmit: SubmitHandler<deleteType> = (data) => {
-  //   console.log(data)
-  //   const endpoint = "https://cloud-jet.onrender.com/v1/user/delete-account"
-  //   setDeleteLoading(true)
-  //   axios.post(endpoint, {}, {
-  //     headers: {
-  //       Authorization: `Bearer ${token}`
-  //     }
-  //   })
-  //   .then((res) => {
-  //     toast.success(res.data.message || "Account deleted successfully");
-  //   })
-  //   .catch((error) => {
-  //     toast.error(error.response.data.message || "Failed to delete account");
-  //   })
-  //   .finally(() => {
-  //     setDeleteLoading(false);
-  //   })
-  // }
 
   const onSubmit: SubmitHandler<FormInput> = (data) => {
     const endpoint =
@@ -210,6 +215,21 @@ export default function Page() {
       });
   };
 
+  const getNotificationsPref = () => {
+    const endpoint = 'https://cloud-jet.onrender.com/v1/user/notification-preferences'
+    axios.get(endpoint,{
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    .then((res)=>{
+      console.log(res.data)
+    })
+    .catch((err)=>{
+      console.log(err)
+    })
+  }
+
   useEffect(() => {
     const storedToken = sessionStorage.getItem("token");
     if (storedToken) {
@@ -220,6 +240,7 @@ export default function Page() {
   useEffect(() => {
     if (token) {
       getUserInfo();
+      getNotificationsPref()
     }
   }, [token]);
 
@@ -421,7 +442,7 @@ export default function Page() {
         <p className="bg-[#17233b] leading-none text-white py-4 pl-4 md:pl-6 font-semibold">
           Notifications
         </p>
-        <div className="px-4 md:px-6 py-6 md:py-8 flex flex-col md:flex-row divide-y-2 md:divide-x-2 ">
+        <div className="px-4 md:px-6 py-6 md:py-8 flex flex-col md:flex-row divide-y-2 md:divide-y-0 md:divide-x-2 ">
           <div className="flex-1 pr-4 md:pr-6 pb-3 md:pb-0 pb-3 space-y-3">
             <div className="space-y-2">
               <p className="text-xl font-semibold">Email Notifications</p>
@@ -431,7 +452,11 @@ export default function Page() {
               </p>
             </div>
             <div className="flex flex-row gap-4">
-              <Switch />
+              <Switch
+                name="news"
+                checked={emailOptions.news}
+                onCheckedChange={() => handleEmailChange('news')} 
+              />
               <div className="space-y-1">
                 <p className="text-base leading-none font-semibold">News</p>
                 <p className="text-[#808080]">
@@ -440,14 +465,22 @@ export default function Page() {
               </div>
             </div>
             <div className="flex flex-row gap-4">
-              <Switch />
+              <Switch 
+                name="updates"
+                checked={emailOptions.updates}
+                onCheckedChange={() => handleEmailChange('updates')} 
+              />
               <div className="space-y-1">
                 <p className="text-base leading-none font-semibold">Updates</p>
                 <p className="text-[#808080]">feature updates</p>
               </div>
             </div>
             <div className="flex flex-row gap-4">
-              <Switch />
+              <Switch 
+                name="reminders"
+                checked={emailOptions.reminders}
+                onCheckedChange={() => handleEmailChange('reminders')} 
+              />
               <div className="space-y-1">
                 <p className="text-base leading-none font-semibold">
                   Reminders
@@ -468,7 +501,10 @@ export default function Page() {
               </p>
             </div>
             <div className="flex flex-row gap-4">
-              <Switch />
+              <Switch 
+                checked={pushOptions.reminders}
+                onCheckedChange={()=> handlePushChange("reminders")}
+              />
               <div className="space-y-1">
                 <p className="text-base leading-none font-semibold">
                   Reminders
@@ -480,7 +516,10 @@ export default function Page() {
               </div>
             </div>
             <div className="flex flex-row gap-4">
-              <Switch />
+              <Switch 
+                checked={pushOptions.updates}
+                onCheckedChange={() => handlePushChange("updates")}
+              />
               <div>
                 <p className="text-base leading-none font-semibold">Update</p>
                 <p className="text-[#808080]">feature update.</p>
