@@ -4,7 +4,7 @@ import { Input } from './ui/input'
 import { ArrowRight, ChevronDown, Menu, User, Wallet, X } from 'lucide-react'
 import { useContextValue } from '@/context'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+// import { useRouter } from 'next/navigation'
 
 interface sellerHeaderProps {
     isOpen : boolean,
