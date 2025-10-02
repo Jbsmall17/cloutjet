@@ -11,6 +11,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "./ui/alert-dialog";
+import { AlertDialogTrigger } from "@radix-ui/react-alert-dialog";
 
 interface SellerNavbarType {
   isOpen: boolean;
@@ -23,6 +25,7 @@ export default function SellerNavbar({ isOpen, setIsOpen }: SellerNavbarType) {
   const {setUser, setRefferalObj,setSellerStats,setListedAccount, setListedAccounts,setPurchasedAccount, setSelectedAccount, setIsCartOpen,setNoOfPages, setCurrentPage } = useContextValue()
 
   const handleLogout = () => {
+    router.push("/login");
     sessionStorage.clear();
     setUser({
       id: "",
@@ -89,7 +92,6 @@ export default function SellerNavbar({ isOpen, setIsOpen }: SellerNavbarType) {
     setIsCartOpen(false)
     setNoOfPages(0)
     setCurrentPage(0)
-    router.push("/login");
   };
 
   const handleClick = () => {
@@ -102,9 +104,9 @@ export default function SellerNavbar({ isOpen, setIsOpen }: SellerNavbarType) {
     <section
       className={`${
         isOpen
-          ? "flex flex-col justify-between gap-8"
-          : "hidden lg:flex flex-col justify-between"
-      } absolute top-0 left-0 z-20 lg:static bg-white py-10 px-2 w-[210px]`}
+          ? "flex"
+          : "hidden lg:flex"
+      } flex-col justify-between gap-8 absolute top-0 left-0 z-20 lg:static bg-white py-6 px-2 w-[220px] lg:h-[calc(100vh-80.5px)] overflow-y-auto` }
     >
       <ul className="flex flex-col gap-3 rounded-lg">
         <Link 
@@ -173,11 +175,19 @@ export default function SellerNavbar({ isOpen, setIsOpen }: SellerNavbarType) {
             <span className="font-semibold">My Accounts</span>
           </li>
         </Link>
-        <li onClick={handleClick} className="cursor-pointer pl-4 py-2 flex flex-row items-center gap-4 rounded-lg hover:bg-[#f8a11e] hover:text-white">
+        <Link href="/seller/orders">
+        <li
+            className={`cursor-pointer pl-4 py-2 flex flex-row items-center gap-4 rounded-lg hover:bg-[#f8a11e] hover:text-white ${
+              pathname === "/seller/orders"
+                ? "bg-[#f8a11e] text-white"
+                : "text-black"
+            }`}
+        >
           <ListOrdered className="size-6" />
           <span className="font-semibold">My orders</span>
         </li>
-        <li className="cursor-pointer pl-4 py-2 flex flex-row items-center gap-4 rounded-lg hover:bg-[#f8a11e] hover:text-white">
+        </Link>
+        {/* <li className="cursor-pointer pl-4 py-2 flex flex-row items-center gap-4 rounded-lg hover:bg-[#f8a11e] hover:text-white">
           <Image
             className="size-6"
             src="/messages.svg"
@@ -186,7 +196,7 @@ export default function SellerNavbar({ isOpen, setIsOpen }: SellerNavbarType) {
             height={40}
           />
           <span className="font-semibold">Messages</span>
-        </li>
+        </li> */}
         <Link onClick={handleClick} href="/wallet">
           <li className="cursor-pointer pl-4 py-2 flex flex-row items-center gap-4 rounded-lg hover:bg-[#f8a11e] hover:text-white">
             <Wallet className="size-6" />
@@ -197,7 +207,7 @@ export default function SellerNavbar({ isOpen, setIsOpen }: SellerNavbarType) {
           <Settings className="size-6" />
           <span className="font-semibold">Settings</span>
         </li>
-        <li className="cursor-pointer pl-4 py-2 flex flex-row items-center gap-4 rounded-lg hover:bg-[#f8a11e] hover:text-white">
+        {/* <li className="cursor-pointer pl-4 py-2 flex flex-row items-center gap-4 rounded-lg hover:bg-[#f8a11e] hover:text-white">
           <Image
             className="size-6"
             src="/customer-care.svg"
@@ -206,15 +216,33 @@ export default function SellerNavbar({ isOpen, setIsOpen }: SellerNavbarType) {
             height={40}
           />
           <span className="font-semibold">Help/Support</span>
-        </li>
+        </li> */}
       </ul>
-      <button
-        onClick={handleLogout}
-        className="cursor-pointer rounded-lg p-2 flex flex-row items-center gap-4 hover:bg-[#f8a11e] hover:text-white"
-      >
-        <LogOut />
-        <span>Log Out</span>
-      </button>
+      <AlertDialog>
+        <AlertDialogTrigger asChild>
+          <button
+            // onClick={handleLogout}
+            className="cursor-pointer rounded-lg pl-4 py-2 flex flex-row items-center gap-4 hover:bg-[#f8a11e] hover:text-white"
+          >
+            <LogOut />
+            <span>Log Out</span>
+          </button>
+        </AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Are you absolutely sure you want to logout?</AlertDialogTitle>
+              <AlertDialogDescription>
+                This action cannot be undone. This will log you out of your account
+              </AlertDialogDescription>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction className="bg-[#f8a11e]" onClick={handleLogout}>Log out</AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogHeader>
+          </AlertDialogHeader>
+        </AlertDialogContent>
+      </AlertDialog>
     </section>
   );
 }

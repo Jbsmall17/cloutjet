@@ -4,6 +4,7 @@ import { Input } from './ui/input'
 import { ArrowRight, ChevronDown, Menu, User, Wallet, X } from 'lucide-react'
 import { useContextValue } from '@/context'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 interface sellerHeaderProps {
     isOpen : boolean,
@@ -11,12 +12,15 @@ interface sellerHeaderProps {
 }
 
 export default function SellerHeader({isOpen, setIsOpen}:sellerHeaderProps) {
+    // const router = useRouter()
     const {user, selectedAccount, setIsCartOpen,totalWallet} = useContextValue()
 
     const formatWalletBalance = (wallet: number) =>{
         return `(NGN) ${wallet.toLocaleString()}`
     }
-
+    // const handleNavigation = (path: string) => {
+    //     router.push(path)
+    // }
     const balance = formatWalletBalance(totalWallet)
     return (
     <header className='bg-white mb py-3 lg:py-4 max-screen-w-2xl flex flex-row px-[5%] justify-between'>
@@ -45,7 +49,7 @@ export default function SellerHeader({isOpen, setIsOpen}:sellerHeaderProps) {
                 <p className='hidden lg:block'>{balance}</p>
                 <ChevronDown className='hidden lg:block size-4' />
             </div>
-            <div className='flex flex-col lg:flex-row gap-2 items-end lg:items-center'>
+            <div className='flex flex-row gap-2 items-end lg:items-center'>
                 {
                     user.profileImage !== ""
                     ?<Image

@@ -10,6 +10,7 @@ import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 
 
+const baseUrl = process.env.NEXT_PUBLIC_API_URL
 
 export default function Page() {
   const [token, setToken] = useState<string | null>(null)
@@ -19,7 +20,7 @@ export default function Page() {
 
   const getListedAccount = (page: number) =>{
     const limit = 10
-    const endpoint = `https://cloud-jet.onrender.com/v1/buyer/listings?page=${page}&limit=${limit}`
+    const endpoint = `${baseUrl}/v1/buyer/listings?page=${page}&limit=${limit}`
     setIsLoading(true)
     axios.get(endpoint, {
       headers: {

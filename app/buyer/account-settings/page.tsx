@@ -38,6 +38,8 @@ type passwordType = {
 }
 
 
+const baseUrl = process.env.NEXT_PUBLIC_API_URL
+
 export default function Page() {
   const [isCPassword, setIsCPassword] = useState(false);
   const [isNewPassword, setIsNewPassword] = useState(false);
@@ -102,7 +104,7 @@ export default function Page() {
   const deleTeAccount = () =>{
     setBtnClicked(true)
     if(!isChecked) return
-    const endpoint = "https://cloud-jet.onrender.com/v1/user/delete-account"
+    const endpoint = `${baseUrl}/v1/user/delete-account`
     setDeleteLoading(true)
     axios.post(endpoint, {}, {
       headers: {
@@ -123,8 +125,7 @@ export default function Page() {
 
 
   const onSubmit: SubmitHandler<FormInput> = (data) => {
-    const endpoint =
-      "https://cloud-jet.onrender.com/v1/auth/profile/update";
+    const endpoint = `${baseUrl}/v1/auth/profile/update`;
     const formData = new FormData();
     formData.append("fullName", data.fullname);
     formData.append("email", data.email);
@@ -157,7 +158,7 @@ export default function Page() {
   };
 
   const onPasswordSubmit: SubmitHandler<passwordType> = (data) => {
-    const endpoint = "https://cloud-jet.onrender.com/v1/user/change-password"
+    const endpoint = `${baseUrl}/v1/user/change-password`
     // console.log(data)
     const payLoad = {
         currentPassword: data.currentPassword,
@@ -192,7 +193,7 @@ export default function Page() {
 
   const getUserInfo = () => {
     const endpoint =
-      "https://cloud-jet.onrender.com/v1/auth/profile/retrieve";
+      `${baseUrl}/v1/auth/profile/retrieve`;
     axios
       .get(endpoint, {
         headers: {
@@ -216,7 +217,7 @@ export default function Page() {
   };
 
   const getNotificationsPref = () => {
-    const endpoint = 'https://cloud-jet.onrender.com/v1/user/notification-preferences'
+    const endpoint = `${baseUrl}/v1/user/notification-preferences`
     axios.get(endpoint,{
       headers: {
         Authorization: `Bearer ${token}`

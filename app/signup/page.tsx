@@ -17,6 +17,8 @@ type SignUpInput = {
   terms: boolean;
 };
 
+const baseUrl = process.env.NEXT_PUBLIC_API_URL
+
 export default function Page() {
   const {
     register,
@@ -33,7 +35,7 @@ export default function Page() {
   const onSubmit: SubmitHandler<SignUpInput> = (data) => {
     // console.log(data);
     setIsLoading(true)
-    const endpoint = "https://cloud-jet.onrender.com/v1/auth/signup/user"
+    const endpoint = `${baseUrl}/v1/auth/signup/user`
     axios.post(endpoint,{
       fullName: data.fullName,
       email: data.email,
@@ -52,13 +54,13 @@ export default function Page() {
   };
 
   return (
-    <section className="flex flex-col md:flex-row gap-6 md:gap-8 lg:gap-10 xl:gap-12 max-w-screen-2xl mx-auto px-[5%] 2xl:px-0 py-4 sm:py-6 lg:py-8 xl:py-10">
+    <section className="h-screen flex flex-col md:flex-row gap-6 md:gap-8 lg:gap-10 xl:gap-12 max-w-screen-2xl mx-auto px-[5%] 2xl:px-0 py-4 sm:py-6 lg:py-8 xl:py-10">
       <Toaster />
       <AuthComp image="/login-image.svg" textVisibility={true} />
-      <div className="flex-1 lg:flex-[1.25]">
+      <div className="overflow-y-auto flex-1 lg:flex-[1.25]">
         <div className="flex flex-row items-center justify-between">
-          <div className="mb-4 md:mb-4 lg:mb-6">
-            <p className="text-xl md:text-2xl font-semibold mb-2 md:mb-3 lg:mb-4">
+          <div className="mb-3 md:mb-4 ">
+            <p className="text-xl md:text-2xl font-semibold mb-2 md:mb-3">
               Welcome to Clout jet
             </p>
             <p className="text-base">Create an account with us</p>
@@ -66,7 +68,7 @@ export default function Page() {
           <img 
             src="/cloutjet-removebg.png" 
             alt="Cloudjet Logo"
-            className="w-[80px] h-[80px] object-contain"
+            className="w-[64px] h-[64px] object-contain"
           />
         </div>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -201,7 +203,7 @@ export default function Page() {
               {...register("terms", { 
                 required: "You must accept the terms and conditions" 
               })}
-              className="mr-2 h-[24px] w-[24px] accent-[#17223b]"
+              className="mr-2 h-[20px] w-[20px] accent-[#17223b]"
             />
             <label className="text-base md:text-xl" htmlFor="terms">
               I agree to the{" "}
@@ -219,7 +221,7 @@ export default function Page() {
           <button
             type="submit"
             disabled={isLoading}
-            className={`hover:opacity-80 text-white w-full bg-[#17223b] rounded-md p-2 mt-4 md:mt-6 lg:mt-8 xl:mt-10 ${isLoading ? "cursor-not-allowed opacity-50":"cursor-pointer"}`}
+            className={`hover:opacity-80 text-white w-full bg-[#17223b] rounded-md p-2 mt-3 md:mt-8 lg:mt-6 xl:mt-8 ${isLoading ? "cursor-not-allowed opacity-50":"cursor-pointer"}`}
           >
             {
               !isLoading
@@ -229,7 +231,7 @@ export default function Page() {
             }
           </button>
         </form>
-        <p className="text-center text-base md:text-xl text-[#878787] mt-2">
+        <p className="text-center text-sm md:text-base text-[#878787] mt-2">
           Already have an Account?{" "}
           <Link href="/login" className="text-black">
             Log In

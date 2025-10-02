@@ -3,7 +3,6 @@ import Cart from "@/components/Cart";
 import SellerHeader from "@/components/SellerHeader";
 import SellerNavbar from "@/components/SellerNavbar";
 import { useContextValue } from "@/context";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { ReactNode, useEffect, useState } from "react";
 
@@ -12,7 +11,7 @@ export default function Layout({ children }: { children: ReactNode }) {
 
   const router = useRouter()
   const [token, setToken] = useState("")
-  const {user, isCartOpen} = useContextValue()
+  const {isCartOpen, totalWallet,setTotalWallet} = useContextValue()
 
   useEffect(()=>{
     const token = sessionStorage.getItem("token")
@@ -23,13 +22,20 @@ export default function Layout({ children }: { children: ReactNode }) {
     }
   }, [])
 
+  useEffect(()=>{
+    const balance = sessionStorage.getItem("balance")
+    if(balance && totalWallet == 0){
+      setTotalWallet(Number(balance))
+    }
+  },[totalWallet])
+
   if(!token){
     return null
   }
 
 
   return (
-    <main>
+    <main className="lg:h-screen lg:overflow-y-hidden flex flex-col">
       {
         isCartOpen
         &&
@@ -39,8 +45,8 @@ export default function Layout({ children }: { children: ReactNode }) {
         isOpen={isOpen}
         setIsOpen={setIsOpen}
       />
-      <section className="relative  pt-4 md:pt-6 lg:pt-8 max-screen-w-2xl bg-[#eeeeee]">
-        <section className="mb-4 md:mb-6 lg:mb-8 text-white rounded-lg mx-[2%] relative bg-[linear-gradient(to_right,#172238_55%,#ffc200)] py-4 px-8">
+      <section className="flex-1 flex flex-col relative pt-4 lg:pt-6 max-screen-w-2xl bg-[#eeeeee]">
+        {/* <section className="mb-4 lg:mb-6 text-white rounded-lg mx-[2%] relative bg-[linear-gradient(to_right,#172238_55%,#ffc200)] py-4 px-4 md:px-6 lg:px-8">
           <p className="text-xl text-uppercase">HEY {user?.fullName.toLocaleUpperCase()},</p>
           <p className="text-base">Lets get you want you deserve!</p>
           <Image
@@ -50,8 +56,8 @@ export default function Layout({ children }: { children: ReactNode }) {
             width={75}
             height={40}
           />
-        </section>
-        <section className="mx-[2%] flex flex-col  lg:flex-row gap-4">
+        </section> */}
+        <section className="ml-[2%] flex-1 flex flex-col lg:flex-row gap-4">
           <SellerNavbar 
             isOpen={isOpen}
             setIsOpen={setIsOpen}

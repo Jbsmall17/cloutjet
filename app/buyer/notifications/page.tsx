@@ -17,13 +17,15 @@ type notification = {
   _id : string
 }
 
+const baseUrl = process.env.NEXT_PUBLIC_API_URL
+
 export default function Page() {
   const [token, setToken] = useState<string | null>("");
   const [loading, setLoading] = useState(true);
   const [notifications, setNotifications] = useState<notification[]>([]);
 
   const getNotifications = () => {
-    const endpoint = `https://cloud-jet.onrender.com/v1/user/notifications`;
+    const endpoint = `${baseUrl}/v1/user/notifications`;
     axios
       .get(endpoint, {
         headers: {

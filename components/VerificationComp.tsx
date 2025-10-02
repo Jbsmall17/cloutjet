@@ -8,6 +8,8 @@ import { useRouter } from "next/navigation"
 import React from "react"
 import { useContextValue } from "@/context"
 
+const baseUrl = process.env.NEXT_PUBLIC_API_URL
+
 export default function VerificationComp() {
   const {setUser} = useContextValue()
   const router = useRouter()
@@ -21,7 +23,7 @@ export default function VerificationComp() {
     const userObj = JSON.parse(user)
     if(userObj.userId && value.length === 6){
       setIsLoading(true)
-      axios.post(`https://cloud-jet.onrender.com/v1/auth/verify-email/${userObj.userId}`,
+      axios.post(`${baseUrl}/v1/auth/verify-email/${userObj.userId}`,
         {
           otp: value
         }
@@ -43,7 +45,7 @@ export default function VerificationComp() {
     if(user){
       const userObj = JSON.parse(user)
       if(userObj.userId){
-        axios.post(`https://cloud-jet.onrender.com/v1/auth/resend-otp/${userObj.userId}`, {})
+        axios.post(`${baseUrl}/v1/auth/resend-otp/${userObj.userId}`, {})
         .then(()=>{})
         .catch(()=>{})
       }

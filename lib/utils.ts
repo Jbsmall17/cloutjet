@@ -23,6 +23,23 @@ export const formatFollower = (followers: number): string => {
   return formatFollower;
 };
 
+export const formatDate = (time: string) => {
+    const date = new Date(time)
+    const options : Intl.DateTimeFormatOptions = {
+      month: 'long', 
+    }
+    const month = date.toLocaleDateString('en-US',options)
+    const day= date.getDate()
+    const year = date.getFullYear()
+    const getOrdinal = (n:number) =>{
+      const s = ["th", "st", "nd", "rd"]
+      const v = n % 100
+      return s[(v - 20) % 10] || s[v] || s[0];
+    }
+
+    return `${month} ${day}${getOrdinal(day)}, ${year}`;
+  }
+
 export const mockData = [
   {
     _id: "1",

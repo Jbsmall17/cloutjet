@@ -1,13 +1,17 @@
 "use client";
 import { useContextValue } from "@/context";
 import { formatPriceToNaira } from "@/lib/utils";
+import axios from "axios";
 import { X } from "lucide-react";
-import React from "react";
+import React, { useState } from "react";
+import Loader from "./ui/Loader";
+import {toast, Toaster} from "react-hot-toast";
 
-
+const baseUrl = process.env.NEXT_PUBLIC_API_URL
 
 export default function Cart() {
   const { selectedAccount, setSelectedAccount, setIsCartOpen } = useContextValue();
+  const [loading, setLoading] = useState(false)
   const total = selectedAccount.reduce((sum, acc) => {
     return sum + acc.preferredPrice;
   }, 0);
@@ -23,8 +27,35 @@ export default function Cart() {
     });
   };
 
+
+  const checkout = () =>{
+    const endpoint = `${baseUrl}/v1/buyer/initiate-bulk-purch`
+    const listingIds = selectedAccount.map((account)=> account._id)
+    const payload = {
+      listingIds
+    }
+    setLoading(true)
+    axios.post(endpoint, payload, {
+      headers : {
+        Authorization: `Bearer ${sessionStorage.getItem("token")}`
+      }
+    })
+    .then((res)=>{
+      toast.success(res.data.message)
+      console.log(res.data)
+    })
+    .catch((err)=>{
+      console.log(err.response)
+      toast.error(err.response ? err.response.message : "unable to initiate account")
+    })
+    .finally(()=>{
+      setLoading(false)
+    })
+  }
+
   return (
     <div className="h-screen w-screen fixed top-0 left-0 z-50">
+      <Toaster />
       <div
         onClick={handleClose}
         className="bg-[rgba(0,0,0,0.5)] absolute top-0 left-0 w-full h-full"
@@ -71,8 +102,16 @@ export default function Cart() {
               </span>
             </div>
           </div>
-          <button className="w-full py-2 rounded-lg bg-[#f6a21b] text-white font-semibold text-base hover:bg-[#17233b] transition">
-            Checkout
+          <button 
+            onClick={checkout}
+            className="w-full py-2 rounded-lg bg-[#f6a21b] text-white font-semibold text-base hover:bg-[#17233b] transition flex justify-center items-center"
+          >
+            {
+              loading
+              ?
+              <Loader />
+              : "Checkout"
+            }
           </button>
         </div>
       </div>

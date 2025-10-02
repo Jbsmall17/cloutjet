@@ -6,12 +6,15 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useContextValue } from "@/context";
+import { formatDate } from "@/lib/utils";
 import { Dialog, DialogDescription, DialogTrigger } from "@radix-ui/react-dialog";
 import axios from "axios";
 import { ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+
+const baseUrl = process.env.NEXT_PUBLIC_API_URL
 
 export default function Page() {
   const router = useRouter();
@@ -20,7 +23,7 @@ export default function Page() {
   const [token, setToken] = useState<string | null>(null);
   const getDashboardStats = () => {
     const endpoint =
-      "https://cloud-jet.onrender.com/v1/user/dashboard-statistics";
+      `${baseUrl}/v1/user/dashboard-statistics`;
       setIsLoading(true)
     axios
       .get(endpoint, {
@@ -58,22 +61,6 @@ export default function Page() {
     return timeString.replace(" AM", "am").replace(" PM", "pm");
   };
 
-  const formatDate = (time: string) => {
-    const date = new Date(time)
-    const options : Intl.DateTimeFormatOptions = {
-      month: 'long', 
-    }
-    const month = date.toLocaleDateString('en-US',options)
-    const day= date.getDate()
-    const year = date.getFullYear()
-    const getOrdinal = (n:number) =>{
-      const s = ["th", "st", "nd", "rd"]
-      const v = n % 100
-      return s[(v - 20) % 10] || s[v] || s[0];
-    }
-
-    return `${month} ${day}${getOrdinal(day)}, ${year}`;
-  }
 
   const formatId = (id: number) => {
     return `TRANS-0${id}`
@@ -100,9 +87,11 @@ export default function Page() {
   }, [token]);
 
   return (
-    <section className="pagelayout flex flex-col min-h-[400px]">
+    // <section className="pagelayout flex-1 flex flex-col h-[calc(100vh-164px)] lg:h-[calc(100vh-188.5px)] overflow-y-auto">
+      <>
       {!isLoading ? (
-        <>
+        <div className="flex-1 pr-[2%] lg:h-[calc(100vh-80.5px)] overflow-y-auto">
+          <div className="rounded-xl border border-[#f8a11e] px-4 md:px-6 lg:px-8 py-3 md:py-5 lg:py-7">
           <p className="text-xl font-semibold mb-4 md:mb-6 lg:mb-8">
             Quick action
           </p>
@@ -324,12 +313,16 @@ export default function Page() {
               </div>
             )}
           </div>
-        </>
+          </div>
+        </div>
       ) : (
-        <div className="flex-1 flex justify-center items-center">
+        <div className="h-[calc(100vh-164px)] lg:h-[calc(100vh-188.5px)] flex-1 pr-[2%]">
+        <div className="h-full flex justify-center items-center">
           <div className="animate-spin h-8 w-8 border-2 border-t-transparent border-white rounded-full"></div>
         </div>
+        </div>
       )}
-    </section>
+      </>
+    // </section>
   );
 }

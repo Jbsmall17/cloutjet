@@ -26,6 +26,8 @@ import {toast, Toaster} from "react-hot-toast"
 import axios from "axios";
 import Loader from "./ui/Loader";
 
+const baseUrl = process.env.NEXT_PUBLIC_API_URL
+
 export default function BuyerAccount({
   social,
   country,
@@ -83,7 +85,7 @@ export default function BuyerAccount({
   };
 
   const initiateEscrow = () => {
-    const endpoint = `https://cloud-jet.onrender.com/v1/buyer/initiate-purchase/${account?._id}`
+    const endpoint = `${baseUrl}/v1/buyer/initiate-purchase/${account?._id}`
     setLoading(true)
     axios.post(endpoint,{},{
       headers : {
@@ -294,7 +296,7 @@ export default function BuyerAccount({
             {flag && <img className="size-6 md:size-8" src={flag} />}
           </p>
           {
-            showPreview
+            showPreview && price
             &&
             <p className="font-semibold text-base">{formatPriceToNaira(price)}</p>
           }

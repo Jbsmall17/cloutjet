@@ -3,6 +3,7 @@ import { publicVapidKey } from "../config/push";
 import { urlBase64ToUint8Array } from "../utils";
 import axios from "axios";
 
+const baseUrl = process.env.NEXT_PUBLIC_API_URL
 
 export function usePushNotifications(){
     const isSupported = typeof window !== "undefined" && "serviceWorker" in navigator && "PushManager" in window
@@ -20,7 +21,7 @@ export function usePushNotifications(){
     }, [isSupported])
 
     const registerAndSubcribe = useCallback(async ()=>{
-        const endpoint = "https://cloud-jet.onrender.com/v1/user/notifications/subscribe"
+        const endpoint = `${baseUrl}/v1/user/notifications/subscribe`
         if(!isSupported){
             throw new Error("Push notifications or service workers are not supported in this browser.")
         }

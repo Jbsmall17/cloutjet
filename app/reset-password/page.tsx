@@ -18,6 +18,8 @@ type verifyEmail = {
   email: string
 }
 
+const baseUrl = process.env.NEXT_PUBLIC_API_URL
+
 export default function Page() {
   const [step,setStep] = useState(1)
   const [userId,setUserId] = useState("")
@@ -31,7 +33,7 @@ export default function Page() {
   } = useForm<verifyEmail>();
 
     const onSubmit: SubmitHandler<verifyEmail> = (data) => {
-      const endpoint = 'https://cloud-jet.onrender.com/v1/auth/forgot-password'
+      const endpoint = `${baseUrl}/v1/auth/forgot-password`
       setIsLoading(true)
       axios.post(endpoint,{
         email: data.email
@@ -93,7 +95,7 @@ export default function Page() {
     const [isLoading, setIsLoading] = useState(false)
     
     const handleVerify = () =>{
-      const endpoint = `https://cloud-jet.onrender.com/v1/auth/verify-reset-otp/${userId}`
+      const endpoint = `${baseUrl}/v1/auth/verify-reset-otp/${userId}`
       if(value.length < 6) return
       setIsLoading(true)
       axios.post(endpoint,{
@@ -112,7 +114,7 @@ export default function Page() {
 
     const resendOTP = () => {
       if(userId){
-        axios.post(`https://cloud-jet.onrender.com/v1/auth/resend-otp/${userId}`, {})
+        axios.post(`${baseUrl}/v1/auth/resend-otp/${userId}`, {})
         .then(()=>{})
         .catch(()=>{})
     }
@@ -176,7 +178,7 @@ export default function Page() {
     const password = watch("password")
 
     const onSubmit: SubmitHandler<ResetInput> = (data) => {
-      const endpoint = `https://cloud-jet.onrender.com/v1/auth/reset-password/${userId}`
+      const endpoint = `${baseUrl}/v1/auth/reset-password/${userId}`
       setIsLoading(true)
       axios.post(endpoint, {
         newPassword: data.password
