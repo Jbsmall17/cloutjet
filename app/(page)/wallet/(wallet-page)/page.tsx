@@ -1,7 +1,5 @@
 "use client";
 import Image from "next/image";
-
-// Import images from your components/imgs folder
 import paymentImg from "@/components/imgs/payment icon.png";
 import walletImg from "@/components/imgs/wallet icon.png";
 import { useContextValue } from "@/context";
@@ -13,6 +11,9 @@ import { ChangeEvent, useEffect, useState } from "react";
 import axios from "axios";
 import {toast, Toaster} from "react-hot-toast"
 import Loader from "@/components/ui/Loader";
+
+const baseUrl = process.env.NEXT_PUBLIC_API_URL
+
 export default function Page() {
   const {totalWallet} = useContextValue()
   const [fund, setFund] = useState("")
@@ -34,7 +35,7 @@ export default function Page() {
   }
 
   const intiatePayment = (token : string) =>{
-    const endpoint = 'https://cloud-jet-production.up.railway.app/v1/wallet/initiate-wallet-funding'
+    const endpoint = `${baseUrl}/v1/wallet/initiate-wallet-funding`
     const payload = {
       amount : rawValue
     }
@@ -57,12 +58,41 @@ export default function Page() {
     })
   }
 
+  const getTransactionHistory = () =>{
+    const endpoint = `${baseUrl}/v1/user/transactions`
+    axios.get(endpoint,{
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    .then((res)=>{
+      console.log(res.data)
+    })
+    .catch((err)=>{
+      console.log(err.response)
+    })  
+  }
+
+  // const formatStatus = (status: string) =>{
+  //   if(status == "successful"){
+  //     return `bg-green-200 text-green-500`
+  //   }else{
+  //     return `bg-red-200 text-green-500`
+  //   }
+  // }
+
   useEffect(()=>{
     const storedToken = sessionStorage.getItem("token")
     if(storedToken){
       setToken(storedToken)
     }
   },[])
+
+  useEffect(()=>{
+    if(token){
+      getTransactionHistory()
+    }
+  },[token])
 
   return (
     <div className="w-full flex flex-col items-center px-2 sm:px-4">

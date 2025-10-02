@@ -6,6 +6,8 @@ import { Clipboard, Check } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 
 
+const baseUrl = process.env.NEXT_PUBLIC_API_URL
+
 export default function Page() {
     const {refferalObj, setRefferalObj} = useContextValue()
     const [isCopied, setIsCopied] = useState(false)
@@ -27,7 +29,7 @@ export default function Page() {
     }
 
     const getRefferalCode = () => {
-        const endpoint = "https://cloud-jet.onrender.com/v1/auth/referralCode"
+        const endpoint = `${baseUrl}/v1/auth/referralCode`
         axios.get(endpoint,{
             headers: {
                 Authorization: `Bearer ${token}`

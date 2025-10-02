@@ -43,6 +43,8 @@ type sellAccountInput = {
   likesCount: string;
 };
 
+const baseUrl = process.env.NEXT_PUBLIC_API_URL
+
 export default function Page() {
   const [listingFeeValue, setListingFeeValue] = useState(0)
   const [isLoading, setIsLoading] = useState(false);
@@ -88,7 +90,7 @@ export default function Page() {
 
   const inputRef = useRef<HTMLInputElement>(null);
   const onSubmit: SubmitHandler<sellAccountInput> = (data) => {
-    const endpoint = 'https://cloud-jet.onrender.com/v1/seller/verification/submit-account'
+    const endpoint = `${baseUrl}/v1/seller/verification/submit-account`
     const formData = new FormData();
     formData.append("platform", data.socialMediaPlatform);
     formData.append("niche", data.niche);
@@ -126,7 +128,7 @@ export default function Page() {
   }
 
   const getListingFee = () => {
-    const endpoint = 'https://cloud-jet.onrender.com/v1/seller/verification/listing-fee'
+    const endpoint = `${baseUrl}/v1/seller/verification/listing-fee` 
 
     axios.get(endpoint,{
       headers: {

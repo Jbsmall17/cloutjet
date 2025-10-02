@@ -5,6 +5,7 @@ import { useContextValue } from '@/context'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 
+const baseUrl = process.env.NEXT_PUBLIC_API_URL
 
 export default function Page() {
   const [token, setToken] = useState('')
@@ -12,14 +13,14 @@ export default function Page() {
   const [isLoading, setIsLoading] = useState(true)
 
   const getListedAccount = () => {
-    const endpoint = 'https://cloud-jet.onrender.com/v1/buyer/escrow-transactions?status=completed'
+    const endpoint = `${baseUrl}/v1/buyer/escrow-transactions?status=pending`
     axios.get(endpoint, {
       headers: {
         Authorization: `Bearer ${token}`
       }
     })
-    .then((res)=>{
-      setPurchasedAccount(res.data.data)
+    .then(()=>{
+      // setPurchasedAccount(res.data.data)
     })
     .catch((err)=>{
       setPurchasedAccount([])

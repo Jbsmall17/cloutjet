@@ -2,25 +2,109 @@
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Check,
-  Facebook,
-  Instagram,
-  Twitch,
-  Linkedin,
-  PinIcon,
-  SpaceIcon,
-  TicketCheckIcon,
-  Youtube,
+  Loader2,
+  Menu,
+  X,
 } from "lucide-react";
 import Image from "next/image";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
+import toast, { Toaster } from "react-hot-toast";
+import axios from "axios";
+import Link from "next/link";
+
+
+
+type pricingType = {
+  bots: {
+    pricePerUnit: number;
+    deliveryPer1000: number;
+  };
+  real: {
+    pricePerUnit: number;
+    deliveryPer1000: number;
+  };
+};
+
+const PRICING_RULES: pricingType = {
+  bots: {
+    pricePerUnit: 0.05, // ₦ per engagement
+    deliveryPer1000: 1  // 1 day per 1000 units
+  },
+  real: {
+    pricePerUnit: 1.5,  // ₦ per engagement
+    deliveryPer1000: 3  // 3 days per 1000 units
+  }
+}
+
+type platformType = {
+  instagram: number;
+  twitter: number;
+  facebook: number;
+  tiktok: number;
+  linkedIn: number;
+  youtube: number;
+  threads: number;
+  snapchat: number;
+  tinder: number;
+  default: number;
+}
+
+const PLATFORM_FEES: platformType = {
+  instagram: 50,
+  twitter: 40,
+  facebook: 30,
+  tiktok: 60,
+  linkedIn: 80,
+  youtube: 70,
+  threads: 45,
+  snapchat: 55,
+  tinder: 35,
+  default: 20
+};
+
+const baseUrl = process.env.NEXT_PUBLIC_API_URL
+
+const calculateOrderDetails = (engagementOption : 'bots' | 'real', quantity : number, platform : 'instagram' | 'twitter' | 'facebook' | 'tiktok' | 'linkedIn' | 'youtube' | 'threads' | 'snapchat' | 'tinder' ) => {
+  const SERVICE_FEE = 1000
+  const rules = PRICING_RULES[engagementOption];
+  if (!rules) throw new Error("Invalid engagement option");
+
+  const engagementCost = quantity * rules.pricePerUnit;
+  const platformFee = PLATFORM_FEES[platform] || PLATFORM_FEES.default;
+
+  const totalPrice = engagementCost + platformFee + SERVICE_FEE;
+  const estimatedDeliveryDays = Math.ceil((quantity / 1000) * rules.deliveryPer1000);
+
+  return { 
+    engagementCost,
+    platformFee,
+    serviceFee: SERVICE_FEE,
+    totalPrice,
+    estimatedDeliveryDays
+  };
+};
 
 export default function Page() {
   const [stage, setStage] = useState(0);
   const [type, setType] = useState("")
+  const divRef = useRef<HTMLDivElement>(null);
+  const orderRef = useRef<HTMLDivElement>(null)
+  
+  const goToNextStage = (type : string) => {
+    setStage(stage + 1);
+    setType(type);
+    divRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    })
+  };
+
+
+
   const HomeScreen = () => {
     return (
       <>
@@ -54,7 +138,7 @@ export default function Page() {
                 </li>
               </ul>
               <Button
-                onClick={() => {setStage(1); setType("bots")}}
+                onClick={() => {goToNextStage("bots")}}
                 className="cursor-pointer block mx-auto bg-[#f8a11e] text-black hover-opacity-80 cursor-ponter"
                 size={"lg"}
               >
@@ -93,7 +177,7 @@ export default function Page() {
                 </li>
               </ul>
               <Button
-                onClick={() => {setStage(1);setType("real")}}
+                onClick={() => {goToNextStage("real")}}
                 className="cursor-pointer block mx-auto bg-[#f8a11e] text-black hover-opacity-80 cursor-ponter"
                 size={"lg"}
               >
@@ -230,158 +314,438 @@ export default function Page() {
     );
   };
 
-  const CreateOrderForm = () => {
+
+  const MainConent = () =>{
+    const [step, setStep] = useState(0)
+    const [token, setToken] = useState("")
+    const [orderObj, setOrderObj] = useState({
+      platform: "",
+      engagementOption: type,
+      engagementType: "",
+      postLink: "",
+      quantity: 0,
+    })
+    const [isPlatformVisible, setIsPlatformVisible] = useState(false)
+    const handleChange = (value : string) =>{
+      setOrderObj({
+        ...orderObj,
+        platform: value
+      })
+    }
+
+    const handleEngagementTypeChange = (value : string) =>{
+      setOrderObj({
+        ...orderObj,
+        engagementType: value
+      })
+    }
+    const handleEngagementOptionsChange = (value : string) =>{
+      setOrderObj({
+        ...orderObj,
+        engagementOption: value
+      })
+    }
+
+    const placeOrder = () =>{
+      if(orderObj.platform && orderObj.engagementOption && orderObj.engagementType && orderObj.postLink && orderObj.quantity > 0){
+        setStep(1); 
+        orderRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
+      }
+    }
+
+  const OrderSummary = () =>{
+    const [isLoading, setIsLoading] = useState(false)
+    const [isChecked, setIsChecked] = useState(false)
+    const {engagementCost, platformFee, serviceFee, totalPrice,estimatedDeliveryDays} = calculateOrderDetails(orderObj.engagementOption as 'bots' | 'real', orderObj.quantity, orderObj.platform as 'instagram' | 'twitter' | 'facebook' | 'tiktok' | 'linkedIn' | 'youtube' | 'threads' | 'snapchat' | 'tinder')
+    console.log({engagementCost, platformFee, serviceFee, totalPrice, estimatedDeliveryDays})
+
+    const formatMoney = (price: number) =>{
+      return `₦ ${price.toLocaleString()}`
+    }
+
+    const postCreateOrder = (token: string) => {
+      const endpoint = `${baseUrl}/v1/growth-order/create-growth-order`
+      setIsLoading(true)
+      axios.post(endpoint,{...orderObj},{
+        headers : {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      .then((res)=>{
+        console.log(res.data)
+        toast.success(res.data.message || "order created successfully")
+      })
+      .catch((err)=>{
+        toast.error(err.response ? err.response.data.message : "Failed to create order")
+      })
+      .finally(()=>{
+        setIsLoading(false)
+      })
+    }
+
+    const handleOrder = () => {
+      if(!isChecked) return 
+      postCreateOrder(token)
+    }
+
+    useEffect(()=>{
+      const storedToken = sessionStorage.getItem("token")
+      if(storedToken){
+        setToken(storedToken)
+      }
+    },[])
+
     return (
-      <section className="bg-[#17233b] max-w-screen-2xl px-[3%] pb-14 md:pb-16 lg:pb-20">
-        <section className="bg-white rounded-xl flex flex-col sm:flex-row">
-          <div className="pt-8 px-3 lg:px-6 border-r-2 border-[#808080]">
-            <p className="whitespace-nowrap text-base lg:text-xl font-semibold text-center mb-4">
+      <section ref={orderRef} className="bg-[#17233b] max-w-screen-2xl px-[5%]  py-10 md:py-12 lg:py-16">
+        <Toaster />
+          <div className="bg-white max-w-screen-md mx-auto rounded-lg py-6 px-4 sm:px-8 md:px-12 lg:px-16">
+            <p className="text-base sm:text-xl font-semibold text-center mb-4">
+              Order Summary
+            </p>
+            <p className="text-sm md:text-base text-black text-center mb-8 md:mb-10 lg:mb-12 font-normal">
+              You are about to place an order for the terms below. Please
+              confirm
+              <br />
+              Please confirm details and agree to terms and conditions before
+              you continue
+            </p>
+            <div className="border-y border-y-[#a99e8e] divide-y divide-[#a99e8e]">
+              <div className="py-2 sm:py-4 px-2 sm:px-4 md:px-6 lg:px-10 flex flex-row justify-between items-center">
+                <p className="text-sm md:text-base font-semibold">
+                  {`Total ${orderObj.engagementOption.charAt(0).toUpperCase() + orderObj.engagementOption.slice(1)} Engagement`}
+                </p>
+                <p className="sm:w-[120px] text-sm sm:text-base font-semibold">
+                  {orderObj.quantity} {orderObj.engagementType}
+                </p>
+              </div>
+              <div className="py-2 sm:py-4 px-2 sm:px-4 md:px-6 lg:px-10 flex flex-row justify-between items-center">
+                <p className="sm:text-base font-semibold">Fee breakdown</p>
+              </div>
+              <div className="py-2 sm:py-4 px-2 sm:px-4 md:px-6 lg:px-10 space-y-3">
+                <div className="text-sm md:text-base font-semibold flex flex-row justify-between items-center text-[#a99e8e]">
+                  <p>Platform fee</p>
+                  <p className="sm:w-[120px]">{formatMoney(platformFee)}</p>
+                </div>
+                <div className="text-sm md:text-base font-semibold flex flex-row justify-between items-center text-[#a99e8e]">
+                  <p>Service Fee</p>
+                  <p className="text-sm md:w-[120px]">{formatMoney(serviceFee)}</p>
+                </div>
+                <div className="text-base font-semibold flex flex-row justify-between items-center text-black">
+                  <p>Total Fee</p>
+                  <p className="text-sm md:w-[120px]">{formatMoney(totalPrice)}</p>
+                </div>
+              </div>
+              <div className="py-2 sm:py-4 px-2 sm:px-4 md:px-6 lg:px-10 text-base font-semibold flex flex-row justify-between items-center text-black">
+                <p className="text-sm md:text-base">Expected delivery Window</p>
+                <p className="sm:w-[120px]">{estimatedDeliveryDays} day(s)</p>
+              </div>
+            </div>
+            <div className="px-2 sm:py-4 px-2 sm:px-4 md:px-6 lg:px-10 text-sm sm:text-base font-semibold flex flex-col sm:flex-row justify-between sm:items-center text-black">
+              <p>Link account link</p>
+              <p className="text-[#a99e8e]">
+                {orderObj.postLink}
+              </p>
+            </div>
+            <div className="py-4 px-4 md:px-6 lg:px-10 flex flex-row items-center">
+              <Checkbox 
+                checked={isChecked}
+                onCheckedChange={()=> setIsChecked(!isChecked)}
+                className="inline mr-4 size-6" 
+                />
+              <span className="text-sm md:text-base text-black">
+                I agree with the{" "}
+                <span className="text-[#1877f2]">Terms and Conditions</span>
+              </span>
+            </div>
+            <Button onClick={handleOrder} className="flex justify-center item-center w-[125px] sm:w-[150px] mb-3 mx-auto mt-4 md:mt-6 lg:mt-8 bg-[#f8a11e] text-black">
+              {
+                isLoading
+                ? <Loader2 className="animate-spin" />
+                : "Confirm order"
+              }
+    
+            </Button>
+            <div className="flex justify-center items-center">
+              <Link  
+                href={"/seller/orders"}
+                className="text-sm md:text-base text-center font-semibold">
+                Track your order in Dashboard
+              </Link>
+            </div>
+          </div>
+        </section>
+    )
+  }
+
+    return (
+      step == 0
+      ? (
+        <section ref={divRef} className="bg-[#17233b] max-w-screen-2xl px-[3%] pb-14 md:pb-16 lg:pb-20">
+        <section className="relative bg-white rounded-xl flex flex-row">
+          <div className={`${isPlatformVisible ? "block" : "hidden lg:block" } shadow-sm bg-white absolute z-10 lg:static top-0 left-0 pb-5 pt-7 lg:pt-10 lg:pb-8 px-3 lg:px-6 border-r-2 border-[#808080] rounded-xl`}>
+            <X onClick={() => setIsPlatformVisible(!isPlatformVisible)} className="block lg:hidden absolute top-3 right-3" />
+            <p className="whitespace-nowrap text-base lg:text-xl font-semibold text-center mb-2 lg:mb-4">
               Social Media platform
             </p>
-            <ul className="space-y-3 ml-4 md:ml-6 lg:ml-8">
-              <li className="flex flex-row gap-1 items-center">
-                <Checkbox />
-                <Facebook className="size-4" />
+            <ul className="space-y-2 lg:space-y-3 ml-4 md:ml-6 lg:ml-8">
+              <li className="flex flex-row gap-2 items-center">
+                <Checkbox 
+                  checked={orderObj.platform === "facebook"}
+                  onCheckedChange={() => handleChange("facebook")}
+                />
+                <Image
+                  src="/facebook.png"
+                  alt="facebook icon"
+                  width={16}
+                  height={16}
+                />
                 <span>Facebook</span>
               </li>
-              <li className="flex flex-row gap-1 items-center">
-                <Checkbox />
-                <Instagram className="size-4" />
+              <li className="flex flex-row gap-2 items-center">
+                <Checkbox 
+                  checked={orderObj.platform === "instagram"}
+                  onCheckedChange={() => handleChange("instagram")}
+                />
+                <Image
+                  src="/instagram.png"
+                  alt="instagram icon"
+                  width={16}
+                  height={16}
+                />
                 <span>Instagram</span>
               </li>
-              <li className="flex flex-row gap-1 items-center">
-                <Checkbox />
-                <Twitch className="size-4" />
+              <li className="flex flex-row gap-2 items-center">
+                <Checkbox
+                  checked={orderObj.platform === "twitter"}
+                  onCheckedChange={() => handleChange("twitter")}
+                />
+                <Image
+                  src="/twitter.png"
+                  alt="twitter icon"
+                  width={16}
+                  height={16}
+                />
                 <span>Twitter</span>
               </li>
-              <li className="flex flex-row gap-1 items-center">
-                <Checkbox />
-                <SpaceIcon className="size-4" />
+              <li className="flex flex-row gap-2 items-center">
+                <Checkbox 
+                  checked={orderObj.platform === "snapchat"}
+                  onCheckedChange={() => handleChange("snapchat")}
+                />
+                <Image
+                  src="/snapchat.png"
+                  alt="snapchat icon"
+                  width={16}
+                  height={16}
+                />
                 <span>Snapchat</span>
               </li>
-              <li className="flex flex-row gap-1 items-center">
-                <Checkbox />
-                <Linkedin className="size-4" />
+              <li className="flex flex-row gap-2 items-center">
+                <Checkbox 
+                  checked={orderObj.platform === "linkedin"}
+                  onCheckedChange={() => handleChange("linkedin")}
+                />
+                <Image
+                  src="/linkedin.png"
+                  alt="linkedin icon"
+                  width={16}
+                  height={16}
+                />
                 <span>Linkedin</span>
               </li>
-              <li className="flex flex-row gap-1 items-center">
-                <Checkbox />
-                <PinIcon className="size-4" />
-                <span>Linkedin</span>
-              </li>
-              <li className="flex flex-row gap-1 items-center">
-                <Checkbox />
-                <PinIcon className="size-4" />
+              <li className="flex flex-row gap-2 items-center">
+                <Checkbox
+                  checked={orderObj.platform === "threads"}
+                  onCheckedChange={() => handleChange("threads")}
+                />
+                <Image
+                  src="/threads.png"
+                  alt="threads icon"
+                  width={16}
+                  height={16}
+                />
                 <span>Threads</span>
               </li>
-              <li className="flex flex-row gap-1 items-center">
-                <Checkbox />
-                <TicketCheckIcon className="size-4" />
+              <li className="flex flex-row gap-2 items-center">
+                <Checkbox
+                  checked={orderObj.platform === "tiktok"}
+                  onCheckedChange={() => handleChange("tiktok")}
+                />
+                <Image
+                  src="/tiktok.png"
+                  alt="tiktok icon"
+                  width={16}
+                  height={16}
+                />
                 <span>Tiktok</span>
               </li>
-              <li className="flex flex-row gap-1 items-center">
-                <Checkbox />
-                <PinIcon className="size-4" />
+              <li className="flex flex-row gap-2 items-center">
+                <Checkbox 
+                  checked={orderObj.platform === "tinder"}
+                  onCheckedChange={() => handleChange("tinder")}
+                />
+                <Image
+                  src="/tinder.png"
+                  alt="tinder icon"
+                  width={16}
+                  height={16}
+                />
                 <span>Tinder</span>
               </li>
-              <li className="flex flex-row gap-1 items-center">
-                <Checkbox />
-                <Youtube className="size-4" />
+              <li className="flex flex-row gap-2 items-center">
+                <Checkbox 
+                  checked={orderObj.platform === "youtube"}
+                  onCheckedChange={() => handleChange("youtube")}
+                />
+                <Image
+                  src="/youtube.png"
+                  alt="youtube icon"
+                  width={16}
+                  height={16}
+                />
                 <span>Youtube</span>
               </li>
             </ul>
           </div>
-          <div className="pt-6 pb-8 px-3 lg:px-6 flex-1 w-full">
-            <p className="text-black text-center text-xl font-semibold mb-2">
+          <div className="relative pt-6 pb-8 px-3 lg:px-6 flex-1 w-full">
+            <Menu onClick={() => setIsPlatformVisible(!isPlatformVisible)} className="absolute top-4 left-3 block lg:hidden" />
+            <p className="text-black text-center text-base md:text-xl font-semibold mb-2">
               Select Engagement Types
             </p>
-            <p className="text-base text-center mb-5">
+            <p className="text-sm md:text-base text-center mb-3 lg:mb-5">
               choose from the available set of choices
             </p>
-            <div className="flex flex-col items-center lg:flex-row gap-6 justify-between mb-8">
-              <div className="w-[150px] text-center p-4 text-base rounded-xl border border-black">
+            <div  className="flex items-center flex-row flex-wrap justify-between mb-8 gap-4 sm:gap-6 lg:gap-8 xl:gap-16">
+              <div onClick={()=> handleEngagementTypeChange('comments')} className={`flex-1 text-center p-2 md:p-4 text-sm md:text-base rounded-xl ${orderObj.engagementType === "comments" ? "bg-[#f8a11e] text-white border-white " : "hover:bg-[#f8a11e] hover:text-white hover:border-white border border-black"}`}>
                 Comments
               </div>
-              <div className="w-[150px] text-center p-4 text-base rounded-xl border border-black">
+              <div onClick={()=> handleEngagementTypeChange('followers')} className={`flex-1 text-center p-2 md:p-4 text-sm md:text-base rounded-xl ${orderObj.engagementType === "followers" ? "bg-[#f8a11e] text-white border-white " : "hover:bg-[#f8a11e] hover:text-white hover:border-white border border-black"}`}>
                 Followers
               </div>
-              <div className="w-[150px] text-center p-4 text-base rounded-xl border border-black">
+              <div onClick={()=> handleEngagementTypeChange('shares')} className={`flex-1 text-center p-2 md:p-4 text-sm md:text-base rounded-xl ${orderObj.engagementType === "shares" ? "bg-[#f8a11e] text-white border-white " : "hover:bg-[#f8a11e] hover:text-white hover:border-white border border-black"}`}>
+                Shares
+              </div>
+              <div onClick={()=> handleEngagementTypeChange('likes')} className={`flex-1 text-center p-2 md:p-4 text-sm md:text-base rounded-xl ${orderObj.engagementType === "likes" ? "bg-[#f8a11e] text-white border-white " : "hover:bg-[#f8a11e] hover:text-white hover:border-white border border-black"}`}>
                 Likes
               </div>
-              <div className="w-[150px] text-center p-4 text-base rounded-xl border border-black">
+              <div onClick={() => handleEngagementTypeChange('reactions')} className={`flex-1 text-center p-2 md:p-4 text-sm md:text-base rounded-xl ${orderObj.engagementType === "reactions" ? "bg-[#f8a11e] text-white border-white " : "hover:bg-[#f8a11e] hover:text-white hover:border-white border border-black"}`}>
                 Reactions
               </div>
             </div>
-            <div className="sm:max-w-[400px] lg:max-w-[600px] mx-auto">
-              <p className="text-xl font-semibold text-center">
+            <div className="max-w-[600px] mx-auto">
+              <p className="text-base md:text-xl font-semibold text-center">
                 Engagement Options
               </p>
-              <p className="text-base text-center mb-2">
+              <p className="text-sm md:text-base text-center mb-2">
                 Choose from the available set of choices
               </p>
               <div>
-                <div className={`mb-6 cursor-pointer group border-gray-500 hover:border-black ${type == "bots" ? 'border border-black': "border"} rounded-lg flex flex-row gap-4 p-3 items-center transition-all duration-300 ease-linear`}>
-                  <div className={`group-hover:size-4 ${type == 'bots' ? 'size-4 ring-4 ring-black bg-[#f8a11e]' : "size-2 ring-3 ring-[#8a8a8a]"} rounded-full group-hover:ring-4 group-hover:ring-black group-hover:bg-[#f8a11e] transition-all duration-300 ease-linear`}></div>
+                <div onClick={() => handleEngagementOptionsChange("bots")} className={`mb-4 md:mb-6 cursor-pointer group ${orderObj.engagementOption == "bots" ? 'border border-black': "border border-gray-500 hover:border-black "} rounded-lg flex flex-row gap-4 p-3 items-center transition-all duration-300 ease-linear`}>
+                  <div className={`group-hover:size-4 ${orderObj.engagementOption == 'bots' ? 'size-4 ring-4 ring-black bg-[#f8a11e]' : "size-2 ring-3 ring-[#8a8a8a]"} rounded-full group-hover:ring-4 group-hover:ring-black group-hover:bg-[#f8a11e] transition-all duration-300 ease-linear`}></div>
                   <div>
-                    <p className={`group-hover:text-black ${type == "bots" ? 'text-black' :'text-[#919191]'} text-base font-semibold transition-all duration-300 ease-linear`}>
+                    <p className={`group-hover:text-black ${orderObj.engagementOption == "bots" ? 'text-black' :'text-[#919191]'} text-base font-semibold transition-all duration-300 ease-linear`}>
                       Bot Engagements
                     </p>
-                    <p className={`text-base group-hover:text-black ${type == "bots" ? 'text-black' :'text-[#919191]'} transition-all duration-300 ease-linear`}>
+                    <p className={`text-base group-hover:text-black ${orderObj.engagementOption == "bots" ? 'text-black' :'text-[#919191]'} transition-all duration-300 ease-linear`}>
                       Fast, cost effective results. May not be sustainable
                     </p>
                   </div>
                 </div>
-                <div className={`mb-10 cursor-pointer group ${type == "real" ? "border border-black" : "border"} border-gray-500 hover:border-black rounded-lg flex flex-row gap-4 p-3 items-center transition-all duration-300 ease-linear`}>
-                  <div className={`group-hover:size-4 ${type == "real" ? "size-4 ring-4 ring-black bg-[#f8a11e]" : "size-2 ring-3 ring-[#8a8a8a]"} rounded-full group-hover:ring-4 group-hover:ring-black group-hover:bg-[#f8a11e] transition-all duration-300 ease-linear`}></div>
+                <div onClick={() => handleEngagementOptionsChange("real")} className={`mb-6 md:mb-8 lg:mb-10 cursor-pointer group ${orderObj.engagementOption == "real" ? "border border-black" : "border border-gray-500 hover:border-black"} rounded-lg flex flex-row gap-4 p-3 items-center transition-all duration-300 ease-linear`}>
+                  <div className={`group-hover:size-4 ${orderObj.engagementOption == "real" ? "size-4 ring-4 ring-black bg-[#f8a11e]" : "size-2 ring-3 ring-[#8a8a8a]"} rounded-full group-hover:ring-4 group-hover:ring-black group-hover:bg-[#f8a11e] transition-all duration-300 ease-linear`}></div>
                   <div>
-                    <p className={`${type == "real" ? 'text-black' : 'text-[#919191]'} group-hover:text-black text-base font-semibold transition-all duration-300 ease-linear`}>
+                    <p className={`${orderObj.engagementOption == "real" ? 'text-black' : 'text-[#919191]'} group-hover:text-black text-base font-semibold transition-all duration-300 ease-linear`}>
                       Real Engagements
                     </p>
-                    <p className={`text-base ${type == "real" ? 'text-black' : "text-[#8a8a8a]"} group-hover:text-black transition-all duration-300 ease-linear`}>
+                    <p className={`text-base ${orderObj.engagementOption == "real" ? 'text-black' : "text-[#8a8a8a]"} group-hover:text-black transition-all duration-300 ease-linear`}>
                       Authentic growth via verified influencers
                     </p>
                   </div>
                 </div>
               </div>
-              <p className="text-xl font-semibold mb-4">Important Notice</p>
-              <p className="text-base font-normal mb-4">
+              <p className="text-base md:text-xl font-semibold mb-4">Important Notice</p>
+              <p className="text-sm md:text-base font-normal mb-4">
                 Bot engagement can provide quick results but may not be
                 sustainable in the long run, Real engagements offer authentic
                 growth through vverified, enduring a more engaged and lasting
                 audience
               </p>
               <Input
-                className="border-[#8a8a8a] py-6 md:py-8 lg:py-10 pl-8 md:pl-10 lg:pl-14 text-xl mb-4"
+                className="border-[#8a8a8a] py-4 md:py-6 lg:py-8 pl-6 md:pl-8 lg:pl-10 text-xl mb-4"
                 placeholder="Enter post Link"
+                value={orderObj.postLink}
+                onChange={(e)=> setOrderObj({...orderObj, postLink: e.target.value})}
               />
-              <div className="flex flex-col lg:flex-row justify-between lg:items-center gap-4 lg:gap-0">
+              <p className="block text-sm md:text-block mb-2">Quantity</p>
+              <div className="flex flex-col md:flex-row justify-between lg:items-center gap-4 lg:gap-0">
                 <Input
-                  className="w-[200px] border-[#8a8a8a] py-6 md:py-8 lg:py-10 pl-4 md:pl-6 lg:pl-8 text-xl"
+                  className="md:w-[200px] border-[#8a8a8a] py-4 md:py-6 lg:py-8 pl-4 md:pl-4 lg:pl-6 text-xl"
                   placeholder="Enter Quantity"
+                  value={orderObj.quantity.toLocaleString()}
+                  onChange={(e)=>{
+                    const formattedValue = e.target.value.replaceAll(/\D/g,'')
+                    setOrderObj({
+                      ...orderObj,
+                      quantity: Number(formattedValue)
+                    })
+                  }}
                 />
-                <div className="flex  flex-col lg:flex-row lg:items-center gap-4 mb-6">
-                  <div className="w-[115px] rounded-lg text-center py-4 text-[#8a8a8a] font-semibold border border-[#8a8a8a]">
+                <div className="flex flex-row lg:items-center gap-4 mb-6">
+                  <div 
+                    onClick={()=>{
+                      setOrderObj({
+                        ...orderObj,
+                        quantity: 200
+                      })
+                    }}
+                    className="w-[100px] rounded-lg text-center py-3 text-[#8a8a8a] font-semibold border border-[#8a8a8a] hover:bg-[#8a8a8a] hover:text-white">
                     200
                   </div>
-                  <div className="w-[115px] rounded-lg text-center py-4 text-[#8a8a8a] font-semibold border border-[#8a8a8a]">
+                  <div 
+                    onClick={()=>{
+                      setOrderObj({
+                        ...orderObj,
+                        quantity: 500
+                      })
+                    }}
+                    className="w-[100px] rounded-lg text-center py-3 text-[#8a8a8a] font-semibold border border-[#8a8a8a]">
                     500
                   </div>
-                  <div className="w-[115px] rounded-lg text-center py-4 text-[#8a8a8a] font-semibold border border-[#8a8a8a]">
+                  <div 
+                      onClick={()=>{
+                      setOrderObj({
+                        ...orderObj,
+                        quantity: 1000
+                      })
+                    }}
+                    className="w-[100px] rounded-lg text-center py-3 text-[#8a8a8a] font-semibold border border-[#8a8a8a]">
                     1000
                   </div>
                 </div>
               </div>
               <p className="text-base font-semibold mb-6">
-                Live Proce Quote & Estimated Delivery
+                Live Price Quote & Estimated Delivery
                 <sup>thumbs up what comments</sup>
               </p>
-              <p className="text-base font-normal mb-3">Total Price: ₦12,000</p>
+              <p className="text-base font-normal mb-3">
+                Total Price:{" "}
+                {
+                  orderObj.platform && orderObj.engagementOption && orderObj.engagementType && orderObj.postLink && orderObj.quantity > 0
+                  ? `₦ ${calculateOrderDetails(orderObj.engagementOption as 'bots' | 'real', orderObj.quantity, orderObj.platform as 'instagram' | 'twitter' | 'facebook' | 'tiktok' | 'linkedIn' | 'youtube' | 'threads' | 'snapchat' | 'tinder').totalPrice.toLocaleString()}`
+                  : "₦ 0"
+                }
+              </p>
               <p className="text-base font-normal mb-6">
-                Estimated Delivery: 2-3 days
+                Estimated Delivery:{" "} 
+                {
+                  orderObj.platform && orderObj.engagementOption && orderObj.engagementType && orderObj.postLink && orderObj.quantity > 0
+                  ? `${calculateOrderDetails(orderObj.engagementOption as 'bots' | 'real', orderObj.quantity, orderObj.platform as 'instagram' | 'twitter' | 'facebook' | 'tiktok' | 'linkedIn' | 'youtube' | 'threads' | 'snapchat' | 'tinder').estimatedDeliveryDays} day(s)`
+                  : "0 day"
+                }
               </p>
               <Button
-                onClick={() => setStage(2)}
-                className="w-[250px] rounded-lg bg-[#f8a11e] py-2 text-black mx-auto block hover:opacity-80 cursor-pointer"
+                onClick={placeOrder}
+                className="w-[250px] rounded-lg bg-[#f8a11e] py-2 text-black mx-auto block hover:opacity-80 cursor-pointer flex justify-center items-center"
               >
                 Place Order
               </Button>
@@ -389,75 +753,8 @@ export default function Page() {
           </div>
         </section>
       </section>
-    );
-  };
-
-  const OrderSummary = () =>{
-    return (
-      <section className="bg-[#17233b] max-w-screen-2xl px-[5%]  py-10 md:py-12 lg:py-16">
-          <div className="bg-white max-w-screen-md mx-auto rounded-lg py-6 px-4 sm:px-8 md:px-12 lg:px-16">
-            <p className="text-xl font-semibold text-center mb-4">
-              Order Summary
-            </p>
-            <p className="text-base text-black text-center mb-8 md:mb-10 lg:mb-12 font-normal">
-              You are about to place an order for the terms below. Please
-              confirm
-              <br />
-              Please conmfirm detials and agree to terms and conditions before
-              you continue
-            </p>
-            <div className="border-y border-y-[#a99e8e] divide-y divide-[#a99e8e]">
-              <div className="py-2 sm:py-4 px-2 sm:px-4 md:px-6 lg:px-10 flex flex-row justify-between items-center">
-                <p className="text-sm sm:text-base font-semibold">
-                  Total Bot Engagement
-                </p>
-                <p className="sm:w-[120px] text-sm sm:text-base font-semibold">
-                  10000 followers
-                </p>
-              </div>
-              <div className="py-2 sm:py-4 px-2 sm:px-4 md:px-6 lg:px-10 flex flex-row justify-between items-center">
-                <p className="text-base font-semibold">Fee breakdown</p>
-              </div>
-              <div className="py-2 sm:py-4 px-2 sm:px-4 md:px-6 lg:px-10 space-y-3">
-                <div className="text-sm sm:text-base font-semibold flex flex-row justify-between items-center text-[#a99e8e]">
-                  <p>Platform fee</p>
-                  <p className="sm:w-[120px]">₦ 50</p>
-                </div>
-                <div className="text-sm sm:text-base font-semibold flex flex-row justify-between items-center text-[#a99e8e]">
-                  <p>Service Fee</p>
-                  <p className="text-sm sm:w-[120px]">₦ 1000</p>
-                </div>
-                <div className="text-base font-semibold flex flex-row justify-between items-center text-black">
-                  <p>Total Fee</p>
-                  <p className="text-sm sm:w-[120px]">₦ 1000</p>
-                </div>
-              </div>
-              <div className="py-2 sm:py-4 px-2 sm:px-4 md:px-6 lg:px-10 text-base font-semibold flex flex-row justify-between items-center text-black">
-                <p>Expected delivery Window</p>
-                <p className="sm:w-[120px]">4-5 days</p>
-              </div>
-            </div>
-            <div className="px-2 sm:py-4 px-2 sm:px-4 md:px-6 lg:px-10 text-sm sm:text-base font-semibold flex flex-col sm:flex-row justify-between sm:items-center text-black">
-              <p>Link account link</p>
-              <p className="text-[#a99e8e]">
-                https://instagram.com/uykadugu/hieqi/likes%20
-              </p>
-            </div>
-            <div className="py-4 px-4 md:px-6 lg:px-10 flex flex-row items-center">
-              <Checkbox className="inline mr-4 size-6" />
-              <span className="text-base text-black">
-                I agree with the{" "}
-                <span className="text-[#1877f2]">Terms and Conditions</span>
-              </span>
-            </div>
-            <Button className="block px-14 h-12 mb-3 mx-auto mt-4 md:mt-6 lg:mt-8 bg-[#f8a11e] text-black">
-              Confirm order
-            </Button>
-            <p className="text-center font-semibold">
-              Track your order in Dashboard
-            </p>
-          </div>
-        </section>
+      )
+      : <OrderSummary />
     )
   }
 
@@ -467,15 +764,15 @@ export default function Page() {
         <div className="max-w-screen-2xl px-[5%] 2xl:px-0 mx-auto space-y-4 pb-8 md:pb-10 lg:pb-16">
           <p className="flex flex-row gap-4 items-center justify-center">
             <span className="h-0.5 w-12 bg-white block"></span>
-            <span className="text-xl font-normal">
+            <span className="text-base md:text-xl font-normal">
               We&apos;re your new sure plug
             </span>
           </p>
-          <p className="text-2xl font-medium text-center">
+          <p className="text-xl md:text-2xl font-medium text-center">
             Accelerated, Safe, Secured, Trusted
             <br /> Growths & Engagements
           </p>
-          <p className="text-xl font-normal text-center">
+          <p className="text-base md:text-xl font-normal text-center">
             Using our seamless step-by-step process to request social
             <br /> media growth engagements likes, followers, comments
           </p>
@@ -497,11 +794,8 @@ export default function Page() {
       </section>
       {stage == 0 ? (
         <HomeScreen />
-      ) : stage == 1 ? (
-        <CreateOrderForm />
-      ) : (
-        <OrderSummary />
-      )}
+      ) : <MainConent />
+      }
       <Footer />
     </>
   );

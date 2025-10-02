@@ -57,7 +57,13 @@ type contextType = {
   currentPage : number, 
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>,
   totalWallet: number,
-  setTotalWallet: React.Dispatch<React.SetStateAction<number>>
+  setTotalWallet: React.Dispatch<React.SetStateAction<number>>,
+  orders: Order[],
+  setOrders: React.Dispatch<React.SetStateAction<Order[]>>,
+  ordersPageObj : {totalPage: number, currentPage: number},
+  setOrdersPageObj: React.Dispatch<React.SetStateAction<{totalPage: number, currentPage: number}>>,
+  isOrderRequested: boolean,
+  setIsOrderRequested: React.Dispatch<React.SetStateAction<boolean>>
 };
 
 type refferalObj = {
@@ -122,6 +128,25 @@ export type listedAccount = {
   account: account;
   paymentSummary?: payment;
 };
+
+export type Order = {
+  _id: string,
+  clientId: string,
+  platform: string,
+  provider: null | string,
+  providerOrderId: null | string,
+  providerStatus: null | string,
+  providerCharge: number,
+  engagementOption: string,
+  postLink: string,
+  quantity: number,
+  totalPrice: number,
+  estimatedDeliveryDays: number,
+  budget: number,
+  status: string,
+  escrowStatus: string,
+  createdAt: string,
+}
 
 const context = createContext<contextType | undefined>(undefined);
 
@@ -192,6 +217,13 @@ export function ContextComp({ children }: { children: ReactNode }) {
   const [noOfPage, setNoOfPages] = useState<number>(0)
   const [currentPage, setCurrentPage] = useState<number>(0)
   const [totalWallet, setTotalWallet] = useState<number>(0)
+  const [orders, setOrders] = useState<Order[]>([])
+  const [ordersPageObj, setOrdersPageObj] = useState({
+    totalPage: 0, 
+    currentPage: 0
+  })
+  const [isOrderRequested, setIsOrderRequested] = useState(false)
+
 
   useEffect(() => {
     const user = sessionStorage.getItem("userObj");
@@ -225,7 +257,13 @@ export function ContextComp({ children }: { children: ReactNode }) {
         currentPage, 
         setCurrentPage,
         totalWallet,
-        setTotalWallet
+        setTotalWallet,
+        orders, 
+        setOrders,
+        ordersPageObj, 
+        setOrdersPageObj,
+        isOrderRequested, 
+        setIsOrderRequested
       }}
     >
       {children}

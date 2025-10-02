@@ -23,6 +23,23 @@ export const formatFollower = (followers: number): string => {
   return formatFollower;
 };
 
+export const formatDate = (time: string) => {
+    const date = new Date(time)
+    const options : Intl.DateTimeFormatOptions = {
+      month: 'long', 
+    }
+    const month = date.toLocaleDateString('en-US',options)
+    const day= date.getDate()
+    const year = date.getFullYear()
+    const getOrdinal = (n:number) =>{
+      const s = ["th", "st", "nd", "rd"]
+      const v = n % 100
+      return s[(v - 20) % 10] || s[v] || s[0];
+    }
+
+    return `${month} ${day}${getOrdinal(day)}, ${year}`;
+  }
+
 export const mockData = [
   {
     _id: "1",
@@ -159,3 +176,18 @@ export const selectedAccountss = [
     avatar: "/account.svg",
   },
 ];
+
+export function urlBase64ToUint8Array(base64String : string) {
+  const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
+  const base64 = (base64String + padding)
+    .replace(/-/g, '+')
+    .replace(/_/g, '/');
+
+  const rawData = window.atob(base64);
+  const outputArray = new Uint8Array(rawData.length);
+
+  for (let i = 0; i < rawData.length; ++i) {
+    outputArray[i] = rawData.charCodeAt(i);
+  }
+  return outputArray;
+}

@@ -15,9 +15,9 @@ export default function AuthComp({image,textVisibility}: AuthCompProps) {
       />
       {
         textVisibility &&
-        <div className='absolute left-[5%] bottom-[20%] text-white w-[90%]'>
-          <p className='text-white text-2xl md:text-3xl font-semibold mb-2 md:mb-4 lg:mb-6'>Network. Transact. Redefine Your Online Presence</p>
-          <p className='text-[#ffffff] text-base md:text-xl'>
+        <div className='absolute left-[5%] bottom-[15%] text-white w-[90%]'>
+          <p className='text-white text-xl md:text-2xl font-semibold mb-2 md:mb-4'>Network. Transact. Redefine Your Online Presence</p>
+          <p className='text-[#ffffff] text-sm md:text-base'>
             Redefine your digital journey through meaningful connections and ethical exchange in a platform designed for sustainable growth
           </p>
         </div>

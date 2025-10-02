@@ -7,7 +7,7 @@ import React from 'react'
 export default function Layout({children}: {children: React.ReactNode}) {
   const pathname = usePathname()
   return (
-    <main className='flex-1'>
+    <main className='flex-1 lg:h-[calc(100vh-80.5px)] overflow-y-auto pr-[2%]'>
       <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-6 md:mb-8 lg:mb-10">
         <Link
             href="/seller/buy-sell-account/buy"
