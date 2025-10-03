@@ -1,23 +1,22 @@
-"use client"
-import toast, { Toaster } from "react-hot-toast"
-import OtpTimer from "./OtpTimer"
-import { InputOTP, InputOTPGroup, InputOTPSlot } from "./ui/input-otp"
-import AuthComp from "./AuthComp"
-import axios from "axios"
-import { useRouter } from "next/navigation"
-import React from "react"
-import { useContextValue } from "@/context"
+import { useContextValue } from '@/context'
+import axios from 'axios'
+import { useRouter } from 'next/navigation'
+import React from 'react'
+import toast, { Toaster } from 'react-hot-toast'
+import AuthComp from './AuthComp'
+import { InputOTP, InputOTPGroup, InputOTPSlot } from './ui/input-otp'
+import OtpTimer from './OtpTimer'
 
 const baseUrl = process.env.NEXT_PUBLIC_API_URL
 
-export default function VerificationComp() {
-  const {setUser} = useContextValue()
-  const router = useRouter()
-  const user = sessionStorage.getItem("user")
-  const [value, setValue] = React.useState("")
-  const [isLoading,setIsLoading] = React.useState(false)
-
-  const verifyUser = () =>{
+export default function InfluencerVerificationComp() {
+    const {setUser} = useContextValue()
+    const router = useRouter()
+    const user = sessionStorage.getItem("user")
+    const [value, setValue] = React.useState("")
+    const [isLoading,setIsLoading] = React.useState(false)
+  
+    const verifyUser = () =>{
     if(!user) return 
     const userObj = JSON.parse(user)
     if(userObj.userId && value.length === 6){
@@ -32,7 +31,7 @@ export default function VerificationComp() {
         setUser({
           ...response.data.data.user
         })
-        router.push("/buyer/dashboard")
+        router.push("/influencer")
       }).catch((err)=>{
         toast.error(err.response.data.message || "Invalid or expired OTP.")
       }).finally(()=>{
@@ -40,7 +39,8 @@ export default function VerificationComp() {
       })
     }
   }
-  const resendOTP = () => {
+
+    const resendOTP = () => {
     if(user){
       const userObj = JSON.parse(user)
       if(userObj.userId){
@@ -51,9 +51,8 @@ export default function VerificationComp() {
     }
   }
 
-
-  return (
-    <section className='h-screen flex flex-col md:flex-row gap-6 md:gap-8 lg:gap-10 xl:gap-12 max-w-screen-2xl mx-auto px-[5%] 2xl:px-0 py-4 md:py-6 lg:py-8 xl:py-10'>
+    return (
+        <section className='h-screen flex flex-col md:flex-row gap-6 md:gap-8 lg:gap-10 xl:gap-12 max-w-screen-2xl mx-auto px-[5%] 2xl:px-0 py-4 md:py-6 lg:py-8 xl:py-10'>
         <Toaster />
         <AuthComp 
           image='/verification-image.svg'

@@ -1,10 +1,12 @@
 "use client"
 import AuthComp from '@/components/AuthComp'
+import axios from 'axios';
 import { Eye, EyeOff } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { Toaster } from 'react-hot-toast'
+import toast, { Toaster } from 'react-hot-toast'
 
 type SignUpInput = {
   fullName: string;
@@ -15,7 +17,7 @@ type SignUpInput = {
   terms: boolean;
 };
 
-// const baseUrl = process.env.NEXT_PUBLIC_API_URL
+const baseUrl = process.env.NEXT_PUBLIC_API_URL
 
 export default function Page() {
    const {
@@ -28,10 +30,30 @@ export default function Page() {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const password = watch("password");
     const [isLoading, setIsLoading] = useState(false)
+    const router = useRouter()
   
      const onSubmit : SubmitHandler<SignUpInput> = (data) => {
         console.log(data)
         setIsLoading(true)
+        const endpoint = `${baseUrl}/v1/auth/signup/influencer`
+        axios.post(endpoint,{
+            fullName: data.fullName,
+            email: data.email,
+            phoneNumber: data.phoneNumber,
+            password: data.password
+        })
+        .then((res)=>{
+            if(res.status === 201){
+                sessionStorage.setItem("user", JSON.stringify(res.data.data))
+                router.push("/influencer/verification")
+            }
+        })
+        .catch((error)=>{
+            toast.error(error.response.data.message || "unable to signup")
+        }).finally(()=>{
+            setIsLoading(false)
+        })
+
      }
 
     return (
@@ -214,7 +236,7 @@ export default function Page() {
         </form>
         <p className="text-center text-sm md:text-base text-[#878787] mt-2">
           Already have an Account?{" "}
-          <Link href="/login" className="text-black">
+          <Link href="/influencer/login" className="text-black">
             Log In
           </Link>
         </p>

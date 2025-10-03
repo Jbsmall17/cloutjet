@@ -1,20 +1,15 @@
-"use client"
 import AuthComp from '@/components/AuthComp'
-import React, { Suspense } from 'react'
-import {
-  InputOTP,
-  InputOTPGroup,
-  InputOTPSlot
-} from "@/components/ui/input-otp"
-import {Toaster} from 'react-hot-toast'
-import  OtpTimer  from '@/components/OtpTimer'
+import OtpTimer from '@/components/OtpTimer'
+import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp'
 import dynamic from 'next/dynamic'
+import React, { Suspense } from 'react'
+import { Toaster } from 'react-hot-toast'
 
-
-const VerifiactionComponentWithNoSSR = dynamic(
-  () => import('../../components/VerificationComp'),
-  { ssr: false }
+const VerificationComponentWithNoSSR = dynamic(
+    () => import('../../../components/InfluencerVerificationComp'),
+    { ssr: false}
 )
+
 function VerificationFallback(){
   return (
     <section className='h-screen flex flex-col md:flex-row gap-6 md:gap-8 lg:gap-10 xl:gap-12 max-w-screen-2xl mx-auto px-[5%] 2xl:px-0 py-4 md:py-6 lg:py-8 xl:py-10'>
@@ -58,13 +53,10 @@ function VerificationFallback(){
   )
 }
 
-
-
-export default function Page(){
-
+export default function Page() {
   return (
     <Suspense fallback={<VerificationFallback />}>
-      <VerifiactionComponentWithNoSSR />
+        <VerificationComponentWithNoSSR />
     </Suspense>
   )
 }
