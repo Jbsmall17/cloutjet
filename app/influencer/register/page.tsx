@@ -17,7 +17,7 @@ type SignUpInput = {
 
 // const baseUrl = process.env.NEXT_PUBLIC_API_URL
 
-export default function page() {
+export default function Page() {
    const {
        register,
        handleSubmit,
