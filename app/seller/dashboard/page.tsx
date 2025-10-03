@@ -89,7 +89,7 @@ export default function Page() {
   return (
     // <section className="pagelayout flex-1 flex flex-col h-[calc(100vh-164px)] lg:h-[calc(100vh-188.5px)] overflow-y-auto">
       <>
-      {!isLoading ? (
+      {!isLoading || token ? (
         <div className="flex-1 pr-[2%] lg:h-[calc(100vh-80.5px)] overflow-y-auto">
           <div className="rounded-xl border border-[#f8a11e] px-4 md:px-6 lg:px-8 py-3 md:py-5 lg:py-7">
           <p className="text-xl font-semibold mb-4 md:mb-6 lg:mb-8">

@@ -80,7 +80,7 @@ export default function Page() {
                 </p>
                 <Dialog>
                   <DialogTrigger asChild>
-                    <Button  className="mt-2 cursor-pointer">Preview</Button>
+                    <Button  className="mt-2 cursor-pointer bg-[#f6a21b] hover:bg-[#f6a21b]/90">Preview</Button>
                   </DialogTrigger>
                   <DialogContent>
                     <DialogHeader>

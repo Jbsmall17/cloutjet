@@ -14,7 +14,7 @@ type userType = {
   phoneNumber: string;
   profileImage: string;
   userType: string;
-  email: string
+  email: string;
 };
 
 type activities = {
@@ -46,24 +46,28 @@ type contextType = {
   setListedAccounts: (value: listedAccount[]) => void;
   listedAccount: listedAccount;
   setListedAccount: (value: listedAccount) => void;
-  purchasedAccount: listedAccount[];
-  setPurchasedAccount: (value: listedAccount[]) => void;
+  purchasedAccount: purchasedAccount[];
+  setPurchasedAccount: (value: purchasedAccount[]) => void;
+  isPurchasedAccount: boolean;
+  setIsPurchasedAccount: (value: boolean) => void, 
   selectedAccount: account[];
   setSelectedAccount: React.Dispatch<React.SetStateAction<account[]>>;
-  isCartOpen : boolean, 
-  setIsCartOpen: React.Dispatch<React.SetStateAction<boolean>>,
-  noOfPage : number, 
-  setNoOfPages : React.Dispatch<React.SetStateAction<number>>, 
-  currentPage : number, 
-  setCurrentPage: React.Dispatch<React.SetStateAction<number>>,
-  totalWallet: number,
-  setTotalWallet: React.Dispatch<React.SetStateAction<number>>,
-  orders: Order[],
-  setOrders: React.Dispatch<React.SetStateAction<Order[]>>,
-  ordersPageObj : {totalPage: number, currentPage: number},
-  setOrdersPageObj: React.Dispatch<React.SetStateAction<{totalPage: number, currentPage: number}>>,
-  isOrderRequested: boolean,
-  setIsOrderRequested: React.Dispatch<React.SetStateAction<boolean>>
+  isCartOpen: boolean;
+  setIsCartOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  noOfPage: number;
+  setNoOfPages: React.Dispatch<React.SetStateAction<number>>;
+  currentPage: number;
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+  totalWallet: number;
+  setTotalWallet: React.Dispatch<React.SetStateAction<number>>;
+  orders: Order[];
+  setOrders: React.Dispatch<React.SetStateAction<Order[]>>;
+  ordersPageObj: { totalPage: number; currentPage: number };
+  setOrdersPageObj: React.Dispatch<
+    React.SetStateAction<{ totalPage: number; currentPage: number }>
+  >;
+  isOrderRequested: boolean;
+  setIsOrderRequested: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 type refferalObj = {
@@ -71,7 +75,6 @@ type refferalObj = {
   numberOfReferrals: number;
   totalCoinEarnings: string;
 };
-
 
 export type account = {
   accountAge: string;
@@ -101,8 +104,8 @@ export type account = {
   user: string;
   _id: string;
   seller?: {
-    fullName: string
-  }
+    fullName: string;
+  };
 };
 
 type payment = {
@@ -112,16 +115,40 @@ type payment = {
 };
 
 type transaction = {
-  _id: string,
-  user: string,
-  type: string,
-  amount: 0,
-  method: string,
-  status: string,
-  description: string,
-  createdAt: string,
-  updatedAt: string
+  _id: string;
+  user: string;
+  type: string;
+  amount: 0;
+  method: string;
+  status: string;
+  description: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+type seller = {
+  _id: string;
+  fullName: string;
+  email: string;
+  phoneNumber: string;
+  city: string;
+  country: string;
+  gender: string;
+  profileImage: string,
+  state: string;
 }
+
+type purchasedAccount = {
+  _id: string;
+  buyer: string;
+  seller: seller;
+  amount: number;
+  serviceDescription: string;
+  status: string;
+  transactionType: string;
+  createdAt: string;
+  updatedAt: string;
+};
 
 export type listedAccount = {
   listingId: string;
@@ -130,23 +157,23 @@ export type listedAccount = {
 };
 
 export type Order = {
-  _id: string,
-  clientId: string,
-  platform: string,
-  provider: null | string,
-  providerOrderId: null | string,
-  providerStatus: null | string,
-  providerCharge: number,
-  engagementOption: string,
-  postLink: string,
-  quantity: number,
-  totalPrice: number,
-  estimatedDeliveryDays: number,
-  budget: number,
-  status: string,
-  escrowStatus: string,
-  createdAt: string,
-}
+  _id: string;
+  clientId: string;
+  platform: string;
+  provider: null | string;
+  providerOrderId: null | string;
+  providerStatus: null | string;
+  providerCharge: number;
+  engagementOption: string;
+  postLink: string;
+  quantity: number;
+  totalPrice: number;
+  estimatedDeliveryDays: number;
+  budget: number;
+  status: string;
+  escrowStatus: string;
+  createdAt: string;
+};
 
 const context = createContext<contextType | undefined>(undefined);
 
@@ -202,8 +229,8 @@ export function ContextComp({ children }: { children: ReactNode }) {
       user: "",
       _id: "",
       seller: {
-        fullName: ""
-      }
+        fullName: "",
+      },
     },
     paymentSummary: {
       accountPrice: "",
@@ -211,20 +238,19 @@ export function ContextComp({ children }: { children: ReactNode }) {
       totalCost: "",
     },
   });
-  const [purchasedAccount, setPurchasedAccount] = useState<listedAccount[]>([]);
+  const [purchasedAccount, setPurchasedAccount] = useState<purchasedAccount[]>([]);
   const [selectedAccount, setSelectedAccount] = useState<account[]>([]);
-  const [isCartOpen, setIsCartOpen] = useState<boolean>(false)
-  const [noOfPage, setNoOfPages] = useState<number>(0)
-  const [currentPage, setCurrentPage] = useState<number>(0)
-  const [totalWallet, setTotalWallet] = useState<number>(0)
-  const [orders, setOrders] = useState<Order[]>([])
+  const [isCartOpen, setIsCartOpen] = useState<boolean>(false);
+  const [noOfPage, setNoOfPages] = useState<number>(0);
+  const [currentPage, setCurrentPage] = useState<number>(0);
+  const [totalWallet, setTotalWallet] = useState<number>(0);
+  const [orders, setOrders] = useState<Order[]>([]);
   const [ordersPageObj, setOrdersPageObj] = useState({
-    totalPage: 0, 
-    currentPage: 0
-  })
-  const [isOrderRequested, setIsOrderRequested] = useState(false)
-
-
+    totalPage: 0,
+    currentPage: 0,
+  });
+  const [isOrderRequested, setIsOrderRequested] = useState(false);
+  const [isPurchasedAccount, setIsPurchasedAccount] = useState(false)
   useEffect(() => {
     const user = sessionStorage.getItem("userObj");
     if (user) {
@@ -250,20 +276,22 @@ export function ContextComp({ children }: { children: ReactNode }) {
         setPurchasedAccount,
         selectedAccount,
         setSelectedAccount,
-        isCartOpen, 
+        isCartOpen,
         setIsCartOpen,
-        noOfPage, 
-        setNoOfPages, 
-        currentPage, 
+        noOfPage,
+        setNoOfPages,
+        currentPage,
         setCurrentPage,
         totalWallet,
         setTotalWallet,
-        orders, 
+        orders,
         setOrders,
-        ordersPageObj, 
+        ordersPageObj,
         setOrdersPageObj,
-        isOrderRequested, 
-        setIsOrderRequested
+        isOrderRequested,
+        setIsOrderRequested,
+        isPurchasedAccount,
+        setIsPurchasedAccount
       }}
     >
       {children}
