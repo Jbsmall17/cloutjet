@@ -1,3 +1,4 @@
+"use client"
 import AuthComp from '@/components/AuthComp'
 import OtpTimer from '@/components/OtpTimer'
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp'
