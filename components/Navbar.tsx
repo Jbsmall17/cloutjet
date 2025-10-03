@@ -24,6 +24,13 @@ export default function Navbar() {
                     <li><Link href='/'>Home</Link></li>
                     <li><Link href='/signup'>Become a Merchant</Link></li>
                     {/* <li><a>Services</a></li> */}
+                    <li className='group relative'>
+                        <p className={`bg-transparent hover:bg-transparent hover:border-b-2 hover:border-b-transparent rounded-none`}>Influencer</p>
+                        <ul className='hidden group-hover:block group-active:block bg-white static lg:absolute top-[100%] left-0 px-2 rounded-md shadow-md w-full'>
+                            <li className='py-2 border-b border-[#f6a21b]'>Register as Influencer</li>
+                            <li className='py-2'>Login as a Influencer</li>
+                        </ul>
+                    </li>
                     <li><a>Features</a></li>
                     <li><a>Accounts</a></li>
                     <li><a>Testimonials</a></li>
@@ -41,7 +48,13 @@ export default function Navbar() {
             <ul className="menu menu-horizontal px-1">
                 <li><Link className={`bg-transparent hover:bg-transparent active:bg-red hover:border-b-2 hover:border-b-[#f7a21b] ${isActive("/")}`} href="/">Home</Link></li>
                 <li><Link className={`bg-transparent hover:bg-transparent hover:border-b-2 hover:border-b-[#f7a21b] rounded-none`} href='/signup'>Become a Merchant</Link></li>
-                {/* <li><Link className={`bg-transparent hover:bg-transparent hover:border-b-2 hover:border-b-[#f7a21b] rounded-none`} href="/">Services</Link></li> */}
+                <li className='group relative'>
+                    <p className={`bg-transparent hover:bg-transparent hover:border-b-2 hover:border-b-transparent rounded-none`}>Influencer</p>
+                    <ul className='hidden group-hover:block bg-white absolute top-[100%] left-0 px-2 rounded-md shadow-md'>
+                        <li className='py-2 border-b border-[#f6a21b]'>Register as Influencer</li>
+                        <li className='py-2'>Login as a Influencer</li>
+                    </ul>
+                </li>
                 <li><Link className={`bg-transparent hover:bg-transparent hover:border-b-2 hover:border-b-[#f7a21b] rounded-none`} href="/">Features</Link></li>
                 <li><Link className={`bg-transparent hover:bg-transparent hover:border-b-2 hover:border-b-[#f7a21b] rounded-none`} href="/">Accounts</Link></li>
                 <li><Link className={`bg-transparent hover:bg-transparent hover:border-b-2 hover:border-b-[#f7a21b] rounded-none`} href="/">Testimonials</Link></li>
