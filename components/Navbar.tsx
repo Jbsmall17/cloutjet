@@ -1,13 +1,13 @@
 "use client"
 import Image from 'next/image'
 import Link from 'next/link'
-import React from 'react'
+import React, { useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { Button } from './ui/button'
 
 export default function Navbar() {
     const pathname = usePathname()
-
+    const [open, setOpen] = useState(false)
     const isActive = (path: string) =>{
         return `${path === pathname ? "border-b-2 border-b-[#f7a21b] rounded-none" : ""}`
     }
@@ -20,20 +20,25 @@ export default function Navbar() {
                 </div>
                 <ul
                     tabIndex={0}
-                    className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow bg-white dark:bg-white">
-                    <li><Link href='/'>Home</Link></li>
-                    <li><Link href='/signup'>Become a Merchant</Link></li>
+                    className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow bg-white dark:bg-white space-y-1 text-base">
+                    <li><Link href='/' className='text-base'>Home</Link></li>
+                    <li><Link href='/signup' className='text-base'>Become a Merchant</Link></li>
                     {/* <li><a>Services</a></li> */}
-                    <li className='group relative'>
-                        <p className={`bg-transparent hover:bg-transparent hover:border-b-2 hover:border-b-transparent rounded-none`}>Influencer</p>
-                        <ul className='hidden group-hover:block group-active:block bg-white static lg:absolute top-[100%] left-0 px-2 rounded-md shadow-md w-full'>
+                    <li 
+                        // onClick={() => setOpen(true)}
+                        className='relative'
+                        >
+                        <p 
+                            onClick={() => setOpen((prev)=> !prev)}
+                            className={`text-base bg-transparent hover:bg-transparent hover:border-b-2 hover:border-b-transparent rounded-none`}>Influencer</p>
+                        <ul className={`text-sm bg-white absolute top-full -left-2 px-2 rounded-md shadow-md z-10 w-full ${open ? "" : 'hidden'}`}>
                             <li className='py-2 border-b border-[#f6a21b]'>Register as Influencer</li>
                             <li className='py-2'>Login as a Influencer</li>
                         </ul>
                     </li>
-                    <li><a>Features</a></li>
-                    <li><a>Accounts</a></li>
-                    <li><a>Testimonials</a></li>
+                    <li><a className='text-base'>Features</a></li>
+                    <li><a className='text-base'>Accounts</a></li>
+                    <li><a className='text-base'>Testimonials</a></li>
                 </ul>
             </div>
             <Image 
