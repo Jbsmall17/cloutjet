@@ -10,6 +10,17 @@ import Link from "next/link";
 import React from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useContextValue } from "@/context";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "./ui/alert-dialog";
+import { AlertDialogDescription } from "@radix-ui/react-alert-dialog";
 
 interface BuyerSidebarProps {
   isOpen: boolean;
@@ -33,6 +44,7 @@ export default function BuyerSidebar({ isOpen, setIsOpen }: BuyerSidebarProps) {
   } = useContextValue();
 
   const handleLogout = () => {
+    router.push("/login");
     sessionStorage.clear();
     setUser({
       id: "",
@@ -99,7 +111,6 @@ export default function BuyerSidebar({ isOpen, setIsOpen }: BuyerSidebarProps) {
     setIsCartOpen(false);
     setNoOfPages(0);
     setCurrentPage(0);
-    router.push("/login");
   };
 
   const handleClick = () => {
@@ -176,13 +187,37 @@ export default function BuyerSidebar({ isOpen, setIsOpen }: BuyerSidebarProps) {
           </li>
         </Link>
       </ul>
-      <button
-        onClick={handleLogout}
-        className="p-2 flex flex-row items-center gap-4"
-      >
-        <LogOut />
-        <span>Log Out</span>
-      </button>
+      <AlertDialog>
+        <AlertDialogTrigger asChild>
+          <button
+            // onClick={handleLogout}
+            className="p-2 flex flex-row items-center gap-4 hover:text-white hover:bg-[#f6a21b] rounded-md"
+          >
+            <LogOut />
+            <span>Log Out</span>
+          </button>
+        </AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              Are you absolutely sure you want to logout?
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will log you out of your
+              account
+            </AlertDialogDescription>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction
+                className="bg-[#f8a11e]"
+                onClick={handleLogout}
+              >
+                Log out
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogHeader>
+        </AlertDialogContent>
+      </AlertDialog>
     </nav>
   );
 }

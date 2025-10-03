@@ -35,7 +35,7 @@ export default function Layout({ children }: { children: ReactNode }) {
 
 
   return (
-    <main className="lg:h-screen lg:overflow-y-hidden flex flex-col">
+    <main className="lg:h-screen overflow-y-hidden flex flex-col">
       {
         isCartOpen
         &&
