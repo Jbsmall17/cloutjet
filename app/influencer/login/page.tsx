@@ -1,23 +1,25 @@
 "use client";
 
 import AuthComp from "@/components/AuthComp";
-// import { useContextValue } from "@/context";
+import { useContextValue } from "@/context";
+import axios from "axios";
 import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 
 type LoginInput = {
   password: string;
   email: string;
 };
 
-// const baseUrl = process.env.NEXT_PUBLIC_API_URL
+const baseUrl = process.env.NEXT_PUBLIC_API_URL
 
 export default function Page() {
-//   const { setUser } = useContextValue();
-  // const router = useRouter();
+  const { setUser } = useContextValue();
+  const router = useRouter();
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const {
@@ -27,8 +29,23 @@ export default function Page() {
   } = useForm<LoginInput>();
 
   const onSubmit: SubmitHandler<LoginInput> = (data) => {
-    console.log(data);
+    const endpoint = `${baseUrl}/v1/auth/login/influencer`
     setIsLoading(true);
+    axios.post(endpoint,{
+        email: data.email,
+        password: data.password
+    }).then((response)=>{
+        sessionStorage.setItem("token", response.data.data.token)
+        sessionStorage.setItem("userObj",JSON.stringify(response.data.data.user))
+        setUser({
+          ...response.data.data.user
+        })
+        router.push("/marketplace")
+    }).catch((err)=>{
+        toast.error(err.response ? err.response.data.message: "Network Fail")
+    }).finally(()=>{
+        setIsLoading(false)
+    })
   };
 
   return (
@@ -128,7 +145,7 @@ export default function Page() {
         </form>
         <p className="text-base text-[#636363] mt-2">
           Not member yet?{" "}
-          <Link className="text-black underline" href="/signup">
+          <Link className="text-black underline" href="/influencer/register">
             Sign Up
           </Link>
         </p>
