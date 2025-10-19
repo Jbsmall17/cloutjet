@@ -103,9 +103,9 @@ export default function Page() {
   return (
     <InfluencerLayout>
       <div className='space-y-6'>
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between ">
           <div>
-            <h1 className="text-3xl font-bold text-foreground">Growth Orders</h1>
+            <h1 className="text-xl md:text-2xl lg:text-3xl font-bold text-foreground">Growth Orders</h1>
             <p className="text-muted-foreground">Browse and apply for available growth orders from clients</p>
           </div>
           <Button 
