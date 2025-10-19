@@ -3,7 +3,7 @@ import React from 'react'
 
 export default function Clientele() {
   return (
-    <div className='flex flex-col md:flex-row items-center justify-center md:justify-between gap-3 md:gap-0 pb-4 md:pb-6 lg:pb-10 xl:pb-12 '>
+    <div className='flex flex-col sm:flex-row flex-wrap items-center justify-center md:justify-between gap-3 md:gap-0 pb-4 md:pb-6 lg:pb-10 xl:pb-12 '>
         <Image 
             src="/instagram.svg"
             alt='instagra icon'

@@ -25,7 +25,7 @@ export default function Services({ type,image, service, describe, text }: Servic
   }
 
   return (
-    <div className='flex-1 px-3 md:px-5 pt-3 md:pt-3 pb-7 md:pb-9 rounded-4xl border border-black flex flex-col items-center'>
+    <div className='min-w-[250px] flex-1 sm:flex-[0] lg:flex-1 px-3 md:px-5 pt-3 md:pt-3 pb-7 md:pb-9 rounded-4xl border border-black flex flex-col items-center'>
       <img 
         src={image}
         alt="services image"

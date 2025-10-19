@@ -1,4 +1,4 @@
-import Account from "@/components/Account";
+import AvailableAccount from "@/components/AvailableAccount";
 import Clientele from "@/components/Clientele";
 import CtaComp from "@/components/CtaComp";
 import Feature from "@/components/Feature";;
@@ -20,7 +20,7 @@ export default function Home() {
       <CtaComp />
         <section className="py-6 md:py-8 lg:py-10">
           <p className="my-4 md:my-8 lg:my-10 xl:my-12 text-center text-xl md:text-2xl lg:text-3xl font-semibold">Explore our Services</p>
-          <div className="flex flex-col lg:flex-row gap-4 md:gap-6 lg:gap-8">
+          <div className="flex flex-wrap sm:justify-center lg:justify-start flex-col sm:flex-row gap-4 md:gap-6 lg:gap-8">
             <Services
               type="account"
               image="/account.svg"
@@ -87,7 +87,8 @@ export default function Home() {
           </button>
           </Link>
         </section>
-        <section className="py-6 md:py-8 lg:py-10">
+        <AvailableAccount />
+        {/* <section className="py-6 md:py-8 lg:py-10">
           <p className="my-3 md:my-4 lg:my-5 xl:my-6 text-center text-xl md:text-2xl lg:text-3xl font-semibold">Available Facebook Account</p>
           <p className="mb-4 md:mb-6 lg:mb-8 lg:mb-10 text-center font-semibold text-xl">Check out Available accounts with their individual details </p>
           <div className="flex flex-col gap-2 md:gap-4 lg:gap-6">
@@ -242,8 +243,8 @@ export default function Home() {
           <div className="flex flex-row justify-end mt-4 md:mt-6 lg:mt-8">
             <button className="py-2 px-8 rounded-md text-white bg-[#1d1c1c]">View all</button>
           </div>
-        </section>
-        <section className="py-6 md:py-8 lg:py-10">
+        </section> */}
+        {/* <section className="py-6 md:py-8 lg:py-10">
           <p className="my-3 md:my-4 lg:my-5 xl:my-6 text-center text-xl md:text-2xl lg:text-3xl font-semibold">Available VPN logins for sale</p>
           <p className="mb-4 md:mb-6 lg:mb-8 lg:mb-10 text-center font-semibold text-xl">Check out Available accounts with their individual details </p>
           <div className="flex flex-col gap-2 md:gap-4 lg:gap-6">
@@ -269,8 +270,8 @@ export default function Home() {
           <div className="flex flex-row justify-end mt-4 md:mt-6 lg:mt-8">
             <button className="py-2 px-8 rounded-md text-white bg-[#1d1c1c]">View all</button>
           </div>
-        </section>
-        <section className="py-6 md:py-8 lg:py-10">
+        </section> */}
+        {/* <section className="py-6 md:py-8 lg:py-10">
           <p className="my-3 md:my-4 lg:my-5 xl:my-6 text-center text-xl md:text-2xl lg:text-3xl font-semibold">Available Streaming Platforms Accounts</p>
           <p className="mb-4 md:mb-6 lg:mb-8 lg:mb-10 text-center font-semibold text-xl">Check out Available accounts with their individual details </p>
           <div className="flex flex-col gap-2 md:gap-4 lg:gap-6">
@@ -293,7 +294,7 @@ export default function Home() {
           <div className="flex flex-row justify-end mt-4 md:mt-6 lg:mt-8">
             <button className="py-2 px-8 rounded-md text-white bg-[#1d1c1c]">View all</button>
           </div>
-        </section>
+        </section> */}
         <Testimonials
         />
       </section>
